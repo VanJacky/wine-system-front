@@ -10,6 +10,7 @@ export declare function getManagerGoodsBrandGetByPage(params: GetManagerGoodsBra
     timestamp: number;
     result: {
         total: number;
+        size: number;
         records: {
             name: string;
             logo: string;
@@ -17,7 +18,6 @@ export declare function getManagerGoodsBrandGetByPage(params: GetManagerGoodsBra
         }[];
         current: number;
         pages: number;
-        size: number;
     };
 }>;
 export interface GetManagerGoodsBrandGetByPageParams {

@@ -1,5 +1,5 @@
 export interface MemberVo {
-    /** 会员用户名 */
+    /** username */
     username?: string;
     /** 昵称 */
     nickName?: string;

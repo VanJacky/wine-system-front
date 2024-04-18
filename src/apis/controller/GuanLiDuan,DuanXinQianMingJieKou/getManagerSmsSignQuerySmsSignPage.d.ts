@@ -11,6 +11,7 @@ export declare function getManagerSmsSignQuerySmsSignPage(params: GetManagerSmsS
     timestamp: number;
     result: {
         total: number;
+        size: number;
         records: {
             signName: string;
             signSource: number;
@@ -22,7 +23,6 @@ export declare function getManagerSmsSignQuerySmsSignPage(params: GetManagerSmsS
         }[];
         current: number;
         pages: number;
-        size: number;
     };
 }>;
 export interface GetManagerSmsSignQuerySmsSignPageParams {

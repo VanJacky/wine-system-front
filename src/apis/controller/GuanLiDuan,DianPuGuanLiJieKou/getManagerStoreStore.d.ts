@@ -10,6 +10,7 @@ export declare function getManagerStoreStore(params: GetManagerStoreStoreParams,
     timestamp: number;
     result: {
         total: number;
+        size: number;
         records: {
             memberId: string;
             memberName: string;
@@ -43,7 +44,6 @@ export declare function getManagerStoreStore(params: GetManagerStoreStoreParams,
         }[];
         current: number;
         pages: number;
-        size: number;
     };
 }>;
 export interface GetManagerStoreStoreParams {

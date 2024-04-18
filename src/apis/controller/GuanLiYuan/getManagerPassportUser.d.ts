@@ -11,6 +11,7 @@ export declare function getManagerPassportUser(params: GetManagerPassportUserPar
     timestamp: number;
     result: {
         total: number;
+        size: number;
         records: {
             username: string;
             password: string;
@@ -42,7 +43,6 @@ export declare function getManagerPassportUser(params: GetManagerPassportUserPar
         }[];
         current: number;
         pages: number;
-        size: number;
     };
 }>;
 export interface GetManagerPassportUserParams {

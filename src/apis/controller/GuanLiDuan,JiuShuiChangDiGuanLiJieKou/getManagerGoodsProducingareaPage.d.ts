@@ -11,6 +11,7 @@ export declare function getManagerGoodsProducingareaPage(params: GetManagerGoods
     timestamp: number;
     result: {
         total: number;
+        size: number;
         records: {
             producerName: string;
             province: string;
@@ -21,7 +22,6 @@ export declare function getManagerGoodsProducingareaPage(params: GetManagerGoods
         }[];
         current: number;
         pages: number;
-        size: number;
     };
 }>;
 export interface GetManagerGoodsProducingareaPageParams {

@@ -10,12 +10,12 @@ export declare function getManagerGoodsGoodsUnit(params: GetManagerGoodsGoodsUni
     timestamp: number;
     result: {
         total: number;
+        size: number;
         records: {
             name: string;
         }[];
         current: number;
         pages: number;
-        size: number;
     };
 }>;
 export interface GetManagerGoodsGoodsUnitParams {

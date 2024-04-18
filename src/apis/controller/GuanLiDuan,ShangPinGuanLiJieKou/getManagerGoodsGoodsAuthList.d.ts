@@ -10,6 +10,7 @@ export declare function getManagerGoodsGoodsAuthList(params: GetManagerGoodsGood
     timestamp: number;
     result: {
         total: number;
+        size: number;
         records: {
             goodsName: string;
             price: number;
@@ -48,7 +49,6 @@ export declare function getManagerGoodsGoodsAuthList(params: GetManagerGoodsGood
         }[];
         current: number;
         pages: number;
-        size: number;
     };
 }>;
 export interface GetManagerGoodsGoodsAuthListParams {

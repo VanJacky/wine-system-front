@@ -10,6 +10,7 @@ export declare function getManagerCommonFile(params: GetManagerCommonFileParams,
     timestamp: number;
     result: {
         total: number;
+        size: number;
         records: {
             name: string;
             fileKey: string;
@@ -21,7 +22,6 @@ export declare function getManagerCommonFile(params: GetManagerCommonFileParams,
         }[];
         current: number;
         pages: number;
-        size: number;
     };
 }>;
 export interface GetManagerCommonFileParams {

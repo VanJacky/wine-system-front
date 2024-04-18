@@ -8,7 +8,8 @@
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "build": "node build/build.js",
-    "openapi": "node ./script/config.js"
+    "openapi": "node ./script/config.js",
+    "js-openapi": "zerone api -js -p ./src/apis"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -27,6 +28,7 @@
     "@umijs/openapi": "^1.9.4"
   },
   "devDependencies": {
+    "@zeronejs/cli": "3.2.2",
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.22.1",
     "babel-helper-vue-jsx-merge-props": "^2.0.3",

@@ -11,6 +11,7 @@ export declare function getManagerOtherLogisticsGetByPage(params: GetManagerOthe
     timestamp: number;
     result: {
         total: number;
+        size: number;
         records: {
             name: string;
             code: string;
@@ -20,7 +21,6 @@ export declare function getManagerOtherLogisticsGetByPage(params: GetManagerOthe
         }[];
         current: number;
         pages: number;
-        size: number;
     };
 }>;
 export interface GetManagerOtherLogisticsGetByPageParams {

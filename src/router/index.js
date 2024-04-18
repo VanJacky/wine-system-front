@@ -123,7 +123,7 @@ export const asyncRouterMap = [
         path: 'brand',
         name: 'brand',
         component: () => import('@/views/pms/brand/index'),
-        meta: {title: '品牌管理', icon: 'product-brand'}
+        meta: {title: '品牌管理', icon: 'product-brand'},
       },
       {
         path: 'addBrand',

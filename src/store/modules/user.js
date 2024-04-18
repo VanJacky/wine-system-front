@@ -1,5 +1,8 @@
-import { login, logout, getInfo } from '@/api/login'
+// import { login, logout, getInfo } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
+// import {login} from "@/apis/manager/guanliyuan.ts";
+import {postManagerPassportUserLogin} from "@/apis/controller/GuanLiYuan/postManagerPassportUserLogin";
+import {getManagerPassportUserInfo} from "@/apis/controller/GuanLiYuan/getManagerPassportUserInfo";
 
 const user = {
   state: {
@@ -29,9 +32,9 @@ const user = {
     Login({ commit }, userInfo) {
       const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
-        login(username, userInfo.password).then(response => {
-          const data = response.data
-          const tokenStr = data.tokenHead+data.token
+        postManagerPassportUserLogin({username, password: userInfo.password}).then(response => {
+          const result = response.data.result
+          const tokenStr = result.accessToken
           setToken(tokenStr)
           commit('SET_TOKEN', tokenStr)
           resolve()
@@ -44,15 +47,19 @@ const user = {
     // 获取用户信息
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
-        getInfo().then(response => {
-          const data = response.data
-          if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
-            commit('SET_ROLES', data.roles)
+        getManagerPassportUserInfo().then(response => {
+          console.log(response)
+          const data = response.data.result
+          // if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
+          if (data.username) { // 验证返回的roles是否是一个非空数组
+            console.log(data.username)
+            console.log()
+            commit('SET_ROLES', data.username)
           } else {
             reject('getInfo: roles must be a non-null array !')
           }
           commit('SET_NAME', data.username)
-          commit('SET_AVATAR', data.icon)
+          commit('SET_AVATAR', data.avatar)
           resolve(response)
         }).catch(error => {
           reject(error)

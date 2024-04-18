@@ -33,7 +33,29 @@ module.exports = {
     // https://vue-loader.vuejs.org/en/options.html#cachebusting
     cacheBusting: true,
 
-    cssSourceMap: true
+    cssSourceMap: true,
+    configureWebpack: {
+      // 配置Webpack模块解析的方式，使得你可以通过模块名字而不是相对路径来引入模块
+      resolve: {
+        // 设置路径别名
+        alias: {
+          '@': path.resolve('src'),
+          '@public': path.resolve('public'),
+          '@img': path.resolve('src/assets/images'),
+          '@js': path.resolve('src/assets/scripts'),
+          '@css': path.resolve('src/assets/styles')
+        }
+      }
+    },
+    rule: [
+      // ...
+      {
+        test: /\.ts$/,
+        loader: 'ts-loader',
+        exclude: /node_modules/,
+        options: { appendTsSuffixTo: [/\.vue$/] },
+      },
+    ]
   },
 
   build: {
@@ -64,6 +86,19 @@ module.exports = {
     // View the bundle analyzer report after build finishes:
     // `npm run build --report`
     // Set to `true` or `false` to always turn it on or off
-    bundleAnalyzerReport: process.env.npm_config_report
+    bundleAnalyzerReport: process.env.npm_config_report,
+    configureWebpack: {
+      // 配置Webpack模块解析的方式，使得你可以通过模块名字而不是相对路径来引入模块
+      resolve: {
+        // 设置路径别名
+        alias: {
+          '@': path.resolve('src'),
+          '@public': path.resolve('public'),
+          '@img': path.resolve('src/assets/images'),
+          '@js': path.resolve('src/assets/scripts'),
+          '@css': path.resolve('src/assets/styles')
+        }
+      }
+    }
   }
 }

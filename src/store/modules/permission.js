@@ -1,7 +1,10 @@
-import { asyncRouterMap, constantRouterMap } from '@/router/index';
+import { asyncRouterMap, constantRouterMap } from '@/router';
+let username = ''
 
 //判断是否有权限访问该菜单
 function hasPermission(menus, route) {
+  console.log('admin',username)
+  if(username==='admin') return true
   if (route.name) {
     let currMenu = getMenu(route.name, menus);
     if (currMenu!=null) {
@@ -54,7 +57,6 @@ function sortRouters(accessedRouters) {
   }
   accessedRouters.sort(compare("sort"));
 }
-
 //降序比较函数
 function compare(p){
   return function(m,n){
@@ -79,11 +81,12 @@ const permission = {
     GenerateRoutes({ commit }, data) {
       return new Promise(resolve => {
         const { menus } = data;
-        const { username } = data;
+        username = data.username;
         const accessedRouters = asyncRouterMap.filter(v => {
           //admin帐号直接返回所有菜单
           // if(username==='admin') return true;
           if (hasPermission(menus, v)) {
+            console.log('v',v)
             if (v.children && v.children.length > 0) {
               v.children = v.children.filter(child => {
                 if (hasPermission(menus, child)) {

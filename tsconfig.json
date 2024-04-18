@@ -1,0 +1,49 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "strict": true,
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "allowJs": true,
+    "checkJs": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "rootDir": "./",
+    "outDir": "./types",
+    "noEmit": true,
+    "include": [
+      "./src/**/*",
+      "./src/**/*.ts",
+      "src/**/*.vue",
+      "src/**/*.ts",
+      "src/**/*.tsx",
+    ],
+    "typeRoots": [
+      "./src/types", // 自定义的types目录
+      "./node_modules/@types" // 引入基础的types，一部分第三方库声明会安装在此目录，可以自行定义需要使用的
+    ],
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
+    "lib": [
+      "esnext",
+      "dom",
+      "dom.iterable",
+      "scripthost"
+    ]
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "public",
+    "build"
+  ]
+}

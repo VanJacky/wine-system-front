@@ -3,7 +3,7 @@ master:
     - env:
         DOCKER_LOGIN: docker login -u frontend-1695547599036 -p 12c728f79805a84f382f353850a97e730a4997d5 wteam-khai-docker.pkg.coding.net
         HOST: 111.229.66.85:22    #服务器ip
-        HOST_PASSWORD: ydwl123456!?  #服务器密码
+        HOST_PASSWORD: 8wy,9{F%gB3d  #服务器密码
         APP_MANAGER_NAME: wine-mall-system   #服务名称 项目+服务名  客户端
         MANAGER_PORT: 8003   #客户端端口
       docker:

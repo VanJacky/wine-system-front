@@ -76,67 +76,67 @@
               :min-width="240"
               show-overflow-tooltip
             ></el-table-column>
-            <!-- 买家名称 -->
-            <el-table-column
-              prop="memberName"
-              label="商家名称"
-              :min-width="130"
-              show-overflow-tooltip
-            >
-              <template slot-scope="scope">
-                {{ scope.row.storeName }}
-              </template>
-            </el-table-column>
-            <el-table-column
-              prop="flowPrice"
-              label="订单金额"
-              :min-width="100"
-              show-overflow-tooltip
-            >
-              <template slot-scope="scope">
-                <div style="color: red">{{ scope.row.flowPrice }}</div>
-              </template>
-            </el-table-column>
-            <el-table-column
-              prop="orderStatus"
-              label="订单状态"
-              :min-width="100"
-            >
-              <template slot-scope="scope">
-                <el-tag
-                  v-if="scope.row.orderStatus === 'UNPAID'"
-                  type="danger"
-                >未付款</el-tag>
-                <el-tag
-                  v-else-if="scope.row.orderStatus === 'PAID'"
-                  type="warning"
-                >已付款</el-tag>
-                <el-tag
-                  v-else-if="scope.row.orderStatus === 'UNDELIVERED'"
-                  type="warning"
-                >待发货</el-tag>
-                <el-tag
-                  v-else-if="scope.row.orderStatus === 'STAY_PICKED_UP'"
-                >待自提</el-tag>
-                <el-tag
-                  v-else-if="scope.row.orderStatus === 'DELIVERED'"
-                >已发货</el-tag>
-                <el-tag
-                  v-else-if="scope.row.orderStatus === 'COMPLETED'"
-                  type="success"
-                >已完成</el-tag>
-                <el-tag
-                  v-else-if="scope.row.orderStatus === 'TAKE'"
-                  type="warning"
-                >待核验</el-tag>
-                <el-tag
-                  v-else-if="scope.row.orderStatus === 'CANCELLED'"
-                  type="info"
-                >已关闭</el-tag>
-                <div v-else>{{ scope.row.orderStatus }}</div>
-              </template>
-            </el-table-column>
-            <el-table-column
+              <!-- 买家名称 -->
+              <el-table-column
+                prop="memberName"
+                label="商家名称"
+                :min-width="130"
+                show-overflow-tooltip
+              >
+                <template slot-scope="scope">
+                  {{ scope.row.storeName }}
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="flowPrice"
+                label="订单金额"
+                :min-width="100"
+                show-overflow-tooltip
+              >
+                <template slot-scope="scope">
+                  <div style="color: red">{{ scope.row.flowPrice }}</div>
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="orderStatus"
+                label="订单状态"
+                :min-width="100"
+              >
+                <template slot-scope="scope">
+                  <el-tag
+                    v-if="scope.row.orderStatus === 'UNPAID'"
+                    type="danger"
+                  >未付款</el-tag>
+                  <el-tag
+                    v-else-if="scope.row.orderStatus === 'PAID'"
+                    type="warning"
+                  >已付款</el-tag>
+                  <el-tag
+                    v-else-if="scope.row.orderStatus === 'UNDELIVERED'"
+                    type="warning"
+                  >待发货</el-tag>
+                  <el-tag
+                    v-else-if="scope.row.orderStatus === 'STAY_PICKED_UP'"
+                  >待自提</el-tag>
+                  <el-tag
+                    v-else-if="scope.row.orderStatus === 'DELIVERED'"
+                  >已发货</el-tag>
+                  <el-tag
+                    v-else-if="scope.row.orderStatus === 'COMPLETED'"
+                    type="success"
+                  >已完成</el-tag>
+                  <el-tag
+                    v-else-if="scope.row.orderStatus === 'TAKE'"
+                    type="warning"
+                  >待核验</el-tag>
+                  <el-tag
+                    v-else-if="scope.row.orderStatus === 'CANCELLED'"
+                    type="info"
+                  >已关闭</el-tag>
+                  <div v-else>{{ scope.row.orderStatus }}</div>
+                </template>
+              </el-table-column>
+              <el-table-column
               prop="createTime"
               label=产生时间"
               :width="170"
@@ -162,49 +162,49 @@
                 <!-- 可以继续添加其他操作按钮或元素 -->
               </template>
             </el-table-column>
-            <!--            <el-table-column
-                          prop="clientType"
-                          label="订单来源"
-                          width="120"
-                        >
-                          <template slot-scope="scope">
-                            <div v-if="scope.row.clientType === 'H5'">移动端</div>
-                            <div v-else-if="scope.row.clientType === 'PC'">PC端</div>
-                            <div v-else-if="scope.row.clientType === 'WECHAT_MP'">小程序端</div>
-                            <div v-else-if="scope.row.clientType === 'APP'">移动应用端</div>
-                            <div v-else>{{ scope.row.clientType }}</div>
-                          </template>
-                        </el-table-column>
-                        &lt;!&ndash; 订单类型 &ndash;&gt;
-                        <el-table-column
-                          prop="orderPromotionType"
-                          label="订单类型"
-                          width="120"
-                        >
-                          <template slot-scope="scope">
-                            <el-tag v-if="scope.row.orderPromotionType === 'NORMAL'" color="blue">普通订单</el-tag>
-                            <el-tag v-else-if="scope.row.orderPromotionType === 'PINTUAN'" color="volcano">拼团订单</el-tag>
-                            <el-tag v-else-if="scope.row.orderPromotionType === 'GIFT'" color="green">赠品订单</el-tag>
-                            <el-tag v-else-if="scope.row.orderPromotionType === 'POINTS'" color="geekblue">积分订单</el-tag>
-                            <el-tag v-else-if="scope.row.orderPromotionType === 'KANJIA'" color="pink">砍价订单</el-tag>
-                            <div v-else>{{ scope.row.orderPromotionType }}</div>
-                          </template>
-                        </el-table-column>-->
+<!--            <el-table-column
+              prop="clientType"
+              label="订单来源"
+              width="120"
+            >
+              <template slot-scope="scope">
+                <div v-if="scope.row.clientType === 'H5'">移动端</div>
+                <div v-else-if="scope.row.clientType === 'PC'">PC端</div>
+                <div v-else-if="scope.row.clientType === 'WECHAT_MP'">小程序端</div>
+                <div v-else-if="scope.row.clientType === 'APP'">移动应用端</div>
+                <div v-else>{{ scope.row.clientType }}</div>
+              </template>
+            </el-table-column>
+            &lt;!&ndash; 订单类型 &ndash;&gt;
+            <el-table-column
+              prop="orderPromotionType"
+              label="订单类型"
+              width="120"
+            >
+              <template slot-scope="scope">
+                <el-tag v-if="scope.row.orderPromotionType === 'NORMAL'" color="blue">普通订单</el-tag>
+                <el-tag v-else-if="scope.row.orderPromotionType === 'PINTUAN'" color="volcano">拼团订单</el-tag>
+                <el-tag v-else-if="scope.row.orderPromotionType === 'GIFT'" color="green">赠品订单</el-tag>
+                <el-tag v-else-if="scope.row.orderPromotionType === 'POINTS'" color="geekblue">积分订单</el-tag>
+                <el-tag v-else-if="scope.row.orderPromotionType === 'KANJIA'" color="pink">砍价订单</el-tag>
+                <div v-else>{{ scope.row.orderPromotionType }}</div>
+              </template>
+            </el-table-column>-->
           </el-table>
         </div>
 
         <div class="pagination-container">
-          <el-pagination
-            background
-            @size-change="changePageSize"
-            @current-change="changePage"
-            layout="total, sizes,prev, pager, next,jumper"
-            :page-size="searchForm.pageSize"
-            :page-sizes="[5,10,15]"
-            :current-page.sync="searchForm.pageNumber"
-            :total="total">
-          </el-pagination>
-        </div>
+        <el-pagination
+          background
+          @size-change="changePageSize"
+          @current-change="changePage"
+          layout="total, sizes,prev, pager, next,jumper"
+          :page-size="searchForm.pageSize"
+          :page-sizes="[5,10,15]"
+          :current-page.sync="searchForm.pageNumber"
+          :total="total">
+        </el-pagination>
+      </div>
 
       </div>
     </el-card>
@@ -219,7 +219,7 @@ import {
 } from "@/apis/controller/GuanLiDuan,DingDanAPI/getManagerOrderOrderQueryExportOrder";
 
 export default {
-  name: "order",
+  name: "orderList",
   components: {
     "download-excel": JsonExcel,
   },
@@ -324,7 +324,7 @@ export default {
     // 获取列表数据
     getDataList() {
       this.loading = true;
-      this.searchForm.orderPromotionType="";
+      this.searchForm.orderPromotionType="GUARANTEES";
       getManagerOrderOrder({orderSearchParams: this.searchForm}).then((res) => {
         this.loading = false;
         if (res.data.success) {
@@ -332,6 +332,8 @@ export default {
           this.total = res.data.result.total;
         }
       });
+      this.total = this.data.length;
+      this.loading = false;
     },
     // 跳转详情页面
     detail(v) {

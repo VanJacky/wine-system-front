@@ -1,18 +1,19 @@
 <template> 
   <el-card class="form-container" shadow="never">
-    <el-steps :active="active" finish-status="success" align-center>
-      <el-step title="填写商品信息"></el-step>
-      <el-step title="填写商品促销"></el-step>
-      <el-step title="填写商品属性"></el-step>
-      <el-step title="选择商品关联"></el-step>
-    </el-steps>
+<!--    <el-steps :active="active" finish-status="success" align-center>-->
+<!--      <el-step title="填写商品信息"></el-step>-->
+<!--      <el-step title="填写商品促销"></el-step>-->
+<!--      <el-step title="填写商品属性"></el-step>-->
+<!--      <el-step title="选择商品关联"></el-step>-->
+<!--    </el-steps>-->
+    <h3 style="text-align: center">填写商品信息</h3>
     <product-info-detail
       v-show="showStatus[0]"
       v-model="productParam"
       :is-edit="isEdit"
-      @nextStep="nextStep">
+      @nextStep="finishCommit">
     </product-info-detail>
-    <product-sale-detail
+<!--    <product-sale-detail
       v-show="showStatus[1]"
       v-model="productParam"
       :is-edit="isEdit"
@@ -32,7 +33,7 @@
       :is-edit="isEdit"
       @prevStep="prevStep"
       @finishCommit="finishCommit">
-    </product-relation-detail>
+    </product-relation-detail>-->
   </el-card>
 </template>
 <script>
@@ -41,67 +42,80 @@
   import ProductAttrDetail from './ProductAttrDetail';
   import ProductRelationDetail from './ProductRelationDetail';
   import {createProduct,getProduct,updateProduct} from '@/api/product';
+  import {
+    getManagerGoodsGoodsGetById
+  } from "@/apis/controller/GuanLiDuan,ShangPinGuanLiJieKou/getManagerGoodsGoodsGetById";
+  import {
+    putManagerGoodsGoodsUpdateByGoodsId
+  } from "@/apis/controller/GuanLiDuan,ShangPinGuanLiJieKou/putManagerGoodsGoodsUpdateByGoodsId";
+  import {
+    postManagerGoodsGoodsCreate
+  } from "@/apis/controller/GuanLiDuan,ShangPinGuanLiJieKou/postManagerGoodsGoodsCreate";
 
   const defaultProductParam = {
-    albumPics: '',
-    brandId: null,
-    brandName: '',
-    deleteStatus: 0,
-    description: '',
-    detailDesc: '',
-    detailHtml: '',
-    detailMobileHtml: '',
-    detailTitle: '',
-    feightTemplateId: 0,
-    flashPromotionCount: 0,
-    flashPromotionId: 0,
-    flashPromotionPrice: 0,
-    flashPromotionSort: 0,
-    giftPoint: 0,
-    giftGrowth: 0,
-    keywords: '',
-    lowStock: 0,
-    name: '',
-    newStatus: 0,
-    note: '',
-    originalPrice: 0,
-    pic: '',
-    //会员价格{memberLevelId: 0,memberPrice: 0,memberLevelName: null}
-    memberPriceList: [],
-    //商品满减
-    productFullReductionList: [{fullPrice: 0, reducePrice: 0}],
-    //商品阶梯价格
-    productLadderList: [{count: 0,discount: 0,price: 0}],
-    previewStatus: 0,
-    price: 0,
-    productAttributeCategoryId: null,
-    //商品属性相关{productAttributeId: 0, value: ''}
-    productAttributeValueList: [],
-    //商品sku库存信息{lowStock: 0, pic: '', price: 0, sale: 0, skuCode: '', spData: '', stock: 0}
-    skuStockList: [],
-    //商品相关专题{subjectId: 0}
-    subjectProductRelationList: [],
-    //商品相关优选{prefrenceAreaId: 0}
-    prefrenceAreaProductRelationList: [],
-    productCategoryId: null,
-    productCategoryName: '',
-    productSn: '',
-    promotionEndTime: '',
-    promotionPerLimit: 0,
-    promotionPrice: null,
-    promotionStartTime: '',
-    promotionType: 0,
-    publishStatus: 0,
-    recommandStatus: 0,
-    sale: 0,
-    serviceIds: '',
-    sort: 0,
-    stock: 0,
-    subTitle: '',
-    unit: '',
-    usePointLimit: 0,
-    verifyStatus: 0,
-    weight: 0
+      "splitRatio": 0,
+      "salesModel": "RETAIL",
+      "goodsGalleryFiles": [],
+      "release": true,
+      "recommend": true,
+      "storeCategoryPath": "",
+      "brandId": "",
+      "goodsUnit": "",
+      "goodsType": "PHYSICAL_GOODS",
+      "categoryPath": "",
+      "sellingPoint": "",
+      "intro": "",
+      "mobileIntro": "",
+      "updateSku": true,
+      "regeneratorSkuFlag": false,
+      "templateId": "0",
+      "goodsParamsDTOList": [
+    ],
+      "categoryName": [
+    ],
+      "goodsVideo": "",
+      "id": "",
+      "createBy": "",
+      "createTime": "",
+      "updateBy": null,
+      "updateTime": null,
+      "deleteFlag": false,
+      "goodsName": "",
+      "price": 0,
+      "producerId": null,
+      "producerName": null,
+      "marketEnable": "UPPER",
+      "buyCount": 0,
+      "quantity": 0,
+      "grade": 0,
+      "thumbnail": "",
+      "small": "",
+      "original": "",
+      "commentNum": null,
+      "storeId": "",
+      "storeName": "",
+      "authFlag": "PASS",
+      "authMessage": null,
+      "underMessage": null,
+      "selfOperated": null,
+      "hasSkus": null,
+      "skuId": null,
+      "skuLists": null,
+      "params": "",
+      "goodsGalleryList": [],
+      "skuList": [
+      {
+        "sku": "3",
+        "cost": 100,
+        "price": 100,
+        "quantity": 100,
+        "sn": "100",
+        "images": [],
+        "weight": 100,
+        "id": "1777442924431155202"
+      }
+    ],
+      "wholesaleList": null
   };
   export default {
     name: 'ProductDetail',
@@ -121,9 +135,34 @@
     },
     created(){
       if(this.isEdit){
-        getProduct(this.$route.query.id).then(response=>{
-          this.productParam=response.data;
+        getManagerGoodsGoodsGetById({id: this.$route.query.id}).then(response=>{
+          this.productParam=response.data.result;
+          this.productParam.skuList = [
+            {
+              "sku": "100",
+              "cost": 100,
+              "price": 100,
+              "quantity": 100,
+              "sn": "1",
+              "images": [],
+              "weight": 100,
+              "id": "1777442924431155202"
+            }
+          ]
         });
+      }else {
+        this.productParam.skuList = [
+          {
+            "sku": "100",
+            "cost": 100,
+            "price": 100,
+            "quantity": 100,
+            "sn": "1",
+            "images": [],
+            "weight": 100,
+            "id": "1777442924431155202"
+          }
+        ]
       }
     },
     methods: {
@@ -152,8 +191,9 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
+
           if(isEdit){
-            updateProduct(this.$route.query.id,this.productParam).then(response=>{
+            putManagerGoodsGoodsUpdateByGoodsId({ goodsId: this.$route.query.id },this.productParam).then(response=>{
               this.$message({
                 type: 'success',
                 message: '提交成功',
@@ -162,7 +202,7 @@
               this.$router.back();
             });
           }else{
-            createProduct(this.productParam).then(response=>{
+            postManagerGoodsGoodsCreate(this.productParam).then(response=>{
               this.$message({
                 type: 'success',
                 message: '提交成功',

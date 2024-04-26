@@ -3,7 +3,6 @@ let username = ''
 
 //判断是否有权限访问该菜单
 function hasPermission(menus, route) {
-  console.log('admin',username)
   if(username==='admin') return true
   if (route.name) {
     let currMenu = getMenu(route.name, menus);
@@ -86,7 +85,6 @@ const permission = {
           //admin帐号直接返回所有菜单
           // if(username==='admin') return true;
           if (hasPermission(menus, v)) {
-            console.log('v',v)
             if (v.children && v.children.length > 0) {
               v.children = v.children.filter(child => {
                 if (hasPermission(menus, child)) {

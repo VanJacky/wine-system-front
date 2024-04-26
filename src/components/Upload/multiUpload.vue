@@ -3,6 +3,7 @@
     <el-upload
       :action="useOss?ossUploadUrl:minioUploadUrl"
       :data="useOss?dataObj:null"
+      :headers="headers"
       list-type="picture-card"
       :file-list="fileList"
       :before-upload="beforeUpload"
@@ -44,10 +45,13 @@
           host: ''
         },
         dialogVisible: false,
+        headers: {
+          accessToken: localStorage.getItem('accessToken'),
+        },
         dialogImageUrl:null,
         useOss:false, //使用oss->true;使用MinIO->false
-        ossUploadUrl:'http://macro-oss.oss-cn-shenzhen.aliyuncs.com',
-        minioUploadUrl:'http://localhost:8080/minio/upload',
+        ossUploadUrl:'http://119.91.37.36:10001/common/common/upload/file',
+        minioUploadUrl:'http://119.91.37.36:10001/common/common/upload/file',
       };
     },
     computed: {

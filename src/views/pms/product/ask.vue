@@ -15,20 +15,16 @@
         <div style="margin-top: 15px">
           <el-form :inline="true" :model="searchForm" size="small" label-width="140px">
             <el-form-item label="输入搜索：">
-              <el-input style="width: 203px" v-model="searchForm.name" placeholder="品牌名称/关键字"></el-input>
+              <el-input style="width: 203px" v-model="searchForm.memberId" placeholder="用户编号"></el-input>
+            </el-form-item>
+            <el-form-item label="状态">
+              <el-select v-model="searchForm.status" clearable style="width: 200px">
+                <el-option value="OPEN">开启中</el-option>
+                <el-option value="CLOSE">已关闭</el-option>
+              </el-select>
             </el-form-item>
           </el-form>
         </div>
-    </el-card>
-    <el-card class="operate-container" shadow="never">
-      <i class="el-icon-tickets"></i>
-      <span>数据列表</span>
-      <el-button
-        class="btn-add"
-        @click="add()"
-        size="mini">
-        添加
-      </el-button>
     </el-card>
     <div class="table-container">
       <el-table ref="brandTable"
@@ -36,76 +32,57 @@
                 style="width: 100%"
                 v-loading="loading"
                 border>
-<!--        <el-table-column type="selection" width="60" align="center">-->
-<!--          -->
-<!--        </el-table-column>-->
         <el-table-column label="排序" width="100" align="center">
           <template slot-scope="scope">{{scope.row.sort}}</template>
         </el-table-column>
         <el-table-column label="编号" width="100" align="center">
           <template slot-scope="scope">{{scope.row.id}}</template>
         </el-table-column>
-        <el-table-column label="品牌名称" align="center">
-          <template slot-scope="scope">{{scope.row.name}}</template>
+        <el-table-column label="用户编号" width="100" align="center">
+          <template slot-scope="scope">{{scope.row.memberId}}</template>
         </el-table-column>
-        <el-table-column label="品牌图标" width="100" align="center">
+        <el-table-column label="收货地址" align="center">
           <template slot-scope="scope">
-            <img :src="scope.row.logo || ''" alt="加载图片失败" style="cursor: pointer; width: 80px; height: 60px; margin: 10px 0; object-fit: contain"/>
+            <el-tag>{{ (scope.row.consigneeAddressPath + scope.row.consigneeAddressIdPath) || '暂未填写' }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="状态" width="100" align="center">
-          <template slot-scope="scope">
-            <el-tag v-if="scope.row.deleteFlag == 0" type="primary">启用</el-tag>
-            <el-tag v-if="scope.row.deleteFlag == 1" type="danger">禁用</el-tag>
+        <el-table-column label="求购酒水" align="center">
+          <template v-if="scope.row.purchaseOrderItems.length" slot-scope="scope">
+            {{ scope.row.purchaseOrderItems[0].goodsName }}
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="300" align="center">
+        <el-table-column label="求购数量" align="center">
+          <template v-if="scope.row.purchaseOrderItems.length" slot-scope="scope">
+            {{ scope.row.purchaseOrderItems[0].num }}
+          </template>
+        </el-table-column>
+        <el-table-column label="发布时间" width="100" align="center">
+          <template slot-scope="scope">{{scope.row.createTime}}</template>
+        </el-table-column>
+        <el-table-column label="截止时间" width="100" align="center">
+          <template slot-scope="scope">{{scope.row.deadline}}</template>
+        </el-table-column>
+        <el-table-column label="报价记录" width="100" align="center">
           <template slot-scope="scope">
+            {{ scope.row.quotedVOList.length }}条记录
             <el-button
               size="mini"
-              v-if="scope.row.deleteFlag"
               type="primary"
-              @click="enable(scope.row)">启用
+              @click="detail(scope.row)">查看
             </el-button>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" width="100" align="center">
+          <template slot-scope="scope">
             <el-button
               size="mini"
-              type="danger"
-              v-else
-              @click="disable(scope.row)">禁用
-            </el-button>
-            <el-button
-              size="mini"
-              @click="edit(scope.row)">编辑
-            </el-button>
-            <el-button
-              size="mini"
-              type="danger"
-              @click="delBrand(scope.row)">删除
+              :type="scope.row.status === 'OPEN' ? 'danger' : 'primary'"
+              @click="delBrand(scope.row)">{{ scope.row.status === 'OPEN' ? '禁用' : '开启' }}
             </el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
-<!--    <div class="batch-operate-container">
-      <el-select
-        size="small"
-        v-model="operateType" placeholder="批量操作">
-        <el-option
-          v-for="item in operates"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
-      <el-button
-        style="margin-left: 20px"
-        class="search-button"
-        @click="handleBatchOperate()"
-        type="primary"
-        size="small">
-        确定
-      </el-button>
-    </div>-->
     <div class="pagination-container">
       <el-pagination
         background
@@ -152,9 +129,12 @@ import {
 import {
   putManagerGoodsBrandDisableByBrandId
 } from "@/apis/controller/GuanLiDuan,PinPaiJieKou/putManagerGoodsBrandDisableByBrandId";
+import {getManagerPurchasePurchase} from "@/apis/controller/manager/purchase/getManagerPurchasePurchase";
+import {getManagerGoodsCategoryAllChildren} from "@/apis/controller";
+import {putManagerPurchasePurchaseById} from "@/apis/controller/manager/purchase/putManagerPurchasePurchaseById";
 
   export default {
-    name: 'brandList',
+    name: 'ask',
     components: {UploadPicInput, SingleUpload},
     data() {
       return {
@@ -167,8 +147,11 @@ import {
           name: '',
           pageNumber: 1, // 当前页数
           pageSize: 10, // 页面大小
-          sort: "create_time", // 默认排序字段
+          sort: "", // 默认排序字段
           order: "desc", // 默认排序方式
+          memberId: '',
+          categoryId: '',
+          status: '',
         },
         form: {
           // 添加或编辑表单对象初始化数据
@@ -179,32 +162,30 @@ import {
         },
         // 表单验证规则
         formValidate: {
-          name: [
-            regular.REQUIRED,
-            regular.VARCHAR20
-          ],
-          logo: [
-            regular.REQUIRED,
-            regular.URL200
-          ],
         },
         submitLoading: false, // 添加或编辑提交状态
         data: [], // 表单数据
+        categoryList: [],
         total: 0, // 表单数据总数
       };
     },
     methods: {
-      // 删除品牌
-      async delBrand(id) {
-        let res = await deleteManagerGoodsBrandDelByIdsByIds({ids: [id]});
+      // 禁用开启
+      async delBrand(v) {
+        let res = await putManagerPurchasePurchaseById({id: v.id});
         if (res.data.success) {
-          this.$message.success("品牌删除成功!");
+          this.$message.success("操作成功!");
           this.getDataList();
         }
       },
       // 初始化数据
       init() {
         this.getDataList();
+      },
+      getCategoryList() {
+        getManagerGoodsCategoryAllChildren().then(res => {
+          this.categoryList = res.data.result;
+        });
       },
       // 分页 改变页码
       changePage(v) {
@@ -225,7 +206,10 @@ import {
       // 获取数据
       getDataList() {
         this.loading = true;
-        getManagerGoodsBrandGetByPage({page: this.searchForm}).then((res) => {
+        for (const searchFormKey in this.searchForm) {
+          if (!this.searchForm[searchFormKey]) delete this.searchForm[searchFormKey];
+        }
+        getManagerPurchasePurchase({purchaseOrderSearchParams: this.searchForm}).then((res) => {
           this.loading = false;
           if (res.data.success) {
             this.data = res.data.result.records;
@@ -270,6 +254,10 @@ import {
         this.$refs.form.resetFields();
         delete this.form.id;
         this.modalVisible = true;
+      },
+      // 查看报价列表
+      detail(v) {
+        this.$router.push({ path: '/pms/answer', query: { id: v.id } });
       },
       // 刷新
       refresh() {

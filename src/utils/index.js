@@ -1,3 +1,4 @@
+
 export function parseTime(time, cFormat) {
   if (arguments.length === 0) {
     return null
@@ -51,4 +52,15 @@ export function formatTime(time, option) {
   } else {
     return d.getMonth() + 1 + '月' + d.getDate() + '日' + d.getHours() + '时' + d.getMinutes() + '分'
   }
+}
+export function urlFormat(data){
+  let params = new URLSearchParams()
+  for (const dataKey in data) {
+    params.append(dataKey, data[dataKey])
+  }
+  return params
+}
+
+export function headers(){
+  return { headers: {"Content-Type": 'application/x-www-form-urlencoded'}}
 }

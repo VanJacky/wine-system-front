@@ -24,15 +24,15 @@ export const constantRouterMap = [
   {
     path: '',
     component: Layout,
-    redirect: '/home',
-    meta: {title: '首页', icon: 'home'},
+    redirect: '/pms/product',
+/*    meta: {title: '首页', icon: 'home'},
     children: [{
       path: 'home',
       name: 'home',
       component: () => import('@/views/home/index'),
       meta: {title: '仪表盘', icon: 'dashboard'}
     },
-    {
+   {
       name: 'document',
       path: 'https://www.macrozheng.com',
       meta: {title: '学习教程', icon: 'document'}
@@ -42,7 +42,7 @@ export const constantRouterMap = [
       path: 'https://www.macrozheng.com/mall/catalog/mall_video.html',
       meta: {title: '视频教程', icon: 'video'}
     },
-    ]
+    ]*/
   }
 ]
 
@@ -50,7 +50,7 @@ export const asyncRouterMap = [
   {
     path: '/pms',
     component: Layout,
-    redirect: '/pms/product',
+    redirect: '/product',
     name: 'pms',
     meta: {title: '商品', icon: 'product'},
     children: [{
@@ -73,10 +73,36 @@ export const asyncRouterMap = [
         hidden: true
       },
       {
+        path: 'goodsDetail',
+        name: 'goodsDetail',
+        component: () => import('@/views/pms/product/goodsDetail'),
+        meta: {title: '商品详情'},
+        hidden: true
+      },
+      {
         path: 'productCate',
         name: 'productCate',
         component: () => import('@/views/pms/productCate/index'),
         meta: {title: '商品分类', icon: 'product-cate'}
+      },
+      {
+        path: 'ask',
+        name: 'ask',
+        component: () => import('@/views/pms/product/ask'),
+        meta: {title: '询价列表', icon: 'product-cate'}
+      },
+      {
+        path: 'answer',
+        name: 'answer',
+        component: () => import('@/views/pms/product/answer'),
+        meta: {title: '报价列表', icon: 'product-cate'},
+        hidden: true,
+      },
+      {
+        path: 'audit',
+        name: 'audit',
+        component: () => import('@/views/pms/product/audit.vue'),
+        meta: {title: '审核商品', icon: 'product-cate'}
       },
       {
         path: 'addProductCate',
@@ -92,12 +118,12 @@ export const asyncRouterMap = [
         meta: {title: '修改商品分类'},
         hidden: true
       },
-      {
+/*      {
         path: 'productAttr',
         name: 'productAttr',
         component: () => import('@/views/pms/productAttr/index'),
         meta: {title: '商品类型', icon: 'product-attr'}
-      },
+      },*/
       {
         path: 'productAttrList',
         name: 'productAttrList',
@@ -142,6 +168,54 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/member',
+    component: Layout,
+    redirect: '/member/memberList',
+    name: 'member',
+    meta: {title: '用户', icon: 'product-list'},
+    children: [{
+      path: 'memberList',
+      name: 'memberList',
+      component: () => import('@/views/member/index'),
+      meta: {title: '用户列表', icon: 'product-list'}
+    }]
+  },
+  {
+    path: '/seller',
+    component: Layout,
+    redirect: '/seller/shopList',
+    name: 'store',
+    meta: {title: '商家', icon: 'product-list'},
+    children: [{
+      path: 'shopList',
+      name: 'shopList',
+      component: () => import('@/views/seller/shop/shopList'),
+      meta: {title: '商家列表', icon: 'product-list'}
+    },{
+      path: 'shopAuditList',
+      name: 'shopAuditList',
+      component: () => import('@/views/seller/shop/shopAuditList'),
+      meta: {title: '商家审核', icon: 'product-list'}
+    },{
+      path: 'depositList',
+      name: 'depositList',
+      component: () => import('@/views/seller/shop/depositList'),
+      meta: {title: '保证金管理', icon: 'product-list'}
+    },{
+      path: 'shopDetail',
+      name: 'shopDetail',
+      component: () => import('@/views/seller/shop/shopDetail'),
+      meta: {title: '商家详情'},
+      hidden: true
+    },{
+      path: 'shopOperation',
+      name: 'shopOperation',
+      component: () => import('@/views/seller/shop/shopOperation'),
+      meta: {title: '商家详情'},
+      hidden: true
+    }]
+  },
+  {
     path: '/oms',
     component: Layout,
     redirect: '/oms/order',
@@ -154,48 +228,48 @@ export const asyncRouterMap = [
         component: () => import('@/views/oms/order/index'),
         meta: {title: '订单列表', icon: 'product-list'}
       },
-      {
-        path: 'orderDetail',
-        name: 'orderDetail',
-        component: () => import('@/views/oms/order/orderDetail'),
-        meta: {title: '订单详情'},
-        hidden:true
+      /*  {
+          path: 'orderDetail',
+          name: 'orderDetail',
+          component: () => import('@/views/oms/order/orderDetail'),
+          meta: {title: '订单详情'},
+          hidden:true
       },
-      {
-        path: 'deliverOrderList',
-        name: 'deliverOrderList',
-        component: () => import('@/views/oms/order/deliverOrderList'),
-        meta: {title: '发货列表'},
-        hidden:true
-      },
-      {
-        path: 'orderSetting',
-        name: 'orderSetting',
-        component: () => import('@/views/oms/order/setting'),
-        meta: {title: '订单设置', icon: 'order-setting'}
-      },
-      {
-        path: 'returnApply',
-        name: 'returnApply',
-        component: () => import('@/views/oms/apply/index'),
-        meta: {title: '退货申请处理', icon: 'order-return'}
-      },
-      {
-        path: 'returnReason',
-        name: 'returnReason',
-        component: () => import('@/views/oms/apply/reason'),
-        meta: {title: '退货原因设置', icon: 'order-return-reason'}
-      },
-      {
-        path: 'returnApplyDetail',
-        name: 'returnApplyDetail',
-        component: () => import('@/views/oms/apply/applyDetail'),
-        meta: {title: '退货原因详情'},
-        hidden:true
-      }
+        {
+            path: 'deliverOrderList',
+            name: 'deliverOrderList',
+            component: () => import('@/views/oms/order/deliverOrderList'),
+            meta: {title: '发货列表'},
+            hidden:true
+        },
+          {
+              path: 'orderSetting',
+              name: 'orderSetting',
+              component: () => import('@/views/oms/order/setting'),
+              meta: {title: '订单设置', icon: 'order-setting'}
+        },
+           {
+              path: 'returnApply',
+              name: 'returnApply',
+              component: () => import('@/views/oms/apply/index'),
+              meta: {title: '退货申请处理', icon: 'order-return'}
+            },
+            {
+              path: 'returnReason',
+              name: 'returnReason',
+              component: () => import('@/views/oms/apply/reason'),
+              meta: {title: '退货原因设置', icon: 'order-return-reason'}
+            },
+            {
+              path: 'returnApplyDetail',
+              name: 'returnApplyDetail',
+              component: () => import('@/views/oms/apply/applyDetail'),
+              meta: {title: '退货原因详情'},
+              hidden:true
+            }*/
     ]
   },
-  {
+/*  {
     path:'/sms',
     component: Layout,
     redirect: '/sms/coupon',
@@ -301,7 +375,7 @@ export const asyncRouterMap = [
         hidden:true
       }
     ]
-  },
+  },*/
   {
     path:'/ums',
     component: Layout,
@@ -370,12 +444,13 @@ export const asyncRouterMap = [
       }
     ]
   },
-  {path: '*', redirect: '/404', hidden: true}
+  // {path: '*', redirect: '/404', hidden: true}
 ]
-
+const routeList = constantRouterMap.concat(asyncRouterMap)
+console.log('routeList',routeList)
 export default new Router({
   // mode: 'history', //后端支持可开
   scrollBehavior: () => ({y: 0}),
-  routes: constantRouterMap
+  routes: routeList
 })
 

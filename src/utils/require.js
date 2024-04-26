@@ -42,24 +42,20 @@ const require = axios.create({
 // request拦截器, 改变url 或 options
 require.interceptors.request.use(
     (config) => {
-        let uuid = getStore("uuid");
-        if (!uuid) {
-            uuid = "uuid";
-            setStore("uuid", uuid);
-        }
-        const isPublicURL = whitelist.some(url => config.url.includes(url));
-
-        console.log("getToken()",getToken())
-
-        const headers = getToken()
-            ? {
-                accessToken: getToken(),
-                uuid: `${uuid}`,
-            }
-            : {
-                uuid: `${uuid}`,
-            };
-        config.headers = headers;
+      let uuid = getStore("uuid");
+      if (!uuid) {
+          uuid = "uuid";
+          setStore("uuid", uuid);
+      }
+      const isPublicURL = whitelist.some(url => config.url.includes(url));
+      config.headers = {
+          ...config.headers,
+          accessToken: getToken(),
+          uuid: `${uuid}`
+      }
+      if (!getToken()){
+        delete config.headers.accessToken
+      }
         return config;
     },
     (error) => {

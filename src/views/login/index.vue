@@ -129,12 +129,13 @@
             //   this.dialogVisible =true;
             //   return;
             // }
-            this.loginForm.password = hexMD5(this.loginForm.password)
+            let params = this.loginForm
+            params.password = hexMD5(this.loginForm.password)
             this.loading = true;
-            this.$store.dispatch('Login', this.loginForm).then(() => {
+            this.$store.dispatch('Login', params).then(() => {
               this.loading = false;
-              setCookie("username",this.loginForm.username,15);
-              setCookie("password",this.loginForm.password,15);
+              setCookie("username",params.username,15);
+              setCookie("password",params.password,15);
               this.$router.push({path: '/'})
             }).catch(() => {
               this.loading = false

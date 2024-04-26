@@ -17,22 +17,16 @@ router.beforeEach((to, from, next) => {
     } else {
       const username = "admin"
       console.log('admin.length',username.length)
-      console.log('store.getters.roles.length',store.getters)
       console.log('store.getters.roles.length',store.getters.roles)
-      console.log('store.getters.roles.length',store.getters.roles.length)
       if (store.getters.roles) {
-        store.dispatch('GetInfo').then(res => { // 拉取用户信息
-          let menus=res.data.result.menus || [];
-          let username=res.data.result.username;
-          store.dispatch('GenerateRoutes', { menus,username }).then(() => { // 生成可访问的路由表
-            router.addRoutes(store.getters.addRouters); // 动态添加可访问路由表
-            next({ ...to, replace: true })
-          })
-        }).catch((err) => {
-          store.dispatch('FedLogOut').then(() => {
-            Message.error(err || 'Verification failed, please login again')
-            next({ path: '/' })
-          })
+        console.log('router', router)
+        // @ts-ignore
+        let menus = []
+        // @ts-ignore
+        store.dispatch('GenerateRoutes', {menus,username }).then(() => { // 生成可访问的路由表
+          console.log('store.getters.addRouters',store.getters.addRouters)
+          router.addRoutes(store.getters.addRouters); // 动态添加可访问路由表
+          // next({ ...to, replace: true })
         })
         next()
       } else {
@@ -41,7 +35,7 @@ router.beforeEach((to, from, next) => {
           let username=res.data.result.username;
           store.dispatch('GenerateRoutes', { menus,username }).then(() => { // 生成可访问的路由表
             router.addRoutes(store.getters.addRouters); // 动态添加可访问路由表
-            next({ ...to, replace: true })
+            // next({ ...to, replace: true })
           })
         }).catch((err) => {
           store.dispatch('FedLogOut').then(() => {

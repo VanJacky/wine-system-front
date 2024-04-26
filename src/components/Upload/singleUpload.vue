@@ -3,6 +3,7 @@
     <el-upload
       :action="useOss?ossUploadUrl:minioUploadUrl"
       :data="useOss?dataObj:null"
+      :headers="headers"
       list-type="picture"
       :multiple="false" :show-file-list="showFileList"
       :file-list="fileList"
@@ -11,9 +12,9 @@
       :on-success="handleUploadSuccess"
       :on-preview="handlePreview">
       <el-button size="small" type="primary">点击上传</el-button>
-      <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过10MB</div>
+      <div slot="tip" class="el-upload__tip">只能上传jpg/png/svg文件，且不超过10MB</div>
     </el-upload>
-    <el-dialog :visible.sync="dialogVisible">
+    <el-dialog append-to-body :visible.sync="dialogVisible">
       <img width="100%" :src="fileList[0].url" alt="">
     </el-dialog>
   </div>
@@ -63,9 +64,12 @@
           // callback:'',
         },
         dialogVisible: false,
-        useOss:false, //使用oss->true;使用MinIO->false
-        ossUploadUrl:'http://macro-oss.oss-cn-shenzhen.aliyuncs.com',
-        minioUploadUrl:'http://localhost:8080/minio/upload',
+        useOss: false, //使用oss->true;使用MinIO->false
+        headers: {
+          accessToken: localStorage.getItem('accessToken'),
+        },
+        ossUploadUrl:'http://119.91.37.36:10001/common/common/upload/file',
+        minioUploadUrl:'http://119.91.37.36:10001/common/common/upload/file',
       };
     },
     methods: {
@@ -101,14 +105,16 @@
         })
       },
       handleUploadSuccess(res, file) {
+        console.log('handleUploadSuccess',res,file)
         this.showFileList = true;
         this.fileList.pop();
         let url = this.dataObj.host + '/' + this.dataObj.dir + '/' + file.name;
         if(!this.useOss){
           //不使用oss直接获取图片路径
-          url = res.data.url;
+          url = res.result;
         }
-        this.fileList.push({name: file.name, url: url});
+        console.log('Upload',url)
+        this.fileList[0] = {name: file.name, url: url};
         this.emitInput(this.fileList[0].url);
       }
     }

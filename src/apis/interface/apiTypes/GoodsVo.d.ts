@@ -59,7 +59,7 @@ export interface GoodsVo {
     /** 商品视频 */
     goodsVideo?: string;
     /** 是否为推荐商品 */
-    recommend: boolean;
+    recommend?: boolean;
     /** 销售模式 */
     salesModel: string;
     /** 分账比例 */

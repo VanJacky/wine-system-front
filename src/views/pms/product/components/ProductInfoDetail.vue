@@ -61,11 +61,8 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="商品图片：">
-        <single-upload v-model="value.original"></single-upload>
-      </el-form-item>
       <el-form-item label="商品相册：">
-        <multi-upload v-model="value.goodsGalleryFiles"></multi-upload>
+        <multi-upload v-model="value.goodsGalleryList"></multi-upload>
       </el-form-item>
       <el-form-item label="箱规：" prop="goodsUnit">
         <el-input-number v-model="value.goodsUnit" :min="1" :max="100" label="瓶/箱"></el-input-number>
@@ -320,7 +317,7 @@
             this.fragranceList = item.children || []
           }
         })
-        this.value.categoryPath = this.value.categoryId + ',' + (this.isSpirits ? this.value.fragranceId : '');
+        this.value.categoryPath = this.value.categoryId + ',' + ((this.isSpirits && this.value.fragranceId)? this.value.fragranceId : '');
         this.getParams(this.value.categoryId)
       }
     }

@@ -27,7 +27,7 @@
     name: 'multiUpload',
     props: {
       //图片属性数组
-      value: Array,
+      value:  Array,
       //最大上传图片数量
       maxCount:{
         type:Number,
@@ -100,12 +100,8 @@
         })
       },
       handleUploadSuccess(res, file) {
-        let url = this.dataObj.host + '/' + this.dataObj.dir + '/' + file.name;
-        if(!this.useOss){
-          //不使用oss直接获取图片路径
-          url = res.data.url;
-        }
-        this.fileList.push({name: file.name,url:url});
+        const url = res.result
+        this.fileList.push({name: file.name, url:url});
         this.emitInput(this.fileList);
       },
       handleExceed(files, fileList) {

@@ -4,7 +4,7 @@
              :rules="rules"
              ref="couponFrom"
              label-width="150px"
-             size="small">
+             size="mini">
       <el-form-item label="优惠券类型：">
         <el-select v-model="coupon.type">
           <el-option

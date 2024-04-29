@@ -1,3 +1,4 @@
+/*
 tinymce.addI18n('zh_CN',{
 "Cut": "\u526a\u5207",
 "Heading 5": "\u6807\u98985",
@@ -227,4 +228,4 @@ tinymce.addI18n('zh_CN',{
 "View": "\u89c6\u56fe",
 "Table": "\u8868\u683c",
 "Format": "\u683c\u5f0f"
-});
+});*/

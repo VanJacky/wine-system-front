@@ -57,7 +57,7 @@
     </div>
     <div class="batch-operate-container">
       <el-select
-        size="small"
+        size="mini"
         v-model="operateType" placeholder="批量操作">
         <el-option
           v-for="item in operates"
@@ -71,7 +71,7 @@
         class="search-button"
         @click="handleBatchOperate()"
         type="primary"
-        size="small">
+        size="mini">
         确定
       </el-button>
     </div>

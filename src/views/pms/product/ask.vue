@@ -8,12 +8,12 @@
             style="float: right"
             @click="handleSearch()"
             type="primary"
-            size="small">
+            size="mini">
             查询结果
           </el-button>
         </div>
         <div style="margin-top: 15px">
-          <el-form :inline="true" :model="searchForm" size="small" label-width="140px">
+          <el-form :inline="true" :model="searchForm" size="mini" label-width="140px">
             <el-form-item label="输入搜索：">
               <el-input style="width: 203px" v-model="searchForm.memberId" placeholder="用户编号"></el-input>
             </el-form-item>
@@ -66,18 +66,23 @@
           <template slot-scope="scope">
             {{ scope.row.quotedVOList.length }}条记录
             <el-button
+              v-if="scope.row.quotedVOList.length"
               size="mini"
               type="primary"
               @click="detail(scope.row)">查看
             </el-button>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="100" align="center">
+        <el-table-column label="操作" width="200" align="center">
           <template slot-scope="scope">
             <el-button
               size="mini"
               :type="scope.row.status === 'OPEN' ? 'danger' : 'primary'"
               @click="delBrand(scope.row)">{{ scope.row.status === 'OPEN' ? '禁用' : '开启' }}
+            </el-button>
+            <el-button
+              size="mini"
+              @click="edit(scope.row)">排序
             </el-button>
           </template>
         </el-table-column>
@@ -95,17 +100,10 @@
         :total="total">
       </el-pagination>
     </div>
-  <el-dialog :title="modalTitle" :visible.sync="modalVisible" :mask-closable="false" :width="500">
-    <el-form ref="form" :model="form" :label-width="100" :rules="formValidate">
-      <el-form-item label="品牌名称" prop="name">
-        <el-input v-model="form.name" clearable style="width: 100%"/>
-      </el-form-item>
-      <el-form-item label="品牌图标" prop="logo">
-        <single-upload v-model="form.logo" style="width: 100%"></single-upload>
-<!--        <upload-pic-input v-model="form.logo" style="width: 100%"></upload-pic-input>-->
-      </el-form-item>
+  <el-dialog :title="modalTitle" :visible.sync="modalVisible" :mask-closable="false" width="500">
+    <el-form ref="form" :model="form" label-width="100" :rules="formValidate">
       <el-form-item label="排序" prop="logo">
-        <el-input v-model="form.sort" style="width: 250px"></el-input>
+        <el-input v-model="form.rank" style="width: 250px"></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer">
@@ -157,7 +155,7 @@ import {putManagerPurchasePurchaseById} from "@/apis/controller/manager/purchase
           // 添加或编辑表单对象初始化数据
           name: "",
           logo: "",
-          sort: 0,
+          rank: 0,
           deleteFlag: "",
         },
         // 表单验证规则
@@ -235,7 +233,7 @@ import {putManagerPurchasePurchaseById} from "@/apis/controller/manager/purchase
               });
             } else {
               // 编辑
-              putManagerGoodsBrandById(this.form,this.$util.urlFormat(this.form),this.$util.headers()).then((res) => {
+              putManagerPurchasePurchaseById(this.form,this.$util.urlFormat(this.form),this.$util.headers()).then((res) => {
                 this.submitLoading = false;
                 if (res.data.success) {
                   this.$message.success("操作成功");
@@ -282,7 +280,7 @@ import {putManagerPurchasePurchaseById} from "@/apis/controller/manager/purchase
         let data = JSON.parse(str);
         this.form = data;
         this.modalVisible = true;
-        this.$refs.form.resetFields();
+        // this.$refs.form.resetFields();
       },
       // 启用品牌
       enable(v) {

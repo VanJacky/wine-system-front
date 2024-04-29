@@ -21,7 +21,7 @@
             <el-select v-model="searchForm.storeDisable" clearable style="width: 200px">
               <el-option value="OPEN">开启中</el-option>
               <el-option value="CLOSED">已关闭</el-option>
-              <!-- <Option value="APPLY">申请中</Option> -->
+              <!-- <el-option value="APPLY">申请中</el-option> -->
               <el-option value="APPLYING">审核中</el-option>
               <el-option value="REFUSED">审核拒绝</el-option>
             </el-select>

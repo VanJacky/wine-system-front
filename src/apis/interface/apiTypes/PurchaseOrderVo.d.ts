@@ -30,6 +30,8 @@ export interface PurchaseOrderVo {
     categoryId?: string;
     /** 分类名称 */
     categoryName?: string;
+    /** 排位 */
+    rank?: string;
     children?: PurchaseQuoted[];
     purchaseOrderItems?: PurchaseOrderItem[];
     quotedVOList?: PurchaseQuotedVo[];

@@ -9,12 +9,12 @@
           style="float: right"
           @click="handleSearch()"
           type="primary"
-          size="small">
+          size="mini">
           查询结果
         </el-button>
       </div>
       <div style="margin-top: 15px">
-        <el-form :inline="true" :model="searchForm" size="small" label-width="140px">
+        <el-form :inline="true" :model="searchForm" size="mini" label-width="140px">
           <el-form-item label="输入搜索：">
             <el-input style="width: 203px" v-model="searchForm.memberName" placeholder="会员名称"></el-input>
           </el-form-item>
@@ -29,18 +29,18 @@
         <el-table-column
           prop="storeName"
           label="店铺名称"
-          :min-width="120"
+          min-width="120"
           align="left"
         ></el-table-column>
         <el-table-column
           prop="memberName"
           label="会员名称"
-          :min-width="120"
+          min-width="120"
           align="left"
         ></el-table-column>
         <el-table-column
           label="店铺地址"
-          :width="300"
+          width="300"
           sortable="false"
         >
           <template slot-scope="scope">
@@ -49,7 +49,7 @@
         </el-table-column>
 <!--        <el-table-column
           label="是否自营"
-          :width="120"
+          width="120"
           align="left"
         >
           <template slot-scope="scope">
@@ -63,7 +63,7 @@
         <el-table-column
           prop="createTime"
           label="创建时间"
-          :width="170"
+          width="170"
           align="left"
           sortable="false"
         >
@@ -75,7 +75,7 @@
         <!-- 操作 -->
         <el-table-column
           label="操作"
-          :width="170"
+          width="170"
           align="center"
           fixed="right"
         >

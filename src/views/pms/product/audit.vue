@@ -8,12 +8,12 @@
             style="float: right"
             @click="handleSearch()"
             type="primary"
-            size="small">
+            size="mini">
             查询结果
           </el-button>
         </div>
         <div style="margin-top: 15px">
-          <el-form :inline="true" :model="searchForm" size="small" label-width="140px">
+          <el-form :inline="true" :model="searchForm" size="mini" label-width="140px">
             <el-form-item label="输入搜索：">
               <el-input style="width: 203px" v-model="searchForm.goodsName" placeholder="品牌名称/关键字"></el-input>
             </el-form-item>
@@ -67,7 +67,7 @@
     </div>
 <!--    <div class="batch-operate-container">
       <el-select
-        size="small"
+        size="mini"
         v-model="operateType" placeholder="批量操作">
         <el-option
           v-for="item in operates"
@@ -81,7 +81,7 @@
         class="search-button"
         @click="handleBatchOperate()"
         type="primary"
-        size="small">
+        size="mini">
         确定
       </el-button>
     </div>-->

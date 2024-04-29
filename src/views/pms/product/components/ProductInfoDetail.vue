@@ -1,6 +1,6 @@
 <template>
   <div style="margin-top: 50px">
-    <el-form :model="value" :rules="rules" ref="productInfoForm" label-width="120px" class="form-inner-container" size="small">
+    <el-form :model="value" :rules="rules" ref="productInfoForm" label-width="120px" class="form-inner-container" size="mini">
 <!--      <el-form-item label="商品分类：" prop="productCategoryId">
         <el-cascader
           v-model="selectProductCateValue"
@@ -320,7 +320,7 @@
             this.fragranceList = item.children || []
           }
         })
-        this.value.categoryPath = this.value.categoryId+',' + this.isSpirits ? this.value.fragranceId : '';
+        this.value.categoryPath = this.value.categoryId + ',' + (this.isSpirits ? this.value.fragranceId : '');
         this.getParams(this.value.categoryId)
       }
     }

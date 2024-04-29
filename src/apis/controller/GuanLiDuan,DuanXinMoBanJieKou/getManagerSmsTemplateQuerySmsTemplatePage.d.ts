@@ -11,7 +11,6 @@ export declare function getManagerSmsTemplateQuerySmsTemplatePage(params: GetMan
     timestamp: number;
     result: {
         total: number;
-        size: number;
         records: {
             templateName: string;
             templateType: number;
@@ -23,6 +22,7 @@ export declare function getManagerSmsTemplateQuerySmsTemplatePage(params: GetMan
         }[];
         current: number;
         pages: number;
+        size: number;
     };
 }>;
 export interface GetManagerSmsTemplateQuerySmsTemplatePageParams {

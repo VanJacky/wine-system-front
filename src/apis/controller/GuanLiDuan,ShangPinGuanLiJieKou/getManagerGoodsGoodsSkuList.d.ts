@@ -10,7 +10,6 @@ export declare function getManagerGoodsGoodsSkuList(params: GetManagerGoodsGoods
     timestamp: number;
     result: {
         total: number;
-        size: number;
         records: {
             goodsId: string;
             simpleSpecs: string;
@@ -53,6 +52,7 @@ export declare function getManagerGoodsGoodsSkuList(params: GetManagerGoodsGoods
         }[];
         current: number;
         pages: number;
+        size: number;
     };
 }>;
 export interface GetManagerGoodsGoodsSkuListParams {

@@ -8,12 +8,12 @@
           style="float: right"
           @click="handleSearch()"
           type="primary"
-          size="small">
+          size="mini">
           查询结果
         </el-button>
       </div>
       <div style="margin-top: 15px">
-        <el-form :inline="true" :model="searchForm" size="small" label-width="140px">
+        <el-form :inline="true" :model="searchForm" size="mini" label-width="140px">
           <el-form-item label="输入搜索：">
             <el-input style="width: 203px" v-model="searchForm.username" placeholder="用户名称"></el-input>
           </el-form-item>
@@ -80,7 +80,7 @@
     </div>
     <!--    <div class="batch-operate-container">
           <el-select
-            size="small"
+            size="mini"
             v-model="operateType" placeholder="批量操作">
             <el-option
               v-for="item in operates"
@@ -94,7 +94,7 @@
             class="search-button"
             @click="handleBatchOperate()"
             type="primary"
-            size="small">
+            size="mini">
             确定
           </el-button>
         </div>-->
@@ -112,7 +112,7 @@
     </div>
 
     <el-dialog :visible.sync="addFlag" title="添加用户">
-      <el-form ref="addMemberForm" :model="addMemberForm" :rules="addRule" :label-width="100">
+      <el-form ref="addMemberForm" :model="addMemberForm" :rules="addRule" label-width="100">
         <el-form-item label="手机号码" prop="mobile" style="width: 90%;">
           <el-input v-model="addMemberForm.mobile" maxlength="11" placeholder="请输入手机号码" />
         </el-form-item>
@@ -130,7 +130,7 @@
     </el-dialog>
     <!-- 修改模态框 -->
     <el-dialog :visible.sync="descFlag" :title="descTitle" width="500">
-      <el-form ref="form" :model="form" :rules="ruleValidate" :label-width="80">
+      <el-form ref="form" :model="form" :rules="ruleValidate" label-width="80">
 
         <el-input v-model="form.id" v-show="false"/>
 

@@ -3,10 +3,12 @@ export interface PurchaseOrderItem {
     purchaseOrderId?: string;
     /** 商品名称 */
     goodsName?: string;
-    /** 数量 */
+    /** 采购数量 */
     num?: string;
-    /** 数量单位 */
+    /** 每箱个数 */
     goodsUnit?: string;
+    /** 单位 */
+    unit?: string;
     /** 价格 */
     price?: number;
     /** 规格 */

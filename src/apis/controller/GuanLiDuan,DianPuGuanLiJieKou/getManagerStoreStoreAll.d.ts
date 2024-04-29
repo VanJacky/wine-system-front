@@ -30,7 +30,7 @@ export declare function getManagerStoreStoreAll(config?: AxiosRequestConfig): im
         yzfMpSign: string;
         merchantEuid: string;
         monthSales: string;
-        type: string;
+        type: "MIDDLEMAN" | "MANUFACTURERS";
         discountedPrice: string;
         originalPrice: string;
         pageShow: boolean;

@@ -44,7 +44,7 @@ export interface StoreVo {
     /** monthSales */
     monthSales?: string;
     /** type */
-    type?: string;
+    type?: 'MIDDLEMAN' | 'MANUFACTURERS';
     /** discountedPrice */
     discountedPrice?: string;
     /** originalPrice */

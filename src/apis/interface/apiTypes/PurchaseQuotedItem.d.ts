@@ -15,7 +15,7 @@ export interface PurchaseQuotedItem {
     price?: number;
     /** wineTime */
     wineTime?: string;
-    /** 价格 */
+    /** 是否赠品 */
     giftFlag?: boolean;
     purchaseQuotedId?: string;
 }

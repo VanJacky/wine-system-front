@@ -1,714 +1,1036 @@
-<template> 
-  <div class="detail-container">
+<template>
+  <div class="search">
     <div>
-      <el-steps :active="formatStepStatus(order.status)" finish-status="success" align-center>
-        <el-step title="提交订单" :description="formatTime(order.createTime)"></el-step>
-        <el-step title="支付订单" :description="formatTime(order.paymentTime)"></el-step>
-        <el-step title="平台发货" :description="formatTime(order.deliveryTime)"></el-step>
-        <el-step title="确认收货" :description="formatTime(order.receiveTime)"></el-step>
-        <el-step title="完成评价" :description="formatTime(order.commentTime)"></el-step>
-      </el-steps>
+      <el-card style="height: 60px">
+        <div style="">
+          <el-button size="mini" v-if="allowOperation.editPrice" @click="modifyPrice">调整价格</el-button>
+          <el-button size="mini" v-if="allowOperation.editConsignee" @click="editAddress" type="primary" ghost>修改收货地址</el-button>
+          <el-button size="mini" v-if="allowOperation.cancel" @click="orderCancel" type="danger" ghost>订单取消</el-button>
+          <el-button size="mini" v-if="orderInfo.order.orderStatus === 'UNPAID'" @click="confirmPrice" type="primary">收款</el-button>
+          <el-button size="mini" @click="orderLog" ghost>订单日志</el-button>
+          <el-button size="mini" @click="printOrder" type="primary" ghost style="float:right;"
+                  v-if="$route.query.orderType != 'VIRTUAL'">打印发货单</el-button>
+        </div>
+      </el-card>
+      <el-card style="font-size: 15px" class="mt_10 clearfix">
+        <div style="width: 30%; float: left; margin-left: 20px">
+          <div class="div-item">
+            <div class="div-item-left">订单号：</div>
+            <div class="div-item-right">{{ orderInfo.order.sn }}</div>
+          </div>
+          <div class="div-item">
+            <div class="div-item-left">订单来源：</div>
+            <div class="div-item-right">
+              {{ orderInfo.order.clientType | clientTypeWay }}
+            </div>
+          </div>
+
+          <div class="div-item">
+            <div class="div-item-left">订单状态：</div>
+            <div class="div-item-right">
+              {{ orderInfo.orderStatusValue }}
+            </div>
+          </div>
+
+          <div class="div-item">
+            <div class="div-item-left">下单时间：</div>
+            <div class="div-item-right">
+              {{ orderInfo.order.createTime }}
+            </div>
+          </div>
+        </div>
+        <div style="width: 30%; float: left; margin-left: 20px">
+          <div class="div-item" v-if="orderInfo.order.needReceipt == false">
+            <div class="div-item-left">发票信息：</div>
+            <div class="div-item-right">暂无发票信息</div>
+          </div>
+
+          <div class="div-item" v-if="orderInfo.order.needReceipt == true">
+            <div class="div-item-left">发票抬头：</div>
+            <div class="div-item-right">
+              {{
+                orderInfo.receipt && orderInfo.receipt.receiptTitle ? orderInfo.receipt.receiptTitle : "暂无"
+              }}
+            </div>
+          </div>
+
+          <div class="div-item"
+               v-if="orderInfo.order.needReceipt == true && orderInfo.receipt && orderInfo.receipt.taxpayerId">
+            <div class="div-item-left">发票税号：</div>
+            <div class="div-item-right">
+              {{ orderInfo.receipt && orderInfo.receipt.taxpayerId ? orderInfo.receipt.taxpayerId : "暂无" }}
+            </div>
+          </div>
+
+          <div class="div-item" v-if="orderInfo.order.needReceipt == true">
+            <div class="div-item-left">发票内容：</div>
+            <div class="div-item-right">
+              {{
+                orderInfo.receipt && orderInfo.receipt.receiptContent
+                  ? orderInfo.receipt.receiptContent
+                  : "暂无"
+              }}
+            </div>
+          </div>
+
+          <div class="div-item" v-if="orderInfo.order.needReceipt == true">
+            <div class="div-item-left">发票金额：</div>
+            <div class="div-item-right">
+              <div style="color: red" v-if="orderInfo.receipt && orderInfo.receipt.receiptPrice">{{ orderInfo.receipt.receiptPrice + '￥'}}</div>
+              <span v-else>暂无</span>
+            </div>
+          </div>
+
+          <div class="div-item" v-if="orderInfo.order.needReceipt == true">
+            <div class="div-item-left">是否开票：</div>
+            <div class="div-item-right">
+              {{ orderInfo.receipt ? (orderInfo.receipt.receiptStatus == 0 ? "未开" : "已开") : "空" }}
+            </div>
+          </div>
+        </div>
+        <div style="width: 36%; float: left">
+          <div class="div-item">
+            <div class="div-item-left">收货信息：</div>
+            <div class="div-item-right">
+              {{ orderInfo.order.consigneeName }}
+              {{ orderInfo.order.consigneeMobile }}
+              {{ orderInfo.order.consigneeAddressPath }}
+              {{ orderInfo.order.consigneeDetail }}
+            </div>
+          </div>
+          <div class="div-item">
+            <div class="div-item-left">支付方式：</div>
+            <div class="div-item-right">
+              {{ orderInfo.paymentMethodValue }}
+            </div>
+          </div>
+
+          <div class="div-item">
+            <div class="div-item-left">买家留言：</div>
+            <div class="div-item-right">{{ orderInfo.order.remark }}</div>
+          </div>
+
+          <!-- <div class="div-item" v-if="orderInfo.order.needReceipt == false">
+            <div class="div-item-left">发票信息：</div>
+            <div class="div-item-right">暂无发票信息</div>
+          </div> -->
+
+          <!-- <div class="div-item" v-if="orderInfo.order.needReceipt == true">
+            <div class="div-item-left">发票抬头：</div>
+            <div class="div-item-right">
+              {{
+                orderInfo.receipt && orderInfo.receipt.receiptTitle ? orderInfo.receipt.receiptTitle : "暂无"
+              }}
+            </div>
+          </div>
+
+          <div class="div-item"
+            v-if="orderInfo.order.needReceipt == true && orderInfo.receipt && orderInfo.receipt.taxpayerId">
+            <div class="div-item-left">发票税号：</div>
+            <div class="div-item-right">
+              {{ orderInfo.receipt && orderInfo.receipt.taxpayerId ? orderInfo.receipt.taxpayerId : "暂无" }}
+            </div>
+          </div>
+
+          <div class="div-item" v-if="orderInfo.order.needReceipt == true">
+            <div class="div-item-left">发票内容：</div>
+            <div class="div-item-right">
+              {{
+                orderInfo.receipt && orderInfo.receipt.receiptContent
+                ? orderInfo.receipt.receiptContent
+                : "暂无"
+              }}
+            </div>
+          </div>
+
+          <div class="div-item" v-if="orderInfo.order.needReceipt == true">
+            <div class="div-item-left">发票金额：</div>
+            <div class="div-item-right">
+              {{
+                orderInfo.receipt && orderInfo.receipt.receiptPrice
+                ? orderInfo.receipt.receiptPrice
+                : "暂无" | unitPrice("￥")
+              }}
+            </div>
+          </div>
+
+          <div class="div-item" v-if="orderInfo.order.needReceipt == true">
+            <div class="div-item-left">是否开票：</div>
+            <div class="div-item-right">
+              {{ orderInfo.receipt ? (orderInfo.receipt.receiptStatus == 0 ? "未开" : "已开") : "空" }}
+            </div>
+          </div> -->
+
+          <div class="div-item" v-if="$route.query.orderType != 'VIRTUAL'">
+            <div class="div-item-left">配送方式：</div>
+            <div class="div-item-right">
+              {{ orderInfo.deliveryMethodValue }}
+            </div>
+          </div>
+        </div>
+      </el-card>
+      <el-card class="mt_10">
+        <el-table :loading="loading" border :data="data" ref="table" sortable="custom">
+          <el-table-column
+            label="商品"
+            min-width="100"
+          >
+            <template slot-scope="{ row }">
+              <div style="margin-top: 5px; height: 80px; display: flex">
+                <div style="">
+                  <img :src="row.image" style="height: 60px; margin-top: 1px; width: 60px" />
+                </div>
+
+                <div style="margin-left: 13px">
+                  <div class="div-zoom">
+                    <a @click="linkTo(row.goodsId, row.skuId)">{{ row.goodsName }}</a>
+                  </div>
+                  <span v-for="(item, key) in JSON.parse(row.specs)" :key="key">
+                  <span v-show="key != 'images'" style="font-size: 12px; color: #999999">
+                    {{ key }} : {{ item }}
+                  </span>
+                </span>
+                  <el-popover trigger="hover" style="display: block" title="扫码在手机中查看" transfer>
+                    <div slot="content">
+<!--                      <vue-qr :text="wapLinkTo(row.goodsId, row.skuId)" :margin="0" colorDark="#000" colorLight="#fff"
+                              :size="150"></vue-qr>-->
+                    </div>
+                    <img src="@/assets/images/qrcode.svg" class="hover-pointer" width="20" height="20" alt="" />
+                  </el-popover>
+                </div>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="单价"
+            min-width="100"
+          >
+            <template slot-scope="scope">
+              <div style="color: red">{{ scope.row.unitPrice+'￥' }}</div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="数量"
+            min-width="50"
+          >
+            <template slot-scope="scope">
+              {{ scope.row.num}}
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="退款数量"
+            min-width="50"
+          >
+            <template slot-scope="scope">
+              {{ scope.row.returnGoodsNumber}}
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="小计"
+            min-width="100"
+          >
+            <template slot-scope="scope">
+              <div style="color: red">{{ scope.row.flowPrice+'￥' }}</div>
+            </template>
+          </el-table-column>
+        </el-table>
+        <div class="goods-total">
+          <ul>
+            <li>
+              <span class="label">商品总额：</span>
+              <span class="txt">{{
+                  orderInfo.order.priceDetailDTO.goodsPrice | unitPrice("￥")
+                }}</span>
+            </li>
+            <li v-if="
+              orderInfo.order.priceDetailDTO.discountPrice &&
+              orderInfo.order.priceDetailDTO.discountPrice > 0
+            ">
+              <span class="label">优惠金额：</span>
+              <span class="txt">
+                {{ orderInfo.order.priceDetailDTO.discountPrice | unitPrice("￥") }}
+              </span>
+            </li>
+
+            <li v-if="
+              orderInfo.order.priceDetailDTO.couponPrice &&
+              orderInfo.order.priceDetailDTO.couponPrice > 0
+            ">
+              <span class="label">优惠券金额：</span>
+              <span class="txt">
+                <div style="color: red" >{{ orderInfo.order.priceDetailDTO.couponPrice + '￥'}}</div>
+              </span>
+            </li>
+            <li
+              v-if="orderInfo.order.priceDetailDTO.discountPriceDetail != undefined && orderInfo.order.priceDetailDTO.discountPriceDetail && orderInfo.order.priceDetailDTO.discountPriceDetail != null && orderInfo.order.priceDetailDTO.discountPriceDetail != ''">
+              <div class="label">
+                <el-popover trigger="hover" placement="left" width="200">
+                  <el-icon v-if="typeList.length > 0" type="ios-alert-outline" size="17" @click="getOrderPrice"
+                        color="#cc0000" />
+                  <template #content>
+                    <div class="api" style="text-align:left;">
+                      <table>
+                        <thead>
+                        <tr>
+                          <th>优惠详情：</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="(item, index) in typeList" :key="index">
+                          <td>{{ item.promotionName }}：</td>
+                          <td>¥{{ item.discountPrice }}</td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </template>
+                </el-popover>
+                <span>优惠详情：</span>
+              </div>
+            </li>
+
+            <li>
+              <span class="label">运费：</span>
+              <span class="txt">{{
+                  orderInfo.order.freightPrice | unitPrice("￥")
+                }}</span>
+            </li>
+            <li v-if="orderInfo.order.priceDetailDTO.updatePrice">
+              <span class="label">修改金额：</span>
+              <span class="txt theme_color">¥{{ orderInfo.order.priceDetailDTO.updatePrice | unitPrice }}</span>
+            </li>
+            <li v-if="orderInfo.order.priceDetailDTO.payPoint != 0">
+              <span class="label">使用积分：</span>
+              <span class="txt flowPrice">{{
+                  orderInfo.order.priceDetailDTO.payPoint
+                }}</span>
+            </li>
+            <li>
+              <span class="label">应付金额：</span>
+              <span class="txt flowPrice">¥{{ orderInfo.order.priceDetailDTO.flowPrice | unitPrice }}</span>
+            </li>
+          </ul>
+        </div>
+      </el-card>
     </div>
-    <el-card shadow="never" style="margin-top: 15px">
-      <div class="operate-container">
-        <i class="el-icon-warning color-danger" style="margin-left: 20px"></i>
-        <span class="color-danger">当前订单状态：{{order.status | formatStatus}}</span>
-        <div class="operate-button-container" v-show="order.status===0">
-          <el-button size="mini" @click="showUpdateReceiverDialog">修改收货人信息</el-button>
-          <el-button size="mini" @click="showUpdateMoneyDialog">修改费用信息</el-button>
-          <el-button size="mini" @click="showMessageDialog">发送站内信</el-button>
-          <el-button size="mini" @click="showCloseOrderDialog">关闭订单</el-button>
-          <el-button size="mini" @click="showMarkOrderDialog">备注订单</el-button>
+
+    <el-dialog :visible.sync="modal" width="530">
+      <p slot="header">
+        <el-icon type="edit"></el-icon>
+        <span>修改金额</span>
+      </p>
+      <div>
+        <el-form ref="modifyPriceForm" :model="modifyPriceForm" label-position="left" label-width="70"
+              :rules="modifyPriceValidate" @submit.native.prevent>
+          <el-form-item label="订单金额" prop="price">
+            <el-input-number style="width: 100px" v-model="modifyPriceForm.price" :min="0" :max="999999"></el-input-number>
+            <span class="ml_10">元</span>
+          </el-form-item>
+        </el-form>
+      </div>
+      <div slot="footer" style="text-align: right">
+        <el-button @click="modal = false">关闭</el-button>
+        <el-button type="primary" @click="modifyPriceSubmit">调整</el-button>
+      </div>
+    </el-dialog>
+    <!-- 订单取消模态框 -->
+    <el-dialog :visible.sync="orderCancelModal" width="530">
+      <p slot="header">
+        <el-icon type="edit"></el-icon>
+        <span>订单取消</span>
+      </p>
+      <div>
+        <el-form ref="orderCancelForm" :model="orderCancelForm" label-position="left" label-width="100"
+              :rules="orderCancelValidate">
+          <el-form-item label="取消原因" prop="reason">
+            <el-input v-model="orderCancelForm.reason" type="textarea" :autosize="{ minRows: 2, maxRows: 5 }"
+                   placeholder="请输入取消原因"></el-input>
+          </el-form-item>
+        </el-form>
+      </div>
+      <div slot="footer" style="text-align: right">
+        <el-button @click="orderCancelModal = false">关闭</el-button>
+        <el-button type="primary" @click="orderCancelSubmit">确认</el-button>
+      </div>
+    </el-dialog>
+    <!--收件地址弹出框-->
+    <el-dialog :visible.sync="addressModal" width="530">
+      <p slot="header">
+        <el-icon type="edit"></el-icon>
+        <span>修改收件信息</span>
+      </p>
+      <div>
+        <el-form ref="addressForm" :model="addressForm" label-position="left" label-width="100" :rules="addressRule">
+          <el-form-item label="收件人" prop="consigneeName">
+            <el-input v-model="addressForm.consigneeName" size="large" maxlength="20"></el-input>
+          </el-form-item>
+          <el-form-item label="联系方式" prop="consigneeMobile">
+            <el-input v-model="addressForm.consigneeMobile" size="large" maxlength="11"></el-input>
+          </el-form-item>
+          <el-form-item label="地址信息" prop="consigneeAddressPath">
+            {{ addr }}
+            <el-button @click="$refs.map.open()">选择</el-button>
+          </el-form-item>
+          <el-form-item label="详细地址" prop="consigneeDetail">
+            <el-input v-model="addressForm.consigneeDetail" size="large" ></el-input>
+          </el-form-item>
+        </el-form>
+      </div>
+      <div slot="footer" style="text-align: right">
+        <el-button @click="addressModal = false">关闭</el-button>
+        <el-button type="primary" @click="editAddressSubmit">修改</el-button>
+      </div>
+    </el-dialog>
+    <!-- 订单日志 -->
+    <el-dialog :visible.sync="orderLogModal" width="60">
+      <p slot="header">
+        <span>订单日志</span>
+      </p>
+      <div class="order-log-div">
+        <el-table :loading="loading" border :data="orderInfo.orderLogs" ref="table">
+
+          <el-table-column label="操作者" min-width="100">
+            <template slot-scope="scope">
+              {{ scope.row.operatorName}}
+            </template>
+          </el-table-column>
+          <el-table-column label="操作类型" min-width="100">
+            <template slot-scope="scope">
+              {{ scope.row.operatorType}}
+            </template>
+          </el-table-column>
+          <el-table-column label="时间" min-width="100">
+            <template slot-scope="scope">
+              {{ scope.row.createTime}}
+            </template>
+          </el-table-column>
+          <el-table-column label="日志" min-width="200">
+            <template slot-scope="scope">
+              {{ scope.row.message}}
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+
+      <div slot="footer" style="text-align: right">
+        <el-button @click="handelCancel">取消</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog :visible.sync="printModal" width="530" @on-cancel="printCancel">
+      <p slot="header" style="line-height:26px;height:26px;">
+        <span style="float: left;">打印发货单</span>
+        <el-button size="mini" style="margin-right:35px;float: right;padding-bottom: 2px;"
+                @click="printHiddenInfo"><template v-if="printHiddenFlag">显示</template><template
+          v-else>隐藏</template>敏感信息</el-button>
+      </p>
+      <div style="max-height:500px;overflow-y:auto;overflow-x:hidden;">
+        <div id="printInfo">
+          <el-row v-if="orderInfo.order.remark !== ''">
+            <el-col span="24">
+              <p class="lineH30 f14">备注：{{ orderInfo.order.remark }}</p>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col span="12">
+              <p class="lineH30 f14">收件人：{{ orderInfo.order.consigneeName }}</p>
+            </el-col>
+            <el-col span="12" v-if="orderInfo.order.consigneeMobile">
+              <p class="lineH30 f14" v-if="printHiddenFlag">手机号：{{
+                  orderInfo.order.consigneeMobile.replace(/^(.{3})(?:\d+)(.{4})$/, "$1****$2") }}</p>
+              <p class="lineH30 f14" v-else>手机号：{{ orderInfo.order.consigneeMobile }}</p>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col span="24">
+              <p class="lineH30 f14">收货地址：{{ orderInfo.order.consigneeAddressPath }}{{ orderInfo.order.consigneeDetail }}
+              </p>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col span="24">
+              <p class="printgoodtitle">商品信息</p>
+              <div class="printgoodinfo">
+                <div v-for="(item, index) in orderInfo.orderItems" :key="index" class="printgooditem">
+                  <div class="printgoodname">
+                    <p>{{ item.goodsName }}</p>
+                    <div class="printgoodguid">
+                    <span v-for="(itemchild, keychild) in JSON.parse(item.specs)" :key="keychild">
+                      <span class="printgoodguiditem" v-if="keychild != 'images'">
+                        {{ keychild }} : {{ itemchild }}
+                      </span>
+                    </span>
+                    </div>
+                  </div>
+                  <span class="printgoodnumber">数量：{{ item.num }}</span>
+                </div>
+              </div>
+            </el-col>
+          </el-row>
         </div>
-        <div class="operate-button-container" v-show="order.status===1">
-          <el-button size="mini" @click="showUpdateReceiverDialog">修改收货人信息</el-button>
-          <el-button size="mini" @click="showMessageDialog">发送站内信</el-button>
-          <el-button size="mini">取消订单</el-button>
-          <el-button size="mini" @click="showMarkOrderDialog">备注订单</el-button>
-        </div>
-        <div class="operate-button-container" v-show="order.status===2||order.status===3">
-          <el-button size="mini" @click="showLogisticsDialog">订单跟踪</el-button>
-          <el-button size="mini" @click="showMessageDialog">发送站内信</el-button>
-          <el-button size="mini" @click="showMarkOrderDialog">备注订单</el-button>
-        </div>
-        <div class="operate-button-container" v-show="order.status===4">
-          <el-button size="mini" @click="handleDeleteOrder">删除订单</el-button>
-          <el-button size="mini" @click="showMarkOrderDialog">备注订单</el-button>
-        </div>
       </div>
-      <div style="margin-top: 20px">
-        <svg-icon icon-class="marker" style="color: #606266"></svg-icon>
-        <span class="font-small">基本信息</span>
+
+      <div slot="footer" style="text-align: right">
+        <el-button @click="printModal = false">关闭</el-button>
+        <el-button type="primary" v-print="printInfoObj">打印发货单</el-button>
       </div>
-      <div class="table-layout">
-        <el-row>
-          <el-col :span="4" class="table-cell-title">订单编号</el-col>
-          <el-col :span="4" class="table-cell-title">发货单流水号</el-col>
-          <el-col :span="4" class="table-cell-title">用户账号</el-col>
-          <el-col :span="4" class="table-cell-title">支付方式</el-col>
-          <el-col :span="4" class="table-cell-title">订单来源</el-col>
-          <el-col :span="4" class="table-cell-title">订单类型</el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="4" class="table-cell">{{order.orderSn}}</el-col>
-          <el-col :span="4" class="table-cell">暂无</el-col>
-          <el-col :span="4" class="table-cell">{{order.memberUsername}}</el-col>
-          <el-col :span="4" class="table-cell">{{order.payType | formatPayType}}</el-col>
-          <el-col :span="4" class="table-cell">{{order.sourceType | formatSourceType}}</el-col>
-          <el-col :span="4" class="table-cell">{{order.orderType | formatOrderType}}</el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="4" class="table-cell-title">配送方式</el-col>
-          <el-col :span="4" class="table-cell-title">物流单号</el-col>
-          <el-col :span="4" class="table-cell-title">自动确认收货时间</el-col>
-          <el-col :span="4" class="table-cell-title">订单可得优币</el-col>
-          <el-col :span="4" class="table-cell-title">订单可得成长值</el-col>
-          <el-col :span="4" class="table-cell-title">活动信息</el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="4" class="table-cell">{{order.deliveryCompany | formatNull}}</el-col>
-          <el-col :span="4" class="table-cell">{{order.deliverySn | formatNull}}</el-col>
-          <el-col :span="4" class="table-cell">{{order.autoConfirmDay}}天</el-col>
-          <el-col :span="4" class="table-cell">{{order.integration}}</el-col>
-          <el-col :span="4" class="table-cell">{{order.growth}}</el-col>
-          <el-col :span="4" class="table-cell">
-            <el-popover
-              placement="top-start"
-              title="活动信息"
-              width="200"
-              trigger="hover"
-              :content="order.promotionInfo">
-              <span slot="reference">{{order.promotionInfo | formatLongText}}</span>
-            </el-popover>
-          </el-col>
-        </el-row>
-      </div>
-      <div style="margin-top: 20px">
-        <svg-icon icon-class="marker" style="color: #606266"></svg-icon>
-        <span class="font-small">收货人信息</span>
-      </div>
-      <div class="table-layout">
-        <el-row>
-          <el-col :span="6" class="table-cell-title">收货人</el-col>
-          <el-col :span="6" class="table-cell-title">手机号码</el-col>
-          <el-col :span="6" class="table-cell-title">邮政编码</el-col>
-          <el-col :span="6" class="table-cell-title">收货地址</el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="6" class="table-cell">{{order.receiverName}}</el-col>
-          <el-col :span="6" class="table-cell">{{order.receiverPhone}}</el-col>
-          <el-col :span="6" class="table-cell">{{order.receiverPostCode}}</el-col>
-          <el-col :span="6" class="table-cell">{{order | formatAddress}}</el-col>
-        </el-row>
-      </div>
-      <div style="margin-top: 20px">
-        <svg-icon icon-class="marker" style="color: #606266"></svg-icon>
-        <span class="font-small">商品信息</span>
-      </div>
-      <el-table
-        ref="orderItemTable"
-        :data="order.orderItemList"
-        style="width: 100%;margin-top: 20px" border>
-        <el-table-column label="商品图片" width="120" align="center">
-          <template slot-scope="scope">
-            <img :src="scope.row.productPic" style="height: 80px">
-          </template>
-        </el-table-column>
-        <el-table-column label="商品名称" align="center">
-          <template slot-scope="scope">
-            <p>{{scope.row.productName}}</p>
-            <p>品牌：{{scope.row.productBrand}}</p>
-          </template>
-        </el-table-column>
-        <el-table-column label="价格/货号" width="120" align="center">
-          <template slot-scope="scope">
-            <p>价格：￥{{scope.row.productPrice}}</p>
-            <p>货号：{{scope.row.productSn}}</p>
-          </template>
-        </el-table-column>
-        <el-table-column label="属性" width="120" align="center">
-          <template slot-scope="scope">
-            {{scope.row.productAttr | formatProductAttr}}
-          </template>
-        </el-table-column>
-        <el-table-column label="数量" width="120" align="center">
-          <template slot-scope="scope">
-            {{scope.row.productQuantity}}
-          </template>
-        </el-table-column>
-        <el-table-column label="小计" width="120" align="center">
-          <template slot-scope="scope">
-            ￥{{scope.row.productPrice*scope.row.productQuantity}}
-          </template>
-        </el-table-column>
-      </el-table>
-      <div style="float: right;margin: 20px">
-        合计：<span class="color-danger">￥{{order.totalAmount}}</span>
-      </div>
-      <div style="margin-top: 60px">
-        <svg-icon icon-class="marker" style="color: #606266"></svg-icon>
-        <span class="font-small">费用信息</span>
-      </div>
-      <div class="table-layout">
-        <el-row>
-          <el-col :span="6" class="table-cell-title">商品合计</el-col>
-          <el-col :span="6" class="table-cell-title">运费</el-col>
-          <el-col :span="6" class="table-cell-title">优惠券</el-col>
-          <el-col :span="6" class="table-cell-title">积分抵扣</el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="6" class="table-cell">￥{{order.totalAmount}}</el-col>
-          <el-col :span="6" class="table-cell">￥{{order.freightAmount}}</el-col>
-          <el-col :span="6" class="table-cell">-￥{{order.couponAmount}}</el-col>
-          <el-col :span="6" class="table-cell">-￥{{order.integrationAmount}}</el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="6" class="table-cell-title">活动优惠</el-col>
-          <el-col :span="6" class="table-cell-title">折扣金额</el-col>
-          <el-col :span="6" class="table-cell-title">订单总金额</el-col>
-          <el-col :span="6" class="table-cell-title">应付款金额</el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="6" class="table-cell">-￥{{order.promotionAmount}}</el-col>
-          <el-col :span="6" class="table-cell">-￥{{order.discountAmount}}</el-col>
-          <el-col :span="6" class="table-cell">
-            <span class="color-danger">￥{{order.totalAmount+order.freightAmount}}</span>
-          </el-col>
-          <el-col :span="6" class="table-cell">
-            <span class="color-danger">￥{{order.payAmount+order.freightAmount-order.discountAmount}}</span>
-          </el-col>
-        </el-row>
-      </div>
-      <div style="margin-top: 20px">
-        <svg-icon icon-class="marker" style="color: #606266"></svg-icon>
-        <span class="font-small">操作信息</span>
-      </div>
-      <el-table style="margin-top: 20px;width: 100%"
-                ref="orderHistoryTable"
-                :data="order.historyList" border>
-        <el-table-column label="操作者"  width="120" align="center">
-          <template slot-scope="scope">
-            {{scope.row.operateMan}}
-          </template>
-        </el-table-column>
-        <el-table-column label="操作时间"  width="160" align="center">
-          <template slot-scope="scope">
-            {{formatTime(scope.row.createTime)}}
-          </template>
-        </el-table-column>
-        <el-table-column label="订单状态"  width="120" align="center">
-          <template slot-scope="scope">
-            {{scope.row.orderStatus | formatStatus}}
-          </template>
-        </el-table-column>
-        <el-table-column label="付款状态"  width="120" align="center">
-          <template slot-scope="scope">
-            {{scope.row.orderStatus | formatPayStatus}}
-          </template>
-        </el-table-column>
-        <el-table-column label="发货状态"  width="120" align="center">
-          <template slot-scope="scope">
-            {{scope.row.orderStatus | formatDeliverStatus}}
-          </template>
-        </el-table-column>
-        <el-table-column label="备注" align="center">
-          <template slot-scope="scope">
-            {{scope.row.note}}
-          </template>
-        </el-table-column>
-      </el-table>
-    </el-card>
-    <el-dialog title="修改收货人信息"
-               :visible.sync="receiverDialogVisible"
-               width="40%">
-      <el-form :model="receiverInfo"
-               ref="receiverInfoForm"
-               label-width="150px">
-        <el-form-item label="收货人姓名：">
-          <el-input v-model="receiverInfo.receiverName" style="width: 200px"></el-input>
-        </el-form-item>
-        <el-form-item label="手机号码：">
-          <el-input v-model="receiverInfo.receiverPhone" style="width: 200px">
-          </el-input>
-        </el-form-item>
-        <el-form-item label="邮政编码：">
-          <el-input v-model="receiverInfo.receiverPostCode" style="width: 200px">
-          </el-input>
-        </el-form-item>
-        <el-form-item label="所在区域：">
-          <v-distpicker :province="receiverInfo.receiverProvince"
-                        :city="receiverInfo.receiverCity"
-                        :area="receiverInfo.receiverRegion"
-                        @selected="onSelectRegion"></v-distpicker>
-        </el-form-item>
-        <el-form-item label="详细地址：">
-          <el-input v-model="receiverInfo.receiverDetailAddress" type="textarea" rows="3">
-          </el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-      <el-button @click="receiverDialogVisible = false">取 消</el-button>
-      <el-button type="primary" @click="handleUpdateReceiverInfo">确 定</el-button>
-      </span>
     </el-dialog>
-    <el-dialog title="修改费用信息"
-               :visible.sync="moneyDialogVisible"
-               width="40%">
-      <div class="table-layout">
-        <el-row>
-          <el-col :span="6" class="table-cell-title">商品合计</el-col>
-          <el-col :span="6" class="table-cell-title">运费</el-col>
-          <el-col :span="6" class="table-cell-title">优惠券</el-col>
-          <el-col :span="6" class="table-cell-title">积分抵扣</el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="6" class="table-cell">￥{{order.totalAmount}}</el-col>
-          <el-col :span="6" class="table-cell">
-            <el-input v-model.number="moneyInfo.freightAmount" size="mini"><template slot="prepend">￥</template></el-input>
-          </el-col>
-          <el-col :span="6" class="table-cell">-￥{{order.couponAmount}}</el-col>
-          <el-col :span="6" class="table-cell">-￥{{order.integrationAmount}}</el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="6" class="table-cell-title">活动优惠</el-col>
-          <el-col :span="6" class="table-cell-title">折扣金额</el-col>
-          <el-col :span="6" class="table-cell-title">订单总金额</el-col>
-          <el-col :span="6" class="table-cell-title">应付款金额</el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="6" class="table-cell">-￥{{order.promotionAmount}}</el-col>
-          <el-col :span="6" class="table-cell">
-            <el-input v-model.number="moneyInfo.discountAmount" size="mini"><template slot="prepend">-￥</template></el-input>
-          </el-col>
-          <el-col :span="6" class="table-cell">
-            <span class="color-danger">￥{{order.totalAmount+moneyInfo.freightAmount}}</span>
-          </el-col>
-          <el-col :span="6" class="table-cell">
-            <span class="color-danger">￥{{order.payAmount+moneyInfo.freightAmount-moneyInfo.discountAmount}}</span>
-          </el-col>
-        </el-row>
-      </div>
-      <span slot="footer" class="dialog-footer">
-      <el-button @click="moneyDialogVisible = false">取 消</el-button>
-      <el-button type="primary" @click="handleUpdateMoneyInfo">确 定</el-button>
-      </span>
-    </el-dialog>
-    <el-dialog title="发送站内信"
-               :visible.sync="messageDialogVisible"
-               width="40%">
-      <el-form :model="message"
-               ref="receiverInfoForm"
-               label-width="150px">
-        <el-form-item label="标题：">
-          <el-input v-model="message.title" style="width: 200px"></el-input>
-        </el-form-item>
-        <el-form-item label="内容：">
-          <el-input v-model="message.content" type="textarea" rows="3">
-          </el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="messageDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="handleSendMessage">确 定</el-button>
-      </span>
-    </el-dialog>
-    <el-dialog title="关闭订单"
-               :visible.sync="closeDialogVisible"
-               width="40%">
-      <el-form :model="closeInfo"
-               label-width="150px">
-        <el-form-item label="操作备注：">
-          <el-input v-model="closeInfo.note" type="textarea" rows="3">
-          </el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="closeDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="handleCloseOrder">确 定</el-button>
-      </span>
-    </el-dialog>
-    <el-dialog title="备注订单"
-               :visible.sync="markOrderDialogVisible"
-               width="40%">
-      <el-form :model="markInfo"
-               label-width="150px">
-        <el-form-item label="操作备注：">
-          <el-input v-model="markInfo.note" type="textarea" rows="3">
-          </el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="markOrderDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="handleMarkOrder">确 定</el-button>
-      </span>
-    </el-dialog>
-    <logistics-dialog v-model="logisticsDialogVisible"></logistics-dialog>
+
+
+    <multipleMap ref="map" @callback="selectedRegion" />
   </div>
 </template>
+
 <script>
-  import {getOrderDetail,updateReceiverInfo,updateMoneyInfo,closeOrder,updateOrderNote,deleteOrder} from '@/api/order';
-  import LogisticsDialog from '@/views/oms/order/components/logisticsDialog';
-  import {formatDate} from '@/utils/date';
-  import VDistpicker from 'v-distpicker';
-  const defaultReceiverInfo = {
-    orderId:null,
-    receiverName:null,
-    receiverPhone:null,
-    receiverPostCode:null,
-    receiverDetailAddress:null,
-    receiverProvince:null,
-    receiverCity:null,
-    receiverRegion:null,
-    status:null
-  };
-  export default {
-    name: 'orderDetail',
-    components: { VDistpicker, LogisticsDialog},
-    data() {
-      return {
-        id: null,
-        order: {},
-        receiverDialogVisible:false,
-        receiverInfo:Object.assign({},defaultReceiverInfo),
-        moneyDialogVisible:false,
-        moneyInfo:{orderId:null, freightAmount:0, discountAmount:0,status:null},
-        messageDialogVisible:false,
-        message: {title:null, content:null},
-        closeDialogVisible:false,
-        closeInfo:{note:null,id:null},
-        markOrderDialogVisible:false,
-        markInfo:{note:null},
-        logisticsDialogVisible:false
-      }
+import * as RegExp from "@/utils/RegExp.js";
+
+import multipleMap from "@/components/map/multiple-map";
+// import vueQr from "vue-qr";
+import {
+  postManagerOrderOrderByOrderSnPay
+} from "@/apis/controller/GuanLiDuan,DingDanAPI/postManagerOrderOrderByOrderSnPay";
+import {getManagerOrderOrderByOrderSn} from "@/apis/controller";
+import {
+  putManagerOrderOrderUpdateByOrderSnPrice
+} from "@/apis/controller/GuanLiDuan,DingDanAPI/putManagerOrderOrderUpdateByOrderSnPrice";
+import {
+  postManagerOrderOrderByOrderSnCancel
+} from "@/apis/controller/GuanLiDuan,DingDanAPI/postManagerOrderOrderByOrderSnCancel";
+import {
+  postManagerOrderOrderUpdateByOrderSnConsignee
+} from "@/apis/controller/GuanLiDuan,DingDanAPI/postManagerOrderOrderUpdateByOrderSnConsignee";
+import {unitPrice} from "../../../utils/filters";
+export default {
+  name: "orderDetail",
+  components: {
+    multipleMap,
+  },
+  data () {
+    return {
+      typeList: [],
+      showPrices: false,
+      printHiddenFlag: false,//隐藏信息
+      printInfoObj: {
+        id: "printInfo",//要打印的id名 无#号
+        popTitle: '&nbsp;',//页眉标题 默认浏览器标题 空字符串时显示undefined 使用html语言
+        extraHead: '',//头部文字 默认空
+      },
+      loading: false, //加载表格
+
+      addr: "", //地区
+
+
+      orderLogInfo: [], //订单日志数据
+      orderLogModal: false, //弹出调整价格框
+      checkedLogistics: [], //选中的物流公司集合
+      allowOperation: {}, //订单可才做选项
+      sn: "", //订单编号
+      orderInfo: {
+        order: {
+          priceDetailDTO: {},
+        },
+      },
+      modal: false, //弹出调整价格框
+      searchForm: {
+        pageNumber: 1, // 当前页数
+        pageSize: 100, // 页面大小
+        orderSn: "", //订单sn
+      },
+      //调整价格表单
+      modifyPriceForm: {
+        price: 0,
+      },
+      //订单取消表单
+      orderCancelForm: {
+        reason: "",
+      },
+      //弹出订单取消框
+      orderCancelModal: false,
+      //订单发货
+      orderDeliveryForm: {
+        logisticsNo: "", //发货单号
+        logisticsId: "", //物流公司
+      },
+      //验证要调整的订单金额
+      modifyPriceValidate: {
+        reason: [
+          { required: true, message: "请输入大于0小于99999的合法金额" },
+          {
+            pattern: /^[1-9]\d{0,3}(\.\d{1,2})?$/,
+            message: "请输入大于0小于9999的合法金额",
+            trigger: "change",
+          },
+        ],
+      },
+
+      //验证取消订单原因
+      orderCancelValidate: {
+        reason: [{ required: true, message: "取消原因不能为空", trigger: "blur" }],
+      },
+      addressModal: false, //弹出修改收件信息框
+      printModal: false,
+      //收件地址表单
+      addressForm: {
+        consigneeName: "",
+        consigneeMobile: "",
+        consigneeDetail: "",
+        consigneeAddressPath: "",
+        consigneeAddressIdPath: "",
+      },
+      orderDeliverFormValidate: {
+        logisticsNo: [{ required: true, message: "发货单号不能为空", trigger: "change" }],
+        logisticsId: [{ required: true, message: "请选择物流公司", trigger: "blur" }],
+      },
+      addressRule: {
+        consigneeName: [
+          { required: true, message: "收货人姓名不能为空", trigger: "blur" },
+        ],
+        consigneeMobile: [
+          { required: true, message: "联系方式不能为空", trigger: "blur" },
+          {
+            pattern: RegExp.mobile,
+            trigger: "blur",
+            message: "请输入正确的手机号",
+          },
+        ],
+        consigneeDetail: [
+          { required: true, message: "详细地址不能为空", trigger: "blur" },
+        ],
+      },
+
+      columns: [
+        {
+          title: "商品",
+          key: "goodsName",
+          minWidth: 200,
+          slot: "goodsSlot",
+        },
+        {
+          title: "优惠",
+          key: "num",
+          minWidth: 100,
+          render: (h, params) => {
+            let resultText = "";
+            if (params.row.promotionType) {
+              let type = params.row.promotionType.split(",");
+              if (type.indexOf("PINTUAN") != -1) {
+                resultText += "拼团 ";
+              }
+              if (type.indexOf("SECKILL") != -1) {
+                resultText += "秒杀 ";
+              }
+              if (type.indexOf("COUPON") != -1) {
+                resultText += "优惠券 ";
+              }
+              if (type.indexOf("FULL_DISCOUNT") != -1) {
+                resultText += "满减 ";
+              }
+              if (type.indexOf("POINTS_GOODS") != -1) {
+                resultText += "积分商品 ";
+              }
+            }
+            if (resultText === "") {
+              resultText = "暂无未参与任何促销";
+            }
+            return h("div", resultText);
+          },
+        },
+        {
+          title: "单价",
+          key: "goodsPrice",
+          minWidth: 100,
+          render: (h, params) => {
+            if (!params.row.goodsPrice) {
+              return h("div", this.$options.filters.unitPrice(0, "￥"));
+            }
+            return h("div", this.$options.filters.unitPrice(params.row.unitPrice, "￥"));
+          },
+        },
+
+        {
+          title: "数量",
+          key: "num",
+          minWidth: 80,
+        },
+        {
+          title: "退款数量",
+          key: "returnGoodsNumber",
+          minWidth: 80,
+        },
+        {
+          title: "小计",
+          key: "subTotal",
+          minWidth: 100,
+          render: (h, params) => {
+            return h("div", this.$options.filters.unitPrice(params.row.flowPrice, "￥"));
+          },
+        },
+      ],
+      data: [], // 表单数据
+      orderLogColumns: [
+        {
+          title: "操作者",
+          key: "operatorName",
+          minWidth: 120,
+        },
+        {
+          title: "操作类型",
+          key: "operatorType",
+          minWidth: 100,
+        },
+        {
+          title: "时间",
+          key: "createTime",
+          width: 180,
+        },
+        {
+          title: "日志",
+          key: "message",
+          tooltip: true,
+          minWidth: 200,
+        },
+      ],
+    };
+  },
+  watch: {
+    $route (to, from) {
+      this.$router.go(0);
     },
-    created() {
-      this.id = this.list = this.$route.query.id;
-      getOrderDetail(this.id).then(response => {
-        this.order = response.data;
+  },
+  methods: {
+    unitPrice,
+    gotoHomes () {
+      return false
+    },
+
+    //确认收款
+    confirmPrice () {
+      this.$confirm('您确定要收款吗？线下收款涉及库存变更，需异步进行，等待约一分钟刷新列表查看', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        postManagerOrderOrderByOrderSnPay({orderSn: this.sn}).then((res) => {
+          if (res.data.success) {
+            this.$message.success("收款成功");
+            this.getDataList();
+          } else {
+            // this.$message.error(res.data.message);
+          }
+        });
       });
     },
-    filters: {
-      formatNull(value) {
-        if(value===undefined||value===null||value===''){
-          return '暂无';
-        }else{
-          return value;
-        }
-      },
-      formatLongText(value) {
-        if(value===undefined||value===null||value===''){
-          return '暂无';
-        }else if(value.length>8){
-          return value.substr(0, 8) + '...';
-        }else{
-          return value;
-        }
-      },
-      formatPayType(value) {
-        if (value === 1) {
-          return '支付宝';
-        } else if (value === 2) {
-          return '微信';
-        } else {
-          return '未支付';
-        }
-      },
-      formatSourceType(value) {
-        if (value === 1) {
-          return 'APP订单';
-        } else {
-          return 'PC订单';
-        }
-      },
-      formatOrderType(value) {
-        if (value === 1) {
-          return '秒杀订单';
-        } else {
-          return '正常订单';
-        }
-      },
-      formatAddress(order) {
-        let str = order.receiverProvince;
-        if (order.receiverCity != null) {
-          str += "  " + order.receiverCity;
-        }
-        str += "  " + order.receiverRegion;
-        str += "  " + order.receiverDetailAddress;
-        return str;
-      },
-      formatStatus(value) {
-        if (value === 1) {
-          return '待发货';
-        } else if (value === 2) {
-          return '已发货';
-        } else if (value === 3) {
-          return '已完成';
-        } else if (value === 4) {
-          return '已关闭';
-        } else if (value === 5) {
-          return '无效订单';
-        } else {
-          return '待付款';
-        }
-      },
-      formatPayStatus(value) {
-        if (value === 0) {
-          return '未支付';
-        } else if(value===4){
-          return '已退款';
-        }else{
-          return '已支付';
-        }
-      },
-      formatDeliverStatus(value) {
-        if (value === 0||value === 1) {
-          return '未发货';
-        } else {
-          return '已发货';
-        }
-      },
-      formatProductAttr(value){
-        if(value==null){
-          return '';
-        }else{
-          let attr = JSON.parse(value);
-          let result='';
-          for(let i=0;i<attr.length;i++){
-            result+=attr[i].key;
-            result+=":";
-            result+=attr[i].value;
-            result+=";";
-          }
-          return result;
-        }
+    getOrderPrice () {
+      if (this.showPrices) {
+        this.showPrices = false
+      } else if (!this.showPrices) {
+        this.showPrices = true
       }
     },
-    methods: {
-      onSelectRegion(data){
-        this.receiverInfo.receiverProvince=data.province.value;
-        this.receiverInfo.receiverCity=data.city.value;
-        this.receiverInfo.receiverRegion=data.area.value;
-      },
-      formatTime(time) {
-        if (time == null || time === '') {
-          return '';
+    getContentPrice () {
+      for (let i = 0; i < this.typeList.length; i++) {
+        for (let j = i + 1; j < this.typeList.length; j++) {
+          if (this.typeList[i].promotionId === this.typeList[j].promotionId) {
+            this.typeList[i].discountPrice = this.typeList[i].discountPrice + this.typeList[j].discountPrice
+            this.typeList.splice(j, 1)
+          }
         }
-        let date = new Date(time);
-        return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
-      },
-      formatStepStatus(value) {
-        if (value === 1) {
-          //待发货
-          return 2;
-        } else if (value === 2) {
-          //已发货
-          return 3;
-        } else if (value === 3) {
-          //已完成
-          return 4;
-        }else {
-          //待付款、已关闭、无限订单
-          return 1;
-        }
-      },
-      showUpdateReceiverDialog(){
-        this.receiverDialogVisible=true;
-        this.receiverInfo={
-          orderId:this.order.id,
-          receiverName:this.order.receiverName,
-          receiverPhone:this.order.receiverPhone,
-          receiverPostCode:this.order.receiverPostCode,
-          receiverDetailAddress:this.order.receiverDetailAddress,
-          receiverProvince:this.order.receiverProvince,
-          receiverCity:this.order.receiverCity,
-          receiverRegion:this.order.receiverRegion,
-          status:this.order.status
-        }
-      },
-      handleUpdateReceiverInfo(){
-        this.$confirm('是否要修改收货信息?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          updateReceiverInfo(this.receiverInfo).then(response=>{
-            this.receiverDialogVisible=false;
-            this.$message({
-              type: 'success',
-              message: '修改成功!'
-            });
-            getOrderDetail(this.id).then(response => {
-              this.order = response.data;
-            });
-          });
-        });
-      },
-      showUpdateMoneyDialog(){
-        this.moneyDialogVisible=true;
-        this.moneyInfo.orderId=this.order.id;
-        this.moneyInfo.freightAmount=this.order.freightAmount;
-        this.moneyInfo.discountAmount=this.order.discountAmount;
-        this.moneyInfo.status=this.order.status;
-      },
-      handleUpdateMoneyInfo(){
-        this.$confirm('是否要修改费用信息?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          updateMoneyInfo(this.moneyInfo).then(response=>{
-            this.moneyDialogVisible=false;
-            this.$message({
-              type: 'success',
-              message: '修改成功!'
-            });
-            getOrderDetail(this.id).then(response => {
-              this.order = response.data;
-            });
-          });
-        });
-      },
-      showMessageDialog(){
-        this.messageDialogVisible=true;
-        this.message.title=null;
-        this.message.content=null;
-      },
-      handleSendMessage(){
-        this.$confirm('是否要发送站内信?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.messageDialogVisible=false;
-          this.$message({
-            type: 'success',
-            message: '发送成功!'
-          });
-        });
-      },
-      showCloseOrderDialog(){
-        this.closeDialogVisible=true;
-        this.closeInfo.note=null;
-        this.closeInfo.id=this.id;
-      },
-      handleCloseOrder(){
-        this.$confirm('是否要关闭?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-            let params = new URLSearchParams();
-            params.append("ids",[this.closeInfo.id]);
-            params.append("note",this.closeInfo.note);
-            closeOrder(params).then(response=>{
-              this.closeDialogVisible=false;
-              this.$message({
-                type: 'success',
-                message: '订单关闭成功!'
-              });
-              getOrderDetail(this.id).then(response => {
-                this.order = response.data;
-              });
-            });
-        });
-      },
-      showMarkOrderDialog(){
-        this.markOrderDialogVisible=true;
-        this.markInfo.id=this.id;
-        this.closeOrder.note=null;
-      },
-      handleMarkOrder(){
-        this.$confirm('是否要备注订单?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          let params = new URLSearchParams();
-          params.append("id",this.markInfo.id);
-          params.append("note",this.markInfo.note);
-          params.append("status",this.order.status);
-          updateOrderNote(params).then(response=>{
-            this.markOrderDialogVisible=false;
-            this.$message({
-              type: 'success',
-              message: '订单备注成功!'
-            });
-            getOrderDetail(this.id).then(response => {
-              this.order = response.data;
-            });
-          });
-        });
-      },
-      handleDeleteOrder(){
-        this.$confirm('是否要进行该删除操作?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          let params = new URLSearchParams();
-          params.append("ids",[this.id]);
-          deleteOrder(params).then(response=>{
-            this.$message({
-              message: '删除成功！',
-              type: 'success',
-              duration: 1000
-            });
-            this.$router.back();
-          });
-        })
-      },
-      showLogisticsDialog(){
-        this.logisticsDialogVisible=true;
       }
+      console.log(this.typeList)
+      if (this.typeList.length >= 3) {
+        console.log(123123)
+        this.getContentPrice()
+      }
+    },
+    // 获取订单详情
+    getDataList () {
+      this.loading = true;
+      getManagerOrderOrderByOrderSn({orderSn: this.sn}).then((res) => {
+        this.loading = false;
+        if (res.data.success) {
+          this.orderInfo = res.data.result;
+          this.allowOperation = res.data.result.allowOperationVO;
+          this.data = res.data.result.orderItems;
+          this.typeList = JSON.parse(JSON.stringify(res.data.result.order.priceDetailDTO.discountPriceDetail));
+          this.getContentPrice()
+          this.getOrderPrice()
+        }
+      });
+    },
+    modifyPrice () {
+      //默认要修改的金额为订单总金额
+      this.modifyPriceForm.price = this.orderInfo.order.flowPrice;
+      this.modal = true;
+    },
+    //修改订单金额提交
+    modifyPriceSubmit () {
+      this.$refs.modifyPriceForm.validate((valid) => {
+        if (valid) {
+          putManagerOrderOrderUpdateByOrderSnPrice({orderSn: this.sn, ...this.modifyPriceForm}).then((res) => {
+            if (res.data.success) {
+              this.$message.success("修改订单金额成功");
+              this.modal = false;
+              this.getDataList();
+            }
+          });
+        }
+      });
+    },
+    // 选中的地址
+    selectedRegion (val) {
+      if(val.type === 'select'){
+        const paths = val.data.map(item => item.name).join(',')
+        const ids = val.data.map(item => item.id).join(',')
+        this.$set(this,'addr',paths)
+        this.$set(this,'regionId',ids)
+      }
+      else{
+        this.$set(this,'addr',val.data.addr)
+        this.$set(this,'regionId',val.data.addrId)
+      }
+
+    },
+    //订单取消
+    orderCancel () {
+      this.orderCancelModal = true;
+    },
+    //订单取消提交
+    orderCancelSubmit () {
+      this.$refs.orderCancelForm.validate((valid) => {
+        if (valid) {
+          postManagerOrderOrderByOrderSnCancel({orderSn: this.sn, ...this.orderCancelForm}).then((res) => {
+            if (res.data.success) {
+              this.$message.success("取消成功");
+              this.getDataList();
+            }
+            this.orderCancelModal = false;
+          });
+        }
+      });
+    },
+    //订单日志
+    orderLog () {
+      this.orderLogModal = true;
+    },
+    //订单日志取消
+    handelCancel () {
+      this.orderLogModal = false;
+    },
+    //打印发货单
+    printOrder () {
+      this.printModal = true;
+    },
+    printHiddenInfo () {
+      this.printHiddenFlag = !this.printHiddenFlag;
+    },
+    printCancel () {
+      // this.printHiddenFlag = false;
+    },
+    //弹出修改收货地址框
+    editAddress () {
+      this.addressModal = true;
+      this.addr = this.orderInfo.order.consigneeAddressPath;
+      this.regionId = this.orderInfo.order.consigneeAddressIdPath;
+      this.addressForm.consigneeName = this.orderInfo.order.consigneeName;
+      this.addressForm.consigneeMobile = this.orderInfo.order.consigneeMobile;
+      this.addressForm.consigneeDetail = this.orderInfo.order.consigneeDetail;
+      this.addressForm.consigneeAddressPath = this.orderInfo.order.consigneeAddressPath;
+      this.addressForm.consigneeAddressIdPath = this.orderInfo.order.consigneeAddressIdPath;
+    },
+    //修改收货地址
+    editAddressSubmit () {
+      if (this.regionId == "") {
+        this.$message.error("请选择地址");
+        return;
+      }
+      this.addressForm.consigneeAddressPath = this.addr;
+      this.addressForm.consigneeAddressIdPath = this.regionId;
+      this.$refs.addressForm.validate((valid) => {
+        if (valid) {
+          postManagerOrderOrderUpdateByOrderSnConsignee({orderSn: this.sn} , this.$util.urlFormat(this.addressForm), this.$util.headers()).then((res) => {
+            if (res.data.success) {
+              this.$message.success("收货地址修改成功");
+              this.addressModal = false;
+              this.getDataList();
+            }
+          });
+        }
+      });
+    },
+  },
+  mounted () {
+    this.sn = this.$route.query.sn;
+    this.getDataList();
+  },
+};
+</script>
+<style lang="scss">
+.lineH30 {
+  line-height: 30px;
+}
+
+.order-log-div {
+  line-height: 30px;
+  overflow-y: scroll;
+}
+
+.flex-el-card {
+  display: flex;
+  height: 600px;
+}
+
+.el-card-item {
+  margin: 5px 0;
+}
+
+.flex-el-card-left {
+  flex: 4;
+  //background: #f8f8f8;
+}
+
+.flex-el-card-right {
+  flex: 6;
+}
+
+.search {
+  .operation {
+    margin-bottom: 2vh;
+  }
+
+  .select-clear {
+    margin-left: 10px;
+  }
+
+  .div-item {
+    line-height: 35px;
+    display: flex;
+
+    >.div-item-left {
+      width: 80px;
+    }
+
+    >.div-item-right {
+      flex: 1;
+      word-break: break-all;
     }
   }
-</script>
-<style scoped>
-  .detail-container {
-    width: 80%;
-    padding: 20px 20px 20px 20px;
-    margin: 20px auto;
-  }
 
-  .operate-container {
-    background: #F2F6FC;
-    height: 80px;
-    margin: -20px -20px 0;
-    line-height: 80px;
-  }
-
-  .operate-button-container {
-    float: right;
-    margin-right: 20px
-  }
-
-  .table-layout {
+  .div-status-right {
     margin-top: 20px;
-    border-left: 1px solid #DCDFE6;
-    border-top: 1px solid #DCDFE6;
+    margin-left: 30px;
+    font-size: 20px;
   }
 
-  .table-cell {
-    height: 60px;
-    line-height: 40px;
-    border-right: 1px solid #DCDFE6;
-    border-bottom: 1px solid #DCDFE6;
-    padding: 10px;
-    font-size: 14px;
-    color: #606266;
-    text-align: center;
+  .page {
+    margin-top: 2vh;
+  }
+
+  el-button {
+    margin-left: 5px;
+  }
+
+  .goods-total {
+    padding: 20px;
+    height: 220px;
+    width: 100%;
+
+    ul {
+      margin-right: 10px;
+      display: block;
+      float: right;
+      list-style-type: none;
+
+      li {
+        text-align: -webkit-match-parent;
+      }
+    }
+
+    .label {
+      float: left;
+      width: 500px;
+      font-size: 14px;
+      text-align: right;
+    }
+
+    .txt {
+      float: left;
+      font-size: 14px;
+      width: 130px;
+      text-align: right;
+      font-family: verdana;
+    }
+
+    .flowPrice {
+      color: #cc0000;
+      font-size: 22px;
+    }
+  }
+}
+
+.f14 {
+  font-size: 14px;
+  color: #333;
+}
+
+.printgoodtitle {
+  font-size: 14px;
+  line-height: 1.5;
+  margin-top: 15px;
+  color: #333;
+}
+
+.printgoodinfo {
+  // font-size: 14px;
+  // background: #f2f2f2;
+  // border-bottom:2px solid #333 ;
+  padding: 10px;
+  overflow: hidden;
+  color: #333;
+
+  .printgooditem {
+    border-bottom: 1px solid #e8eaec;
+    display: flex;
+    align-items: flex-start;
     overflow: hidden;
+    line-height: 30px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+
+    .printgoodname {
+      flex: 1;
+      overflow: hidden;
+
+      .printgoodguid {
+        font-size: 12px;
+        color: #999999;
+        line-height: 1.5;
+
+        .printgoodguiditem {
+          margin-right: 10px;
+        }
+      }
+    }
+
+    .printgoodprice {
+      width: 135px;
+      margin-left: 15px;
+    }
+
+    .printgoodnumber {
+      width: 85px;
+      margin-left: 15px;
+    }
+  }
+}
+
+@media print {
+  @page {
+    size: auto;
+    margin: 3mm;
   }
 
-  .table-cell-title {
-    border-right: 1px solid #DCDFE6;
-    border-bottom: 1px solid #DCDFE6;
-    padding: 10px;
-    background: #F2F6FC;
-    text-align: center;
-    font-size: 14px;
-    color: #303133;
+  html,
+  body {
+    height: inherit;
   }
+}
 </style>
-
-

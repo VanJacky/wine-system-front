@@ -10,7 +10,6 @@ export declare function getManagerGoodsGoodsList(params: GetManagerGoodsGoodsLis
     timestamp: number;
     result: {
         total: number;
-        size: number;
         records: {
             goodsName: string;
             price: number;
@@ -49,6 +48,7 @@ export declare function getManagerGoodsGoodsList(params: GetManagerGoodsGoodsLis
         }[];
         current: number;
         pages: number;
+        size: number;
     };
 }>;
 export interface GetManagerGoodsGoodsListParams {

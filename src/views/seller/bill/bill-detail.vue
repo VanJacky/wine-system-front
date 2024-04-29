@@ -1,24 +1,24 @@
 <template>
   <div>
-    <Card>
+    <el-card>
       <p slot="title">结算单详情</p>
       <div class="flex flex_align_item">
         <div class="procedure">
           <div class="procedure_item" v-for="(item, index) in billStatusStep">
             <div class="icon" :class="item.className">
-              <Icon type="md-checkmark" size="14" v-if="item.className==='' || bill.billStatus === 'COMPLETE'" />
+              <el-icon type="md-checkmark" size="14" v-if="item.className==='' || bill.billStatus === 'COMPLETE'" />
               <span v-else>{{index + 1}}</span>
             </div>
             <div class="text">{{item.title}}</div>
           </div>
         </div>
         <div>
-          <Button v-if="bill.billStatus == 'CHECK'" type="success" @click="pass()" style="margin-left: 10px;">付款</Button>
-          <Button type="info" @click="download()" style="margin-left: 10px;">下载账单</Button>
+          <el-button v-if="bill.billStatus == 'CHECK'" type="success" @click="pass()" style="margin-left: 10px;">付款</el-button>
+          <el-button type="primary" @click="download()" style="margin-left: 10px;">下载账单</el-button>
         </div>
       </div>
-    </Card>
-    <Card class="mt_10">
+    </el-card>
+    <el-card class="mt_10">
       <p slot="title">账单详细</p>
       <table>
         <tbody>
@@ -30,25 +30,25 @@
       </table>
       <div>
         <h3 class="ml_10">结算详细</h3>
-        <Table :columns="billColumns" :data="billData"></Table>
+        <el-table :columns="billColumns" :data="billData"></el-table>
         <div class="bill-detail-price">
           <div class="flex bill-item">
           </div>
         </div>
       </div>
-    </Card>
-    <Card class="mt_10">
-      <Tabs active-key="tab" type="card">
+    </el-card>
+    <el-card class="mt_10">
+      <el-tabs active-key="tab" type="card">
         <Tab-pane label="结算单流水" name="order">
-          <Table :loading="loading" border :columns="orderColumns" :data="orderData" ref="table"></Table>
-          <Row type="flex" justify="end" class="mt_10">
+          <el-table :loading="loading" border :columns="orderColumns" :data="orderData" ref="table"></el-table>
+          <el-row type="flex" justify="end" class="mt_10">
             <Page :current="orderParam.pageNumber" :total="orderTotal" :page-size="orderParam.pageSize"
-                  @on-change="orderChangePage" @on-page-size-change="orderChangePageSize" size="small" show-total
+                  @on-change="orderChangePage" @on-page-size-change="orderChangePageSize" size="mini" show-total
                   show-elevator></Page>
-          </Row>
+          </el-row>
         </Tab-pane>
-      </Tabs>
-    </Card>
+      </el-tabs>
+    </el-card>
   </div>
 </template>
 <script>
@@ -510,8 +510,8 @@ export default {
         loading: true,
         onOk: () => {
           API_Shop.pay(this.id).then((res) => {
-            if (res.success) {
-              this.$Message.success(res.message);
+            if (res.data.success) {
+              this.$message.success(res.message);
               this.init();
             }
           });
@@ -553,8 +553,8 @@ export default {
     },
     getDetail() {
       API_Shop.getBuyBillDetail(this.id).then((res) => {
-        if (res.success) {
-          this.bill = res.result;
+        if (res.data.success) {
+          this.bill = res.data.result;
           //初始化表格
           this.initTable();
           //初始化订单信息
@@ -613,9 +613,9 @@ export default {
     },
     getOrder() {
       API_Shop.getStoreFlow(this.id, this.orderParam).then((res) => {
-        if (res.result) {
-          this.orderData = res.result.records;
-          this.orderTotal = res.result.total;
+        if (res.data.result) {
+          this.orderData = res.data.result.records;
+          this.orderTotal = res.data.result.total;
         }
       });
       this.orderTotal = this.orderData.length;
@@ -648,7 +648,7 @@ export default {
   }
 
   > span:nth-of-type(2) {
-    color: $theme_color;
+    color: #409EFF;
   }
 }
 

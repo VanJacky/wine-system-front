@@ -1,3 +1,8 @@
+import * as regular from './regular'
+
+export {
+  regular
+}
 
 export function parseTime(time, cFormat) {
   if (arguments.length === 0) {
@@ -63,4 +68,26 @@ export function urlFormat(data){
 
 export function headers(){
   return { headers: {"Content-Type": 'application/x-www-form-urlencoded'}}
+}
+
+
+/**
+ * 数组对象深拷贝
+ * @param obj
+ * @returns {*}
+ */
+export default function cloneObj(obj) {
+  let str = null
+  let newobj = obj.constructor === Array ? [] : {}
+  if (typeof obj !== 'object') {
+    return
+  } else if (window && window.JSON) {
+    str = JSON.stringify(obj) // 系列化对象
+    newobj = JSON.parse(str) // 还原
+  } else {
+    for (var i in obj) {
+      newobj[i] = typeof obj[i] === 'object' ? cloneObj(obj[i]) : obj[i]
+    }
+  }
+  return newobj
 }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Card style="padding: 10px 12px 0px">
+    <el-card style="padding: 10px 12px 0px">
       <div class="head-title">基本信息</div>
       <div class="detail-body">
         <div class="ant-col-md-6" style="width: 25%;">
@@ -25,11 +25,11 @@
                 <Tag color="error">非自营</Tag>
               </p>
               <p>
-                <i-switch size="large" v-model="storeInfo.storeDisable" :true-value="true" :false-value="false"
+                <el-switch size="large" v-model="storeInfo.storeDisable" :true-value="true" :false-value="false"
                           @on-change="shopStatusChange">
                   <span slot="open">启用</span>
                   <span slot="close">禁用</span>
-                </i-switch>
+                </el-switch>
               </p>
             </div>
             <div style="margin-top: 20px">
@@ -217,13 +217,13 @@
           </p>
         </div>
       </div>
-    </Card>
+    </el-card>
 
-    <Card class="mt_10">
-      <Tabs value="order" @on-click="storeInfoChange">
-        <TabPane label="TA的订单" name="order" style="min-height: 200px">
-          <Row>
-            <el-form ref="searchForm" :model="orderSearchForm" inline :label-width="70" class="search-form">
+    <el-card class="mt_10">
+      <el-tabs value="order" @on-click="storeInfoChange">
+        <el-tab-pane label="TA的订单" name="order" style="min-height: 200px">
+          <el-row>
+            <el-form ref="searchForm" :model="orderSearchForm" inline label-width="70" class="search-form">
               <el-form-item label="订单号" prop="orderSn">
                 <el-input
                   type="text"
@@ -234,38 +234,38 @@
                 />
               </el-form-item>
               <el-form-item label="订单状态" prop="orderStatus">
-                <Select v-model="orderSearchForm.orderStatus" placeholder="请选择" clearable style="width: 200px">
-                  <Option value="UNPAID">未付款</Option>
-                  <Option value="PAID">已付款</Option>
-                  <Option value="UNDELIVERED">待发货</Option>
-                  <Option value="DELIVERED">已发货</Option>
-                  <Option value="COMPLETED">已完成</Option>
-                  <Option value="TAKE">待核验</Option>
-                  <Option value="CANCELLED">已关闭</Option>
-                </Select>
+                <el-select v-model="orderSearchForm.orderStatus" placeholder="请选择" clearable style="width: 200px">
+                  <el-option value="UNPAID">未付款</el-option>
+                  <el-option value="PAID">已付款</el-option>
+                  <el-option value="UNDELIVERED">待发货</el-option>
+                  <el-option value="DELIVERED">已发货</el-option>
+                  <el-option value="COMPLETED">已完成</el-option>
+                  <el-option value="TAKE">待核验</el-option>
+                  <el-option value="CANCELLED">已关闭</el-option>
+                </el-select>
               </el-form-item>
               <el-form-item label="支付状态" prop="payStatus">
-                <Select v-model="orderSearchForm.payStatus" placeholder="请选择" clearable style="width: 200px">
-                  <Option value="UNPAID">未付款</Option>
-                  <Option value="PAID">已付款</Option>
-                </Select>
+                <el-select v-model="orderSearchForm.payStatus" placeholder="请选择" clearable style="width: 200px">
+                  <el-option value="UNPAID">未付款</el-option>
+                  <el-option value="PAID">已付款</el-option>
+                </el-select>
               </el-form-item>
               <el-form-item label="订单类型" prop="orderType">
-                <Select v-model="orderSearchForm.orderType" placeholder="请选择" clearable style="width: 200px">
-                  <Option value="NORMAL">普通订单</Option>
-                  <Option value="VIRTUAL">虚拟订单</Option>
-                  <Option value="GIFT">赠品订单</Option>
-                  <Option value="PINTUAN">拼团订单</Option>
-                </Select>
+                <el-select v-model="orderSearchForm.orderType" placeholder="请选择" clearable style="width: 200px">
+                  <el-option value="NORMAL">普通订单</el-option>
+                  <el-option value="VIRTUAL">虚拟订单</el-option>
+                  <el-option value="GIFT">赠品订单</el-option>
+                  <el-option value="PINTUAN">拼团订单</el-option>
+                </el-select>
               </el-form-item>
               <el-form-item label="订单来源" prop="clientType">
-                <Select v-model="orderSearchForm.clientType" placeholder="请选择" clearable style="width: 200px">
-                  <Option value="H5">移动端</Option>
-                  <Option value="PC">PC端</Option>
-                  <Option value="WECHAT_MP">小程序</Option>
-                  <Option value="APP">移动应用端</Option>
-                  <Option value="UNKNOWN">未知</Option>
-                </Select>
+                <el-select v-model="orderSearchForm.clientType" placeholder="请选择" clearable style="width: 200px">
+                  <el-option value="H5">移动端</el-option>
+                  <el-option value="PC">PC端</el-option>
+                  <el-option value="WECHAT_MP">小程序</el-option>
+                  <el-option value="APP">移动应用端</el-option>
+                  <el-option value="UNKNOWN">未知</el-option>
+                </el-select>
               </el-form-item>
               <el-form-item label="下单时间">
                 <DatePicker
@@ -281,9 +281,9 @@
               </el-form-item>
               <el-button @click="getOrderData" type="primary" icon="ios-search" class="search-btn">搜索</el-button>
             </el-form>
-          </Row>
+          </el-row>
           <div style="min-height: 180px">
-            <Table
+            <el-table
               :loading="loading"
               border
               :columns="orderColumns"
@@ -295,9 +295,9 @@
               <template slot="orderSlot" slot-scope="scope">
                 <a @click="$router.push({name: 'order-detail',query: {sn: scope.row.sn}})">{{scope.row.sn}}</a>
               </template>
-            </Table>
+            </el-table>
 
-            <Row type="flex" justify="end" class="mt_10" style="margin-top: 10px">
+            <el-row type="flex" justify="end" class="mt_10" style="margin-top: 10px">
               <Page
                 :current="orderSearchForm.pageNumber"
                 :total="orderTotal"
@@ -305,17 +305,17 @@
                 @on-change="orderChangePage"
                 @on-page-size-change="orderChangePageSize"
                 :page-size-opts="[10, 20, 50]"
-                size="small"
+                size="mini"
                 show-total
                 show-elevator
                 show-sizer
               ></Page>
-            </Row>
+            </el-row>
           </div>
-        </TabPane>
-        <TabPane label="TA的退货单" name="refundGoods">
-          <Row>
-            <el-form ref="refundGoodsOrderSearchForm" :model="refundGoodsOrderSearchForm" inline :label-width="70"
+        </el-tab-pane>
+        <el-tab-pane label="TA的退货单" name="refundGoods">
+          <el-row>
+            <el-form ref="refundGoodsOrderSearchForm" :model="refundGoodsOrderSearchForm" inline label-width="70"
                   class="search-form">
               <el-form-item label="订单编号" prop="orderSn">
                 <el-input
@@ -336,19 +336,19 @@
                 />
               </el-form-item>
               <el-form-item label="售后状态">
-                <Select v-model="refundGoodsOrderSearchForm.serviceStatus" placeholder="全部" clearable
+                <el-select v-model="refundGoodsOrderSearchForm.serviceStatus" placeholder="全部" clearable
                         style="width: 200px">
-                  <Option value="APPLY">申请售后</Option>
-                  <Option value="PASS">通过售后</Option>
-                  <Option value="REFUSE">拒绝售后</Option>
-                  <Option value="BUYER_RETURN">买家退货，待卖家收货</Option>
-                  <Option value="SELLER_RE_DELIVERY">商家换货/补发</Option>
-                  <Option value="SELLER_CONFIRM">卖家确认收货</Option>
-                  <Option value="SELLER_TERMINATION">卖家终止售后</Option>
-                  <Option value="BUYER_CONFIRM">买家确认收货</Option>
-                  <Option value="BUYER_CANCEL">买家取消售后</Option>
-                  <Option value="COMPLETE">完成售后</Option>
-                </Select>
+                  <el-option value="APPLY">申请售后</el-option>
+                  <el-option value="PASS">通过售后</el-option>
+                  <el-option value="REFUSE">拒绝售后</el-option>
+                  <el-option value="BUYER_RETURN">买家退货，待卖家收货</el-option>
+                  <el-option value="SELLER_RE_DELIVERY">商家换货/补发</el-option>
+                  <el-option value="SELLER_CONFIRM">卖家确认收货</el-option>
+                  <el-option value="SELLER_TERMINATION">卖家终止售后</el-option>
+                  <el-option value="BUYER_CONFIRM">买家确认收货</el-option>
+                  <el-option value="BUYER_CANCEL">买家取消售后</el-option>
+                  <el-option value="COMPLETE">完成售后</el-option>
+                </el-select>
               </el-form-item>
               <el-form-item label="申请时间">
                 <DatePicker
@@ -382,9 +382,9 @@
               </el-form-item>
               <el-button @click="getRefundGoodsOrderData" type="primary" icon="ios-search" class="search-btn">搜索</el-button>
             </el-form>
-          </Row>
+          </el-row>
           <div style="min-height: 180px">
-            <Table
+            <el-table
               :loading="loading"
               border
               :columns="refundGoodsOrderColumns"
@@ -418,9 +418,9 @@
               <template slot="refundGoodsOrderSlot" slot-scope="scope">
                 <a @click="$router.push({name: 'after-order-detail',query: {sn: scope.row.sn}})">{{scope.row.sn}}</a>
               </template>
-            </Table>
+            </el-table>
 
-            <Row type="flex" justify="end" class="mt_10" style="margin-top: 10px">
+            <el-row type="flex" justify="end" class="mt_10" style="margin-top: 10px">
               <Page
                 :current="refundGoodsOrderSearchForm.pageNumber"
                 :total="refundGoodsOrderTotal"
@@ -428,17 +428,17 @@
                 @on-change="refundGoodsOrderChangePage"
                 @on-page-size-change="refundGoodsOrderChangePageSize"
                 :page-size-opts="[10, 20, 50]"
-                size="small"
+                size="mini"
                 show-total
                 show-elevator
                 show-sizer
               ></Page>
-            </Row>
+            </el-row>
           </div>
-        </TabPane>
-        <TabPane label="TA的退款单" name="refund">
-          <Row>
-            <el-form ref="refundOrderSearchForm" :model="refundOrderSearchForm" inline :label-width="70"
+        </el-tab-pane>
+        <el-tab-pane label="TA的退款单" name="refund">
+          <el-row>
+            <el-form ref="refundOrderSearchForm" :model="refundOrderSearchForm" inline label-width="70"
                   class="search-form">
               <el-form-item label="订单编号" prop="orderSn">
                 <el-input
@@ -459,19 +459,19 @@
                 />
               </el-form-item>
               <el-form-item label="售后状态">
-                <Select v-model="refundOrderSearchForm.serviceStatus" placeholder="全部" clearable
+                <el-select v-model="refundOrderSearchForm.serviceStatus" placeholder="全部" clearable
                         style="width: 200px">
-                  <Option value="APPLY">申请售后</Option>
-                  <Option value="PASS">通过售后</Option>
-                  <Option value="REFUSE">拒绝售后</Option>
-                  <Option value="BUYER_RETURN">买家退货，待卖家收货</Option>
-                  <Option value="SELLER_RE_DELIVERY">商家换货/补发</Option>
-                  <Option value="SELLER_CONFIRM">卖家确认收货</Option>
-                  <Option value="SELLER_TERMINATION">卖家终止售后</Option>
-                  <Option value="BUYER_CONFIRM">买家确认收货</Option>
-                  <Option value="BUYER_CANCEL">买家取消售后</Option>
-                  <Option value="COMPLETE">完成售后</Option>
-                </Select>
+                  <el-option value="APPLY">申请售后</el-option>
+                  <el-option value="PASS">通过售后</el-option>
+                  <el-option value="REFUSE">拒绝售后</el-option>
+                  <el-option value="BUYER_RETURN">买家退货，待卖家收货</el-option>
+                  <el-option value="SELLER_RE_DELIVERY">商家换货/补发</el-option>
+                  <el-option value="SELLER_CONFIRM">卖家确认收货</el-option>
+                  <el-option value="SELLER_TERMINATION">卖家终止售后</el-option>
+                  <el-option value="BUYER_CONFIRM">买家确认收货</el-option>
+                  <el-option value="BUYER_CANCEL">买家取消售后</el-option>
+                  <el-option value="COMPLETE">完成售后</el-option>
+                </el-select>
               </el-form-item>
               <el-form-item label="申请时间">
                 <DatePicker
@@ -505,9 +505,9 @@
               </el-form-item>
               <el-button @click="getRefundOrder" type="primary" icon="ios-search" class="search-btn">搜索</el-button>
             </el-form>
-          </Row>
+          </el-row>
           <div style="min-height: 180px">
-            <Table
+            <el-table
               :loading="loading"
               border
               :columns="refundGoodsOrderColumns"
@@ -541,9 +541,9 @@
               <template slot="refundGoodsOrderSlot" slot-scope="scope">
                 <a @click="$router.push({name: 'after-order-detail',query: {sn: scope.row.sn}})">{{scope.row.sn}}</a>
               </template>
-            </Table>
+            </el-table>
 
-            <Row type="flex" justify="end" class="mt_10" style="margin-top: 10px">
+            <el-row type="flex" justify="end" class="mt_10" style="margin-top: 10px">
               <Page
                 :current="refundOrderSearchForm.pageNumber"
                 :total="refundOrderTotal"
@@ -551,16 +551,16 @@
                 @on-change="refundOrderChangePage"
                 @on-page-size-change="refundOrderChangePageSize"
                 :page-size-opts="[10, 20, 50]"
-                size="small"
+                size="mini"
                 show-total
                 show-elevator
                 show-sizer
               ></Page>
-            </Row>
+            </el-row>
           </div>
-        </TabPane>
-      </Tabs>
-    </Card>
+        </el-tab-pane>
+      </el-tabs>
+    </el-card>
 
   </div>
 </template>

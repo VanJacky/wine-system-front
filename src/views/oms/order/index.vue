@@ -8,12 +8,12 @@
           style="float: right"
           @click="handleSearch()"
           type="primary"
-          size="small">
+          size="mini">
           查询结果
         </el-button>
       </div>
       <div style="margin-top: 15px">
-        <el-form :inline="true" :model="searchForm" size="small" label-width="140px">
+        <el-form :inline="true" :model="searchForm" size="mini" label-width="140px">
           <el-form-item label="输入搜索：">
             <el-input style="width: 203px" v-model="searchForm.orderSn" placeholder="请输入订单号"></el-input>
           </el-form-item>
@@ -27,11 +27,8 @@
               clearable
               style="width: 160px"
             >
-              <el-option value="NORMAL">普通订单</el-option>
-              <el-option value="PINTUAN">拼团订单</el-option>
-              <el-option value="GIFT">赠品订单</el-option>
-              <el-option value="POINTS">积分订单</el-option>
-              <el-option value="KANJIA">砍价订单</el-option>
+              <el-option label="普通订单" value="NORMAL">普通订单</el-option>
+              <el-option label="保证金订单" value="GUARANTEES">保证金订单</el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="下单时间">
@@ -67,20 +64,20 @@
             <el-table-column
               prop="sn"
               label="订单号"
-              :min-width="240"
+              min-width="240"
               show-overflow-tooltip
             ></el-table-column>
             <el-table-column
               prop="sn"
               label="订单号"
-              :min-width="240"
+              min-width="240"
               show-overflow-tooltip
             ></el-table-column>
             <!-- 买家名称 -->
             <el-table-column
               prop="memberName"
               label="商家名称"
-              :min-width="130"
+              min-width="130"
               show-overflow-tooltip
             >
               <template slot-scope="scope">
@@ -90,17 +87,27 @@
             <el-table-column
               prop="flowPrice"
               label="订单金额"
-              :min-width="100"
+              min-width="100"
               show-overflow-tooltip
             >
               <template slot-scope="scope">
-                <div style="color: red">{{ scope.row.flowPrice }}</div>
+                <div style="color: red">{{ scope.row.flowPrice+'￥' }}</div>
               </template>
             </el-table-column>
             <el-table-column
+              prop="createTime"
+              label="产生时间"
+              width="170"
+            >
+              <template slot-scope="scope">
+                {{ scope.row.createTime }}
+              </template>
+            </el-table-column>
+
+            <el-table-column
               prop="orderStatus"
               label="订单状态"
-              :min-width="100"
+              min-width="100"
             >
               <template slot-scope="scope">
                 <el-tag
@@ -136,17 +143,7 @@
                 <div v-else>{{ scope.row.orderStatus }}</div>
               </template>
             </el-table-column>
-            <el-table-column
-              prop="createTime"
-              label=产生时间"
-              :width="170"
-              align="left"
-              sortable="false"
-            >
-              <template slot-scope="scope">
-                {{ scope.row.createTime || '暂无' }}
-              </template>
-            </el-table-column>
+
             <el-table-column
               label="操作"
               width="100"
@@ -324,7 +321,6 @@ export default {
     // 获取列表数据
     getDataList() {
       this.loading = true;
-      this.searchForm.orderPromotionType="";
       getManagerOrderOrder({orderSearchParams: this.searchForm}).then((res) => {
         this.loading = false;
         if (res.data.success) {
@@ -337,7 +333,7 @@ export default {
     detail(v) {
       let sn = v.sn;
       this.$router.push({
-        name: "orderDetail",
+        path: "/oms/orderDetail",
         query: { sn: sn },
       })
     },

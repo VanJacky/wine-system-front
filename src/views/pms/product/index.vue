@@ -8,18 +8,18 @@
           style="float: right"
           @click="handleSearchList()"
           type="primary"
-          size="small">
+          size="mini">
           查询结果
         </el-button>
         <el-button
           style="float: right;margin-right: 15px"
           @click="handleResetSearch()"
-          size="small">
+          size="mini">
           重置
         </el-button>
       </div>
       <div style="margin-top: 15px">
-        <el-form :inline="true" :model="goodsSearchParams" size="small" label-width="140px">
+        <el-form :inline="true" :model="goodsSearchParams" size="mini" label-width="140px">
           <el-form-item label="输入搜索：">
             <el-input style="width: 203px" v-model="goodsSearchParams.goodsName" placeholder="商品名称"></el-input>
           </el-form-item>
@@ -211,7 +211,7 @@
     </div>
     <div class="batch-operate-container">
       <el-select
-        size="small"
+        size="mini"
         v-model="operateType" placeholder="批量操作">
         <el-option
           v-for="item in operates"
@@ -225,7 +225,7 @@
         class="search-button"
         @click="handleBatchOperate()"
         type="primary"
-        size="small">
+        size="mini">
         确定
       </el-button>
     </div>
@@ -247,7 +247,7 @@
       width="40%">
       <span>商品货号：</span>
       <span>{{editSkuInfo.productSn}}</span>
-      <el-input placeholder="按sku编号搜索" v-model="editSkuInfo.keyword" size="small" style="width: 50%;margin-left: 20px">
+      <el-input placeholder="按sku编号搜索" v-model="editSkuInfo.keyword" size="mini" style="width: 50%;margin-left: 20px">
         <el-button slot="append" icon="el-icon-search" @click="handleSearchEditSku"></el-button>
       </el-input>
 <!--      <el-table style="width: 100%;margin-top: 20px"

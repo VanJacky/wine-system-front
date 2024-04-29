@@ -8,19 +8,19 @@
           style="float: right"
           @click="handleSearch()"
           type="primary"
-          size="small">
+          size="mini">
           查询结果
         </el-button>
       </div>
       <div style="margin-top: 15px">
-        <el-form :inline="true" :model="searchForm" size="small" label-width="140px">
+        <el-form :inline="true" :model="searchForm" size="mini" label-width="140px">
           <el-form-item label="输入搜索：">
             <el-input style="width: 203px" v-model="searchForm.orderSn" placeholder="请输入订单号"></el-input>
           </el-form-item>
           <el-form-item label="输入搜索：">
             <el-input style="width: 203px" v-model="searchForm.buyerName" placeholder="会员名称"></el-input>
           </el-form-item>
-          <el-form-item label="输入搜索：">
+<!--          <el-form-item label="输入搜索：">
             <el-select
               v-model="searchForm.orderPromotionType"
               placeholder="请选择"
@@ -33,7 +33,7 @@
               <el-option value="POINTS">积分订单</el-option>
               <el-option value="KANJIA">砍价订单</el-option>
             </el-select>
-          </el-form-item>
+          </el-form-item>-->
           <el-form-item label="下单时间">
             <el-date-picker
               v-model="selectDate"
@@ -67,40 +67,49 @@
             <el-table-column
               prop="sn"
               label="订单号"
-              :min-width="240"
+              min-width="240"
               show-overflow-tooltip
             ></el-table-column>
             <el-table-column
               prop="sn"
               label="订单号"
-              :min-width="240"
+              min-width="240"
               show-overflow-tooltip
             ></el-table-column>
               <!-- 买家名称 -->
               <el-table-column
                 prop="memberName"
                 label="商家名称"
-                :min-width="130"
+                min-width="130"
                 show-overflow-tooltip
               >
                 <template slot-scope="scope">
                   {{ scope.row.storeName }}
                 </template>
               </el-table-column>
-              <el-table-column
-                prop="flowPrice"
-                label="订单金额"
-                :min-width="100"
-                show-overflow-tooltip
-              >
-                <template slot-scope="scope">
-                  <div style="color: red">{{ scope.row.flowPrice }}</div>
-                </template>
-              </el-table-column>
+            <el-table-column
+              prop="flowPrice"
+              label="订单金额"
+              min-width="100"
+              show-overflow-tooltip
+            >
+              <template slot-scope="scope">
+                <div style="color: red">{{ scope.row.flowPrice+'￥' }}</div>
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="createTime"
+              label="产生时间"
+              width="170"
+            >
+              <template slot-scope="scope">
+                {{ scope.row.createTime }}
+              </template>
+            </el-table-column>
               <el-table-column
                 prop="orderStatus"
                 label="订单状态"
-                :min-width="100"
+                min-width="100"
               >
                 <template slot-scope="scope">
                   <el-tag
@@ -136,17 +145,6 @@
                   <div v-else>{{ scope.row.orderStatus }}</div>
                 </template>
               </el-table-column>
-              <el-table-column
-              prop="createTime"
-              label=产生时间"
-              :width="170"
-              align="left"
-              sortable="false"
-            >
-              <template slot-scope="scope">
-                {{ scope.row.createTime || '暂无' }}
-              </template>
-            </el-table-column>
             <el-table-column
               label="操作"
               width="100"

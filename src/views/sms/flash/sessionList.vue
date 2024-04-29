@@ -52,7 +52,7 @@
       width="40%">
       <el-form :model="flashSession"
                ref="flashSessionForm"
-               label-width="150px" size="small">
+               label-width="150px" size="mini">
         <el-form-item label="秒杀时间段名称：">
           <el-input v-model="flashSession.name" style="width: 250px"></el-input>
         </el-form-item>
@@ -76,8 +76,8 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false" size="small">取 消</el-button>
-        <el-button type="primary" @click="handleDialogConfirm()" size="small">确 定</el-button>
+        <el-button @click="dialogVisible = false" size="mini">取 消</el-button>
+        <el-button type="primary" @click="handleDialogConfirm()" size="mini">确 定</el-button>
       </span>
     </el-dialog>
   </div>

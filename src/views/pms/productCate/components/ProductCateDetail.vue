@@ -51,7 +51,7 @@
         <el-button style="margin-left: 20px" @click.prevent="removeFilterAttr(filterProductAttr)">删除</el-button>
       </el-form-item>
       <el-form-item>
-        <el-button size="small" type="primary" @click="handleAddFilterAttr()">新增</el-button>
+        <el-button size="mini" type="primary" @click="handleAddFilterAttr()">新增</el-button>
       </el-form-item>
       <el-form-item label="关键词：">
         <el-input v-model="productCate.keywords"></el-input>

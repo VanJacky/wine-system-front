@@ -4,7 +4,7 @@
              :rules="rules"
              ref="homeAdvertiseFrom"
              label-width="150px"
-             size="small">
+             size="mini">
       <el-form-item label="广告名称：" prop="name">
         <el-input v-model="homeAdvertise.name" class="input-width"></el-input>
       </el-form-item>

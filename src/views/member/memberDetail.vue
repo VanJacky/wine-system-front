@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Card style="height: 240px;padding: 12px 12px 0px">
+    <el-card style="height: 240px;padding: 12px 12px 0px">
       <div class="head-title">基本信息</div>
       <div class="detail-body">
         <div class="ant-col-md-6">
@@ -22,11 +22,11 @@
             <div class="bottom-info">
               <p>上次登录 {{memberInfo.lastLoginDate}}&nbsp;
               <p>
-                <i-switch size="large" v-model="memberInfo.disabled" :true-value="true" :false-value="false"
+                <el-switch size="large" v-model="memberInfo.disabled" :true-value="true" :false-value="false"
                           @on-change="memberStatusChange">
                   <span slot="open">启用</span>
                   <span slot="close">禁用</span>
-                </i-switch>
+                </el-switch>
               </p>
             </div>
           </div>
@@ -62,11 +62,11 @@
           </p>
         </div>
       </div>
-    </Card>
+    </el-card>
 
-    <Card class="mt_10">
-      <Tabs value="point" @on-click="memberInfoChange">
-        <TabPane label="TA的积分" name="point">
+    <el-card class="mt_10">
+      <el-tabs value="point" @on-click="memberInfoChange">
+        <el-tab-pane label="TA的积分" name="point">
           <div class="pointsTitle" style="justify-content: flex-start; text-align: left;">
             <div style="width: 120px;">
               <div class="points-top-title">
@@ -78,7 +78,7 @@
             </div>
           </div>
           <div class="point-data" style="margin-top: -5px">
-              <Table
+              <el-table
                 :loading="loading"
                 border
                 :columns="pointsColumns"
@@ -86,9 +86,9 @@
                 class="mt_10"
                 ref="table"
               >
-              </Table>
+              </el-table>
 
-            <Row type="flex" justify="end" class="mt_10" style="margin-top: 10px">
+            <el-row type="flex" justify="end" class="mt_10" style="margin-top: 10px">
               <Page
                 :current="pointSearchForm.pageNumber"
                 :total="pointTotal"
@@ -96,61 +96,61 @@
                 @on-change="pointChangePage"
                 @on-page-size-change="pointChangePageSize"
                 :page-size-opts="[10, 20, 50]"
-                size="small"
+                size="mini"
                 show-total
                 show-elevator
                 show-sizer
               ></Page>
-            </Row>
+            </el-row>
           </div>
-        </TabPane>
-        <TabPane label="TA的订单" name="order" style="min-height: 200px">
-          <Row>
-            <Form ref="searchForm" :model="orderSearchForm" inline :label-width="70" class="search-form">
-              <Form-item label="订单号" prop="orderSn">
-                <Input
+        </el-tab-pane>
+        <el-tab-pane label="TA的订单" name="order" style="min-height: 200px">
+          <el-row>
+            <el-form ref="searchForm" :model="orderSearchForm" inline label-width="70" class="search-form">
+              <el-form-item label="订单号" prop="orderSn">
+                <el-input
                   type="text"
                   v-model="orderSearchForm.orderSn"
                   placeholder="请输入订单号"
                   clearable
                   style="width: 200px"
                 />
-              </Form-item>
-              <Form-item label="订单状态" prop="orderStatus">
-                <Select v-model="orderSearchForm.orderStatus" placeholder="请选择" clearable style="width: 200px">
-                  <Option value="UNPAID">未付款</Option>
-                  <Option value="PAID">已付款</Option>
-                  <Option value="UNDELIVERED">待发货</Option>
-                  <Option value="DELIVERED">已发货</Option>
-                  <Option value="COMPLETED">已完成</Option>
-                  <Option value="TAKE">待核验</Option>
-                  <Option value="CANCELLED">已关闭</Option>
-                </Select>
-              </Form-item>
-              <Form-item label="支付状态" prop="payStatus">
-                <Select v-model="orderSearchForm.payStatus" placeholder="请选择" clearable style="width: 200px">
-                  <Option value="UNPAID">未付款</Option>
-                  <Option value="PAID">已付款</Option>
-                </Select>
-              </Form-item>
-              <Form-item label="订单类型" prop="orderType">
-                <Select v-model="orderSearchForm.orderType" placeholder="请选择" clearable style="width: 200px">
-                  <Option value="NORMAL">普通订单</Option>
-                  <Option value="VIRTUAL">虚拟订单</Option>
-                  <Option value="GIFT">赠品订单</Option>
-                  <Option value="PINTUAN">拼团订单</Option>
-                </Select>
-              </Form-item>
-              <Form-item label="订单来源" prop="clientType">
-                <Select v-model="orderSearchForm.clientType" placeholder="请选择" clearable style="width: 200px">
-                  <Option value="H5">移动端</Option>
-                  <Option value="PC">PC端</Option>
-                  <Option value="WECHAT_MP">小程序</Option>
-                  <Option value="APP">移动应用端</Option>
-                  <Option value="UNKNOWN">未知</Option>
-                </Select>
-              </Form-item>
-              <Form-item label="下单时间">
+              </el-form-item>
+              <el-form-item label="订单状态" prop="orderStatus">
+                <el-select v-model="orderSearchForm.orderStatus" placeholder="请选择" clearable style="width: 200px">
+                  <el-option value="UNPAID">未付款</el-option>
+                  <el-option value="PAID">已付款</el-option>
+                  <el-option value="UNDELIVERED">待发货</el-option>
+                  <el-option value="DELIVERED">已发货</el-option>
+                  <el-option value="COMPLETED">已完成</el-option>
+                  <el-option value="TAKE">待核验</el-option>
+                  <el-option value="CANCELLED">已关闭</el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="支付状态" prop="payStatus">
+                <el-select v-model="orderSearchForm.payStatus" placeholder="请选择" clearable style="width: 200px">
+                  <el-option value="UNPAID">未付款</el-option>
+                  <el-option value="PAID">已付款</el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="订单类型" prop="orderType">
+                <el-select v-model="orderSearchForm.orderType" placeholder="请选择" clearable style="width: 200px">
+                  <el-option value="NORMAL">普通订单</el-option>
+                  <el-option value="VIRTUAL">虚拟订单</el-option>
+                  <el-option value="GIFT">赠品订单</el-option>
+                  <el-option value="PINTUAN">拼团订单</el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="订单来源" prop="clientType">
+                <el-select v-model="orderSearchForm.clientType" placeholder="请选择" clearable style="width: 200px">
+                  <el-option value="H5">移动端</el-option>
+                  <el-option value="PC">PC端</el-option>
+                  <el-option value="WECHAT_MP">小程序</el-option>
+                  <el-option value="APP">移动应用端</el-option>
+                  <el-option value="UNKNOWN">未知</el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="下单时间">
                 <DatePicker
                   v-model="selectDate"
                   type="datetimerange"
@@ -160,12 +160,12 @@
                   placeholder="选择起始时间"
                   style="width: 200px"
                 ></DatePicker>
-              </Form-item>
-              <Button @click="getOrderData" type="primary" icon="ios-search" class="search-btn">搜索</Button>
-            </Form>
-          </Row>
+              </el-form-item>
+              <el-button @click="getOrderData" type="primary" icon="ios-search" class="search-btn">搜索</el-button>
+            </el-form>
+          </el-row>
           <div style="min-height: 180px">
-            <Table
+            <el-table
               :loading="loading"
               border
               :columns="orderColumns"
@@ -173,9 +173,9 @@
               ref="table"
               class="mt_10"
             >
-            </Table>
+            </el-table>
 
-            <Row type="flex" justify="end" class="mt_10" style="margin-top: 10px">
+            <el-row type="flex" justify="end" class="mt_10" style="margin-top: 10px">
               <Page
                 :current="orderSearchForm.pageNumber"
                 :total="orderTotal"
@@ -183,19 +183,19 @@
                 @on-change="orderChangePage"
                 @on-page-size-change="orderChangePageSize"
                 :page-size-opts="[10, 20, 50]"
-                size="small"
+                size="mini"
                 show-total
                 show-elevator
                 show-sizer
               ></Page>
-            </Row>
+            </el-row>
           </div>
-        </TabPane>
-        <TabPane label="TA收货地址" name="address">
-          <Row class="operation padding-row">
-            <Button @click="addMemberAddress" type="primary">新增</Button>
-          </Row>
-          <Table
+        </el-tab-pane>
+        <el-tab-pane label="TA收货地址" name="address">
+          <el-row class="operation padding-row">
+            <el-button @click="addMemberAddress" type="primary">新增</el-button>
+          </el-row>
+          <el-table
             :loading="loading"
             border
             :columns="addressColumns"
@@ -204,9 +204,9 @@
             class="mt_10"
             sortable="custom"
           >
-          </Table>
+          </el-table>
 
-          <Row type="flex" justify="end" class="mt_10" style="margin-top: 10px">
+          <el-row type="flex" justify="end" class="mt_10" style="margin-top: 10px">
             <Page
               :current="addressSearchForm.pageNumber"
               :total="addressTotal"
@@ -214,14 +214,14 @@
               @on-change="addressChangePage"
               @on-page-size-change="addressChangePageSize"
               :page-size-opts="[10, 20, 50]"
-              size="small"
+              size="mini"
               show-total
               show-elevator
               show-sizer
             ></Page>
-          </Row>
-        </TabPane>
-        <TabPane label="TA的余额" name="wallet">
+          </el-row>
+        </el-tab-pane>
+        <el-tab-pane label="TA的余额" name="wallet">
           <div class="pointsTitle" style="justify-content: flex-start; text-align: left;">
             <div style="min-width: 120px; margin-right:20px">
               <div class="points-top-title">
@@ -245,7 +245,7 @@
                </div>
             </div>
           </div>
-          <Table
+          <el-table
             :loading="loading"
             border
             :columns="walletColumns"
@@ -253,9 +253,9 @@
             ref="table"
             class="mt_10"
           >
-          </Table>
+          </el-table>
 
-          <Row type="flex" justify="end" class="mt_10" style="margin-top: 10px">
+          <el-row type="flex" justify="end" class="mt_10" style="margin-top: 10px">
             <Page
               :current="walletSearchForm.pageNumber"
               :total="walletTotal"
@@ -263,29 +263,29 @@
               @on-change="walletChangePage"
               @on-page-size-change="walletChangePageSize"
               :page-size-opts="[10, 20, 50]"
-              size="small"
+              size="mini"
               show-total
               show-elevator
               show-sizer
             ></Page>
-          </Row>
-        </TabPane>
-        <TabPane label="TA的发票" name="receipt">
-          <Row>
-            <Form ref="searchForm" :model="receiptRecordSearchForm" inline :label-width="70" class="search-form">
-              <Form-item label="订单号" prop="orderSn">
-                <Input
+          </el-row>
+        </el-tab-pane>
+        <el-tab-pane label="TA的发票" name="receipt">
+          <el-row>
+            <el-form ref="searchForm" :model="receiptRecordSearchForm" inline label-width="70" class="search-form">
+              <el-form-item label="订单号" prop="orderSn">
+                <el-input
                   type="text"
                   v-model="receiptRecordSearchForm.orderSn"
                   placeholder="请输入订单号"
                   clearable
                   style="width: 200px"
                 />
-              </Form-item>
-              <Button @click="getReceiptRecordData" type="primary" icon="ios-search" class="search-btn">搜索</Button>
-            </Form>
-          </Row>
-          <Table
+              </el-form-item>
+              <el-button @click="getReceiptRecordData" type="primary" icon="ios-search" class="search-btn">搜索</el-button>
+            </el-form>
+          </el-row>
+          <el-table
             :loading="loading"
             border
             :columns="receiptRecordColumns"
@@ -298,9 +298,9 @@
               <a @click="orderDetail(scope.row.orderSn)">{{scope.row.orderSn}}</a>
 
             </template>
-          </Table>
+          </el-table>
 
-          <Row type="flex" justify="end" class="mt_10" style="margin-top: 10px">
+          <el-row type="flex" justify="end" class="mt_10" style="margin-top: 10px">
             <Page
               :current="receiptRecordSearchForm.pageNumber"
               :total="receiptRecordTotal"
@@ -308,66 +308,65 @@
               @on-change="walletChangePage"
               @on-page-size-change="walletChangePageSize"
               :page-size-opts="[10, 20, 50]"
-              size="small"
+              size="mini"
               show-total
               show-elevator
               show-sizer
             ></Page>
-          </Row>
-        </TabPane>
-      </Tabs>
-    </Card>
-    <Modal
+          </el-row>
+        </el-tab-pane>
+      </el-tabs>
+    </el-card>
+    <el-dialog
       :title="addressModalTitle"
       v-model="addressModalVisible"
       :mask-closable="false"
-      :width="500"
+      width="500"
     >
-      <Form ref="addressForm" :model="addressForm" :label-width="100" :rules="addressFormValidate">
-        <FormItem label="收货人姓名" prop="name">
-          <Input v-model="addressForm.name" maxlength="8" clearable style="width: 80%"/>
-        </FormItem>
-        <FormItem label="收货人手机" prop="mobile">
-          <Input v-model="addressForm.mobile" clearable style="width: 80%" maxlength="11"/>
-        </FormItem>
-        <FormItem label="收货人地址" prop="consigneeAddressPath">
+      <el-form ref="addressForm" :model="addressForm" label-width="100" :rules="addressFormValidate">
+        <el-form-item label="收货人姓名" prop="name">
+          <el-input v-model="addressForm.name" maxlength="8" clearable style="width: 80%"/>
+        </el-form-item>
+        <el-form-item label="收货人手机" prop="mobile">
+          <el-input v-model="addressForm.mobile" clearable style="width: 80%" maxlength="11"/>
+        </el-form-item>
+        <el-form-item label="收货人地址" prop="consigneeAddressPath">
           <span>{{ addressForm.consigneeAddressPath || '暂无地址' }}</span>
-          <Button @click="$refs.map.open()" style="margin-left: 10px;">选择</Button>
-        </FormItem>
-        <FormItem label="详细地址" prop="detail">
-          <Input v-model="addressForm.detail" maxlength="35" clearable style="width: 80%"/>
-        </FormItem>
-        <FormItem label="地址别名" prop="alias">
-          <Input v-model="addressForm.alias" clearable style="width: 80%" maxlength="8"/>
-        </FormItem>
-        <FormItem label="默认" prop="isDefault">
-          <RadioGroup type="button" button-style="solid" v-model="addressForm.isDefault">
-            <Radio :label="1">是</Radio>
-            <Radio :label="0">否</Radio>
-          </RadioGroup>
-        </FormItem>
-      </Form>
+          <el-button @click="$refs.map.open()" style="margin-left: 10px;">选择</el-button>
+        </el-form-item>
+        <el-form-item label="详细地址" prop="detail">
+          <el-input v-model="addressForm.detail" maxlength="35" clearable style="width: 80%"/>
+        </el-form-item>
+        <el-form-item label="地址别名" prop="alias">
+          <el-input v-model="addressForm.alias" clearable style="width: 80%" maxlength="8"/>
+        </el-form-item>
+        <el-form-item label="默认" prop="isDefault">
+          <el-radio-group type="button" button-style="solid" v-model="addressForm.isDefault">
+            <el-radio :label="1">是</el-radio>
+            <el-radio :label="0">否</el-radio>
+          </el-radio-group>
+        </el-form-item>
+      </el-form>
       <div slot="footer">
-        <Button type="text" @click="addressModalVisible = false">取消</Button>
-        <Button type="primary" :loading="submitLoading" @click="addressSubmit">保存</Button>
+        <el-button type="text" @click="addressModalVisible = false">取消</el-button>
+        <el-button type="primary" :loading="submitLoading" @click="addressSubmit">保存</el-button>
       </div>
-    </Modal>
+    </el-dialog>
     <multipleMap ref="map" @callback="getAddress"></multipleMap>
   </div>
 </template>
 
 <script>
 
-  import * as API_Member from "@/api/member.js";
-  import ossManage from "@/views/sys/oss-manage/ossManage";
+  // import * as API_Member from "@/api/member.js";
+  // import ossManage from "@/views/sys/oss-manage/ossManage";
   import multipleMap from "@/components/map/multiple-map";
-  import * as RegExp from '@/libs/RegExp.js';
-  import * as API_Order from "@/api/order.js";
+  import * as RegExp from '@/utils/RegExp.js';
+  // import * as API_Order from "@/api/order.js";
 
   export default {
     name: "memberDetail",
     components: {
-      ossManage,
       multipleMap
     },
     data() {
@@ -588,7 +587,7 @@
                 }
               }, [
                 h(
-                  "Button",
+                  "el-button",
                   {
                     props: {
                       type: "info",
@@ -683,7 +682,7 @@
                 }
               }, [
                 h(
-                  "Button",
+                  "el-button",
                   {
                     props: {
                       type: "error",
@@ -701,7 +700,7 @@
                   "删除"
                 ),
                 h(
-                  "Button",
+                  "el-button",
                   {
                     props: {
                       type: "info",
@@ -866,7 +865,7 @@
       //查询会员信息
       getMemberInfo() {
         API_Member.getMemberInfoData(this.id).then((res) => {
-          this.$set(this, "memberInfo", res.result);
+          this.$set(this, "memberInfo", res.data.result);
         });
       },
       //会员状态改变事件
@@ -886,8 +885,8 @@
         }
         API_Member.getMemberWallet(params).then((res) => {
           this.loading = false;
-          if (res.success) {
-            this.memberWalletInfo = res.result;
+          if (res.data.success) {
+            this.memberWalletInfo = res.data.result;
           }
         });
         this.loading = false;
@@ -899,9 +898,9 @@
         this.walletSearchForm.memberId = this.id
         API_Member.getUserWallet(this.walletSearchForm).then((res) => {
           this.loading = false;
-          if (res.success) {
-            this.walletData = res.result.records;
-            this.walletTotal = res.result.total;
+          if (res.data.success) {
+            this.walletData = res.data.result.records;
+            this.walletTotal = res.data.result.total;
           }
         });
         this.loading = false;
@@ -913,9 +912,9 @@
         this.receiptRecordSearchForm.memberId = this.id
         API_Order.getReceiptPage(this.receiptRecordSearchForm).then((res) => {
           this.loading = false;
-          if (res.success) {
-            this.receiptRecordData = res.result.records;
-            this.receiptRecordTotal = res.result.total;
+          if (res.data.success) {
+            this.receiptRecordData = res.data.result.records;
+            this.receiptRecordTotal = res.data.result.total;
           }
         });
         this.loading = false;
@@ -927,9 +926,9 @@
         this.orderSearchForm.memberId = this.id
         API_Order.getOrderList(this.orderSearchForm).then((res) => {
           this.loading = false;
-          if (res.success) {
-            this.orderData = res.result.records;
-            this.orderTotal = res.result.total;
+          if (res.data.success) {
+            this.orderData = res.data.result.records;
+            this.orderTotal = res.data.result.total;
           }
         });
         this.loading = false;
@@ -947,9 +946,9 @@
         this.pointSearchForm.memberId = this.id
         API_Member.getHistoryPointData(this.pointSearchForm).then((res) => {
           this.loading = false;
-          if (res.success) {
-            this.pointData = res.result.records;
-            this.pointTotal = res.result.total;
+          if (res.data.success) {
+            this.pointData = res.data.result.records;
+            this.pointTotal = res.data.result.total;
           }
         });
         this.loading = false;
@@ -985,8 +984,8 @@
               //修改地址
               API_Member.editMemberAddress(submit).then((res) => {
                 this.submitLoading = false;
-                if (res && res.success) {
-                  this.$Message.success("修改成功");
+                if (res && res.data.success) {
+                  this.$message.success("修改成功");
                   this.addressModalVisible = false
                   this.getAddressData();
                 }
@@ -995,8 +994,8 @@
               //添加地址
               API_Member.addMemberAddress(submit).then((res) => {
                 this.submitLoading = false;
-                if (res && res.success) {
-                  this.$Message.success("添加成功");
+                if (res && res.data.success) {
+                  this.$message.success("添加成功");
                   this.addressModalVisible = false
                   this.getAddressData();
                 }
@@ -1033,8 +1032,8 @@
           content: '<p>确定要删除此收货地址？</p>',
           onOk: () => {
             API_Member.removeMemberAddress(v.id).then((res) => {
-              if (res.success) {
-                this.$Message.success('删除成功');
+              if (res.data.success) {
+                this.$message.success('删除成功');
                 this.getAddressData();
               }
             });
@@ -1046,9 +1045,9 @@
         this.loading = true;
         API_Member.getMemberAddressData(this.id, this.addressSearchForm).then((res) => {
           this.loading = false;
-          if (res.success) {
-            this.addressData = res.result.records;
-            this.addressTotal = res.result.total;
+          if (res.data.success) {
+            this.addressData = res.data.result.records;
+            this.addressTotal = res.data.result.total;
           }
         });
         this.loading = false;

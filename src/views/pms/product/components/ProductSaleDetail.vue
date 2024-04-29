@@ -1,6 +1,6 @@
 <template>
   <div style="margin-top: 50px">
-    <el-form :model="value" ref="productSaleForm" label-width="120px" class="form-inner-container" size="small">
+    <el-form :model="value" ref="productSaleForm" label-width="120px" class="form-inner-container" size="mini">
       <el-form-item label="赠送积分：">
         <el-input v-model="value.giftPoint"></el-input>
       </el-form-item>
@@ -58,7 +58,7 @@
         <el-input v-model="value.note" type="textarea" :autoSize="true"></el-input>
       </el-form-item>
       <el-form-item label="选择优惠方式：">
-        <el-radio-group v-model="value.promotionType" size="small">
+        <el-radio-group v-model="value.promotionType" size="mini">
           <el-radio-button :label="0">无优惠</el-radio-button>
           <el-radio-button :label="1">特惠促销</el-radio-button>
           <el-radio-button :label="2">会员价格</el-radio-button>

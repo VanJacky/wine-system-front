@@ -8,18 +8,18 @@
           style="float:right"
           type="primary"
           @click="handleSearchList()"
-          size="small">
+          size="mini">
           查询搜索
         </el-button>
         <el-button
           style="float:right;margin-right: 15px"
           @click="handleResetSearch()"
-          size="small">
+          size="mini">
           重置
         </el-button>
       </div>
       <div style="margin-top: 15px">
-        <el-form :inline="true" :model="listQuery" size="small" label-width="140px">
+        <el-form :inline="true" :model="listQuery" size="mini" label-width="140px">
           <el-form-item label="广告名称：">
             <el-input v-model="listQuery.name" class="input-width" placeholder="广告名称"></el-input>
           </el-form-item>
@@ -106,7 +106,7 @@
     </div>
     <div class="batch-operate-container">
       <el-select
-        size="small"
+        size="mini"
         v-model="operateType" placeholder="批量操作">
         <el-option
           v-for="item in operates"
@@ -120,7 +120,7 @@
         class="search-button"
         @click="handleBatchOperate()"
         type="primary"
-        size="small">
+        size="mini">
         确定
       </el-button>
     </div>

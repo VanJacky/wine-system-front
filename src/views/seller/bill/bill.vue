@@ -1,34 +1,34 @@
 <template>
   <div class="search">
-    <Card>
-      <Form ref="searchForm" :model="searchForm" inline :label-width="70" class="search-form">
-        <Form-item label="账单编号" prop="sn">
-          <Input type="text" v-model="searchForm.sn" placeholder="请输入账单编号" clearable style="width: 200px" />
-        </Form-item>
-        <Form-item label="出帐时间" prop="createTime">
+    <el-card>
+      <el-form ref="searchForm" :model="searchForm" inline label-width="70" class="search-form">
+        <el-form-item label="账单编号" prop="sn">
+          <el-input type="text" v-model="searchForm.sn" placeholder="请输入账单编号" clearable style="width: 200px" />
+        </el-form-item>
+        <el-form-item label="出帐时间" prop="createTime">
           <DatePicker v-model="selectDate" type="daterange" format="yyyy-MM-dd HH:mm:ss" clearable @on-change="selectDateRange" placeholder="选择起始时间" style="width: 200px">
           </DatePicker>
-        </Form-item>
-        <Form-item label="筛选状态">
-          <Select v-model="searchForm.billStatus" clearable style="width:160px">
-            <Option value="OUT">已出账</Option>
-            <Option value="CHECK">已对账</Option>
-            <!-- <Option value="EXAMINE">已审核</Option> -->
-            <Option value="COMPLETE">已付款</Option>
-          </Select>
-        </Form-item>
-        <Button @click="handleSearch" type="primary" icon="ios-search" class="search-btn">搜索</Button>
-      </Form>
-      <Row class="operation padding-row">
+        </el-form-item>
+        <el-form-item label="筛选状态">
+          <el-select v-model="searchForm.billStatus" clearable style="width:160px">
+            <el-option value="OUT">已出账</el-option>
+            <el-option value="CHECK">已对账</el-option>
+            <!-- <el-option value="EXAMINE">已审核</el-option> -->
+            <el-option value="COMPLETE">已付款</el-option>
+          </el-select>
+        </el-form-item>
+        <el-button @click="handleSearch" type="primary" icon="ios-search" class="search-btn">搜索</el-button>
+      </el-form>
+      <el-row class="operation padding-row">
 
-      </Row>
-      <Table :loading="loading" border :columns="columns" :data="data" ref="table" sortable="custom" @on-selection-change="changeSelect">
-      </Table>
-      <Row type="flex" justify="end" class="mt_10">
+      </el-row>
+      <el-table :loading="loading" border :columns="columns" :data="data" ref="table" sortable="custom" @on-selection-change="changeSelect">
+      </el-table>
+      <el-row type="flex" justify="end" class="mt_10">
         <Page :current="searchForm.pageNumber" :total="total" :page-size="searchForm.pageSize" @on-change="changePage" @on-page-size-change="changePageSize" :page-size-opts="[10, 20, 50]"
-          size="small" show-total show-elevator show-sizer></Page>
-      </Row>
-    </Card>
+          size="mini" show-total show-elevator show-sizer></Page>
+      </el-row>
+    </el-card>
   </div>
 </template>
 
@@ -121,7 +121,7 @@ export default {
           render: (h, params) => {
             return h("div", [
               h(
-                "Button",
+                "el-button",
                 {
                   props: {
                     type: "info",
@@ -187,9 +187,9 @@ export default {
 
       API_Shop.getBuyBillPage(this.searchForm).then((res) => {
         this.loading = false;
-        if (res.success) {
-          this.data = res.result.records;
-          this.total = res.result.total;
+        if (res.data.success) {
+          this.data = res.data.result.records;
+          this.total = res.data.result.total;
         }
       });
       this.total = this.data.length;
@@ -212,8 +212,8 @@ export default {
           // 删除
           this.deleteRequest("/bill/delByIds/" + v.id).then((res) => {
             this.$Modal.remove();
-            if (res.success) {
-              this.$Message.success("操作成功");
+            if (res.data.success) {
+              this.$message.success("操作成功");
               this.getDataList();
             }
           });
@@ -222,7 +222,7 @@ export default {
     },
     delAll() { // 多选删除数据
       if (this.selectCount <= 0) {
-        this.$Message.warning("您还未选择要删除的数据");
+        this.$message.warning("您还未选择要删除的数据");
         return;
       }
       this.$Modal.confirm({
@@ -238,8 +238,8 @@ export default {
           // 批量删除
           this.deleteRequest("/bill/delByIds/" + ids).then((res) => {
             this.$Modal.remove();
-            if (res.success) {
-              this.$Message.success("操作成功");
+            if (res.data.success) {
+              this.$message.success("操作成功");
               this.getDataList();
             }
           });

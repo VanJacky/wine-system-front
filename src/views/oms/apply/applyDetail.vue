@@ -55,7 +55,7 @@
           </el-col>
           <el-col class="form-border font-small" :span="18" style="height:50px">
             {{orderReturnApply.orderSn}}
-            <el-button type="text" size="small" @click="handleViewOrder">查看</el-button>
+            <el-button type="text" size="mini" @click="handleViewOrder">查看</el-button>
           </el-col>
         </el-row>
         <el-row>
@@ -100,7 +100,7 @@
           </el-col>
           <el-col class="form-border font-small" style="height:52px" :span="18">
             ￥
-            <el-input size="small" v-model="updateStatusParam.returnAmount"
+            <el-input size="mini" v-model="updateStatusParam.returnAmount"
                       :disabled="orderReturnApply.status!==0"
                       style="width:200px;margin-left: 10px"></el-input>
           </el-col>
@@ -110,7 +110,7 @@
           <el-col class="form-border form-left-bg font-small" :span="6" style="height:52px;line-height:32px">选择收货点
           </el-col>
           <el-col class="form-border font-small" style="height:52px" :span="18">
-            <el-select size="small"
+            <el-select size="mini"
                        style="width:200px"
                        :disabled="orderReturnApply.status!==0"
                        v-model="updateStatusParam.companyAddressId">
@@ -172,7 +172,7 @@
         <el-row>
           <el-col class="form-border form-left-bg font-small" :span="6" style="height:52px;line-height:32px">处理备注</el-col>
           <el-col class="form-border font-small" :span="18">
-            <el-input  size="small" v-model="updateStatusParam.handleNote" style="width:200px;margin-left: 10px"></el-input>
+            <el-input  size="mini" v-model="updateStatusParam.handleNote" style="width:200px;margin-left: 10px"></el-input>
           </el-col>
         </el-row>
       </div>
@@ -180,16 +180,16 @@
         <el-row>
           <el-col class="form-border form-left-bg font-small" :span="6" style="height:52px;line-height:32px">收货备注</el-col>
           <el-col class="form-border font-small" :span="18">
-            <el-input  size="small" v-model="updateStatusParam.receiveNote" style="width:200px;margin-left: 10px"></el-input>
+            <el-input  size="mini" v-model="updateStatusParam.receiveNote" style="width:200px;margin-left: 10px"></el-input>
           </el-col>
         </el-row>
       </div>
       <div style="margin-top:15px;text-align: center" v-show="orderReturnApply.status===0">
-        <el-button type="primary" size="small" @click="handleUpdateStatus(1)">确认退货</el-button>
-        <el-button type="danger" size="small" @click="handleUpdateStatus(3)">拒绝退货</el-button>
+        <el-button type="primary" size="mini" @click="handleUpdateStatus(1)">确认退货</el-button>
+        <el-button type="danger" size="mini" @click="handleUpdateStatus(3)">拒绝退货</el-button>
       </div>
       <div style="margin-top:15px;text-align: center" v-show="orderReturnApply.status===1">
-        <el-button type="primary" size="small" @click="handleUpdateStatus(2)">确认收货</el-button>
+        <el-button type="primary" size="mini" @click="handleUpdateStatus(2)">确认收货</el-button>
       </div>
     </el-card>
   </div>

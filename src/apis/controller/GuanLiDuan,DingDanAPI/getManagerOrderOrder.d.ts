@@ -10,7 +10,6 @@ export declare function getManagerOrderOrder(params: GetManagerOrderOrderParams,
     timestamp: number;
     result: {
         total: number;
-        size: number;
         records: {
             sn: string;
             flowPrice: number;
@@ -51,6 +50,7 @@ export declare function getManagerOrderOrder(params: GetManagerOrderOrderParams,
         }[];
         current: number;
         pages: number;
+        size: number;
     };
 }>;
 export interface GetManagerOrderOrderParams {

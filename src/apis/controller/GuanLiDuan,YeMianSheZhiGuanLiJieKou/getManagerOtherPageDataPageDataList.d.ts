@@ -11,7 +11,6 @@ export declare function getManagerOtherPageDataPageDataList(params: GetManagerOt
     timestamp: number;
     result: {
         total: number;
-        size: number;
         records: {
             id: string;
             name: string;
@@ -19,6 +18,7 @@ export declare function getManagerOtherPageDataPageDataList(params: GetManagerOt
         }[];
         current: number;
         pages: number;
+        size: number;
     };
 }>;
 export interface GetManagerOtherPageDataPageDataListParams {

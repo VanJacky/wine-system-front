@@ -35,14 +35,14 @@
         <!--ref="up"-->
         <!--class="upload"-->
       <!--&gt;-->
-        <!--<Button :loading="loading" :size="size" :disabled="disabled">上传图片</Button>-->
+        <!--<el-button :loading="loading" :size="size" :disabled="disabled">上传图片</el-button>-->
       <!--</Upload>-->
     </div>
 
     <el-dialog title="图片预览" v-model="viewImage" :styles="{top: '30px'}" draggable>
       <img :src="currentValue" alt="该资源不存在" style="max-width: 300px;margin: 0 auto;display: block;" />
       <div slot="footer">
-        <Button @click="viewImage=false">关闭</Button>
+        <el-button @click="viewImage=false">关闭</el-button>
       </div>
     </el-dialog>
 

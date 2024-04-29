@@ -228,14 +228,14 @@ export const asyncRouterMap = [
         component: () => import('@/views/oms/order/index'),
         meta: {title: '订单列表', icon: 'product-list'}
       },
-      /*  {
+      {
           path: 'orderDetail',
           name: 'orderDetail',
           component: () => import('@/views/oms/order/orderDetail'),
           meta: {title: '订单详情'},
           hidden:true
       },
-        {
+        /*  {
             path: 'deliverOrderList',
             name: 'deliverOrderList',
             component: () => import('@/views/oms/order/deliverOrderList'),
@@ -386,61 +386,47 @@ export const asyncRouterMap = [
       {
         path: 'admin',
         name: 'admin',
-        component: () => import('@/views/ums/admin/index'),
-        meta: {title: '用户列表', icon: 'ums-admin'}
+        component: () => import('@/views/ums/admin/userManage'),
+        meta: {title: '管理员列表', icon: 'ums-admin'}
       },
       {
         path: 'role',
         name: 'role',
-        component: () => import('@/views/ums/role/index'),
-        meta: {title: '角色列表', icon: 'ums-role'}
-      },
-      {
-        path: 'allocMenu',
-        name: 'allocMenu',
-        component: () => import('@/views/ums/role/allocMenu'),
-        meta: {title: '分配菜单'},
-        hidden: true
-      },
-      {
-        path: 'allocResource',
-        name: 'allocResource',
-        component: () => import('@/views/ums/role/allocResource'),
-        meta: {title: '分配资源'},
-        hidden: true
+        component: () => import('@/views/ums/role/roleManage'),
+        meta: {title: '角色权限', icon: 'ums-role'}
       },
       {
         path: 'menu',
         name: 'menu',
-        component: () => import('@/views/ums/menu/index'),
-        meta: {title: '菜单列表', icon: 'ums-menu'}
+        component: () => import('@/views/ums/menu/menu'),
+        meta: {title: '菜单管理', icon: 'ums-menu'}
+      }
+    ]
+  },
+  {
+    path:'/setting',
+    component: Layout,
+    redirect: '/setting/system',
+    name: 'setting',
+    meta: {title: '设置', icon: 'ums'},
+    children: [
+      {
+        path: 'setting',
+        name: 'setting',
+        component: () => import('@/views/setting/settingManage'),
+        meta: {title: '系统设置', icon: 'ums-admin'}
       },
       {
-        path: 'addMenu',
-        name: 'addMenu',
-        component: () => import('@/views/ums/menu/add'),
-        meta: {title: '添加菜单'},
-        hidden: true
+        path: 'sms',
+        name: 'sms',
+        component: () => import('@/views/setting/smsSettingManage'),
+        meta: {title: '短信配置', icon: 'ums-role'}
       },
       {
-        path: 'updateMenu',
-        name: 'updateMenu',
-        component: () => import('@/views/ums/menu/update'),
-        meta: {title: '修改菜单'},
-        hidden: true
-      },
-      {
-        path: 'resource',
-        name: 'resource',
-        component: () => import('@/views/ums/resource/index'),
-        meta: {title: '资源列表', icon: 'ums-resource'}
-      },
-      {
-        path: 'resourceCategory',
-        name: 'resourceCategory',
-        component: () => import('@/views/ums/resource/categoryList'),
-        meta: {title: '资源分类'},
-        hidden: true
+        path: 'platform',
+        name: 'platform',
+        component: () => import('@/views/setting/platformSetting'),
+        meta: {title: '网站设置', icon: 'ums-menu'}
       }
     ]
   },

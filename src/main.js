@@ -8,7 +8,7 @@ import locale from 'element-ui/lib/locale/lang/zh-CN' // lang i18n
 import VCharts from 'v-charts'
 import  *  as util from '@/utils/index'
 import '@/styles/index.scss' // global css
-
+import * as filters from '@/utils/filters'
 import App from './App'
 import router from './router/index'
 import store from './store'
@@ -17,7 +17,9 @@ import '@/icons' // icon
 import '@/permission' // permission control
 // 引入价格格式化组件
 // import priceColorScheme from 'price-color'
-
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key])
+})
 Vue.use(ElementUI, { locale })
 Vue.use(VCharts)
 // Vue.use(priceColorScheme);

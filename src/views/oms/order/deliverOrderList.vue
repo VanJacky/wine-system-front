@@ -27,7 +27,7 @@
           <template slot-scope="scope">
             <el-select placeholder="请选择物流公司"
                        v-model="scope.row.deliveryCompany"
-                       size="small">
+                       size="mini">
               <el-option v-for="item in companyOptions"
                          :key="item"
                          :label="item"
@@ -38,7 +38,7 @@
         </el-table-column>
         <el-table-column label="物流单号" width="180" align="center">
           <template slot-scope="scope">
-            <el-input size="small" v-model="scope.row.deliverySn"></el-input>
+            <el-input size="mini" v-model="scope.row.deliverySn"></el-input>
           </template>
         </el-table-column>
       </el-table>

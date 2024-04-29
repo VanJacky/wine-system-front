@@ -10,7 +10,6 @@ export declare function getManagerStoreStore(params: GetManagerStoreStoreParams,
     timestamp: number;
     result: {
         total: number;
-        size: number;
         records: {
             memberId: string;
             memberName: string;
@@ -34,7 +33,7 @@ export declare function getManagerStoreStore(params: GetManagerStoreStoreParams,
             yzfMpSign: string;
             merchantEuid: string;
             monthSales: string;
-            type: string;
+            type: "MIDDLEMAN" | "MANUFACTURERS";
             discountedPrice: string;
             originalPrice: string;
             pageShow: boolean;
@@ -44,6 +43,7 @@ export declare function getManagerStoreStore(params: GetManagerStoreStoreParams,
         }[];
         current: number;
         pages: number;
+        size: number;
     };
 }>;
 export interface GetManagerStoreStoreParams {

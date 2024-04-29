@@ -8,18 +8,18 @@
           style="float:right"
           type="primary"
           @click="handleSearchList()"
-          size="small">
+          size="mini">
           查询搜索
         </el-button>
         <el-button
           style="float:right;margin-right: 15px"
           @click="handleResetSearch()"
-          size="small">
+          size="mini">
           重置
         </el-button>
       </div>
       <div style="margin-top: 15px">
-        <el-form :inline="true" :model="listQuery" size="small" label-width="140px">
+        <el-form :inline="true" :model="listQuery" size="mini" label-width="140px">
           <el-form-item label="专题名称：">
             <el-input v-model="listQuery.subjectName" class="input-width" placeholder="专题名称"></el-input>
           </el-form-item>
@@ -85,7 +85,7 @@
     </div>
     <div class="batch-operate-container">
       <el-select
-        size="small"
+        size="mini"
         v-model="operateType" placeholder="批量操作">
         <el-option
           v-for="item in operates"
@@ -99,7 +99,7 @@
         class="search-button"
         @click="handleBatchOperate()"
         type="primary"
-        size="small">
+        size="mini">
         确定
       </el-button>
     </div>
@@ -118,7 +118,7 @@
     <el-dialog title="选择专题" :visible.sync="selectDialogVisible" width="50%">
       <el-input v-model="dialogData.listQuery.keyword"
                 style="width: 250px;margin-bottom: 20px"
-                size="small"
+                size="mini"
                 placeholder="专题名称搜索">
         <el-button slot="append" icon="el-icon-search" @click="handleSelectSearch()"></el-button>
       </el-input>
@@ -149,8 +149,8 @@
       </div>
       <div style="clear: both;"></div>
       <div slot="footer">
-        <el-button  size="small" @click="selectDialogVisible = false">取 消</el-button>
-        <el-button  size="small" type="primary" @click="handleSelectDialogConfirm()">确 定</el-button>
+        <el-button  size="mini" @click="selectDialogVisible = false">取 消</el-button>
+        <el-button  size="mini" type="primary" @click="handleSelectDialogConfirm()">确 定</el-button>
       </div>
     </el-dialog>
     <el-dialog title="设置排序"
@@ -163,8 +163,8 @@
         </el-form-item>
       </el-form>
       <span slot="footer">
-        <el-button @click="sortDialogVisible = false" size="small">取 消</el-button>
-        <el-button type="primary" @click="handleUpdateSort" size="small">确 定</el-button>
+        <el-button @click="sortDialogVisible = false" size="mini">取 消</el-button>
+        <el-button type="primary" @click="handleUpdateSort" size="mini">确 定</el-button>
       </span>
     </el-dialog>
   </div>

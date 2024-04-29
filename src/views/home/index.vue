@@ -218,7 +218,7 @@
           <div style="padding: 10px;border-left:1px solid #DCDFE6">
             <el-date-picker
               style="float: right;z-index: 1"
-              size="small"
+              size="mini"
               v-model="orderCountDate"
               type="daterange"
               align="right"

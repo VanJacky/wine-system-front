@@ -8,18 +8,18 @@
           style="float:right"
           type="primary"
           @click="handleSearchList()"
-          size="small">
+          size="mini">
           查询搜索
         </el-button>
         <el-button
           style="float:right;margin-right: 15px"
           @click="handleResetSearch()"
-          size="small">
+          size="mini">
           重置
         </el-button>
       </div>
       <div style="margin-top: 15px">
-        <el-form :inline="true" :model="listQuery" size="small" label-width="140px">
+        <el-form :inline="true" :model="listQuery" size="mini" label-width="140px">
           <el-form-item label="活动名称：">
             <el-input v-model="listQuery.keyword" class="input-width" placeholder="活动名称" clearable></el-input>
           </el-form-item>
@@ -100,7 +100,7 @@
       width="40%">
       <el-form :model="flashPromotion"
                ref="flashPromotionForm"
-               label-width="150px" size="small">
+               label-width="150px" size="mini">
         <el-form-item label="活动标题：">
           <el-input v-model="flashPromotion.title" style="width: 250px"></el-input>
         </el-form-item>
@@ -126,8 +126,8 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false" size="small">取 消</el-button>
-        <el-button type="primary" @click="handleDialogConfirm()" size="small">确 定</el-button>
+        <el-button @click="dialogVisible = false" size="mini">取 消</el-button>
+        <el-button type="primary" @click="handleDialogConfirm()" size="mini">确 定</el-button>
       </span>
     </el-dialog>
   </div>

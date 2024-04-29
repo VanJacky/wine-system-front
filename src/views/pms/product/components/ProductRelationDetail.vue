@@ -4,7 +4,7 @@
              ref="productRelationForm"
              label-width="120px"
              class="form-inner-container"
-             size="small">
+             size="mini">
       <el-form-item label="关联专题：">
         <el-transfer
           style="display: inline-block"

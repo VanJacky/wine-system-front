@@ -70,7 +70,7 @@
     <el-dialog title="选择商品" :visible.sync="selectDialogVisible" width="50%">
       <el-input v-model="dialogData.listQuery.keyword"
                 style="width: 250px;margin-bottom: 20px"
-                size="small"
+                size="mini"
                 placeholder="商品名称搜索">
         <el-button slot="append" icon="el-icon-search" @click="handleSelectSearch()"></el-button>
       </el-input>
@@ -101,8 +101,8 @@
       </div>
       <div style="clear: both;"></div>
       <div slot="footer">
-        <el-button  size="small" @click="selectDialogVisible = false">取 消</el-button>
-        <el-button  size="small" type="primary" @click="handleSelectDialogConfirm()">确 定</el-button>
+        <el-button  size="mini" @click="selectDialogVisible = false">取 消</el-button>
+        <el-button  size="mini" type="primary" @click="handleSelectDialogConfirm()">确 定</el-button>
       </div>
     </el-dialog>
     <el-dialog title="编辑秒杀商品信息"
@@ -110,7 +110,7 @@
       width="40%">
       <el-form :model="flashProductRelation"
                ref="flashProductRelationForm"
-               label-width="150px" size="small">
+               label-width="150px" size="mini">
         <el-form-item label="商品名称：">
           <span>{{flashProductRelation.product.name}}</span>
         </el-form-item>
@@ -139,8 +139,8 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="editDialogVisible = false" size="small">取 消</el-button>
-        <el-button type="primary" @click="handleEditDialogConfirm()" size="small">确 定</el-button>
+        <el-button @click="editDialogVisible = false" size="mini">取 消</el-button>
+        <el-button type="primary" @click="handleEditDialogConfirm()" size="mini">确 定</el-button>
       </span>
     </el-dialog>
   </div>

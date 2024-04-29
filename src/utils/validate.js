@@ -1,3 +1,4 @@
+import * as regExp from "./regular";
 export function isvalidUsername(str) {
   // const valid_map = ['admin', 'test']
   // return valid_map.indexOf(str.trim()) >= 0
@@ -28,3 +29,23 @@ export function validatAlphabets(str) {
   return reg.test(str)
 }
 
+
+//表单中必须输入汉字
+export function validateNeedName(rule, value, callback) {
+  const name = regExp.name;
+  if (name.test(value)) {
+    callback();
+  } else {
+    return callback(new Error("请输入汉字"));
+  }
+}
+
+//表单中输入手机号验证
+export function validateMobile(rule, value, callback) {
+  const mobile = regExp.mobile;
+  if (mobile.test(value)) {
+    callback();
+  } else {
+    return callback(new Error("手机号输入错误！"));
+  }
+}

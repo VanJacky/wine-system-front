@@ -19,7 +19,7 @@
               <el-form-item label="会员名称" prop="memberName">
                 <div class="item">
                   <el-input disabled v-model="shopForm.memberName" />
-                  <el-button type="default" @click="selectMember()" v-if="!$route.query.shopId"
+                  <el-button type="primary" @click="selectMember()" v-if="!$route.query.shopId"
                     >选择会员</el-button
                   >
                 </div>
@@ -113,7 +113,7 @@
               </el-form-item>
               <el-form-item label="地址信息">
                 {{ shopForm.salesConsigneeAddressPath || '暂无地址' }}
-                <el-button style="margin-left: 10px;" type="default" @click="handleClickAddress('salesConsigneeAddressPath')">选择</el-button>
+                <el-button style="margin-left: 10px;" @click="handleClickAddress('salesConsigneeAddressPath')">选择</el-button>
               </el-form-item>
               <el-form-item label="详细地址">
                 <el-input
@@ -122,14 +122,14 @@
                   style="width: 350px"
                 />
               </el-form-item>
-              <!-- <Divider orientation="left">腾讯云智服</Divider>
+              <!-- <el-divider orientation="left">腾讯云智服</el-divider>
               <el-form-item label="唯一标识">
                 <el-input v-model="shopForm.yzfSign" clearable style="width: 350px" />
               </el-form-item>
               <el-form-item label="小程序唯一标识">
                 <el-input v-model="shopForm.yzfMpSign" clearable style="width: 350px" />
               </el-form-item>
-              <Spin fix v-if="loading"></Spin> -->
+              <el-spinner fix v-if="loading"></el-spinner> -->
             </div>
           </el-tab-pane>
 
@@ -298,7 +298,7 @@
             </el-form-item>
           </el-tab-pane>
 
-          <!-- <TabPane label="配送信息" class="tab" name="send"> -->
+          <!-- <el-tab-pane label="配送信息" class="tab" name="send"> -->
             <!-- 遮罩层  -->
             <!-- <el-form-item label="达达编码" prop="ddCode">
               <el-input
@@ -308,7 +308,7 @@
                 style="width: 200px"
               />
             </el-form-item> -->
-          <!-- </TabPane> -->
+          <!-- </el-tab-pane> -->
 
           <el-tab-pane label="结算信息" class="tab" name="settlement">
             <el-alert type="error"
@@ -326,7 +326,7 @@
                 >{{ item }}
               </el-tag>
               <el-input-number
-                size="small"
+                size="mini"
                 :max="31"
                 :min="1"
                 v-model="day"
@@ -643,7 +643,7 @@ export default {
     },
     // 选择图片modal
     handleCLickImg(val, index) {
-      this.$refs.ossManage.selectImage = true;
+      // this.$refs.ossManage.selectImage = true;
       this.picModalFlag = true;
       this.selectedFormBtnName = val;
       this.picIndex = index;

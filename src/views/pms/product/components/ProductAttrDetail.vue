@@ -1,6 +1,6 @@
 <template>
   <div style="margin-top: 50px">
-    <el-form :model="value" ref="productAttrForm" label-width="120px" class="form-inner-container" size="small">
+    <el-form :model="value" ref="productAttrForm" label-width="120px" class="form-inner-container" size="mini">
       <el-form-item label="属性类型：">
         <el-select v-model="value.productAttributeCategoryId"
                    placeholder="请选择属性类型"
@@ -146,10 +146,10 @@
       <el-form-item label="商品详情：">
         <el-tabs v-model="activeHtmlName" type="card">
           <el-tab-pane label="电脑端详情" name="pc">
-            <tinymce :width="595" :height="300" v-model="value.detailHtml"></tinymce>
+            <tinymce width="595" :height="300" v-model="value.detailHtml"></tinymce>
           </el-tab-pane>
           <el-tab-pane label="移动端详情" name="mobile">
-            <tinymce :width="595" :height="300" v-model="value.detailMobileHtml"></tinymce>
+            <tinymce width="595" :height="300" v-model="value.detailMobileHtml"></tinymce>
           </el-tab-pane>
         </el-tabs>
       </el-form-item>

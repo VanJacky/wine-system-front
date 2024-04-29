@@ -16,12 +16,20 @@ export interface GoodsSearchParams {
     storeName?: string;
     /** 价格,可以为范围，如10_1000 */
     price?: string;
-    /** 分类path */
-    categoryPath?: string;
     /** 店铺分类id */
     storeCategoryPath?: string;
     /** 是否自营 */
     selfOperated?: boolean;
+    /** 酒型ID */
+    categoryId?: string;
+    /** 香型ID */
+    flavorId?: string;
+    /** 品牌ID */
+    brandId?: string;
+    /** 产地ID */
+    producerId?: string;
+    /** 关键字 */
+    keyword?: string;
     /** 上下架状态 */
     marketEnable?: string;
     /** 审核状态 */
@@ -32,10 +40,8 @@ export interface GoodsSearchParams {
     geQuantity?: number;
     /** 是否为推荐商品 */
     recommend?: boolean;
-    /** brandId */
-    brandId?: string;
     /** 商品类型 */
     goodsType?: string;
     /** 销售模式 */
-    salesModel: string;
+    salesModel?: string;
 }

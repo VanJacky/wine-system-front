@@ -182,7 +182,7 @@ export default {
 
 .address {
   margin-bottom: 10px;
-  // color: $theme_color;
+  // color: #409EFF;
   font-weight: bold;
 }
 

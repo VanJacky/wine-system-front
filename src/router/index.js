@@ -5,6 +5,7 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '../views/layout/Layout'
+import store from "@/store";
 
 /**
  * hidden: true                   if `hidden:true` will not show in the sidebar(default is false)
@@ -432,7 +433,11 @@ export const asyncRouterMap = [
   },
   // {path: '*', redirect: '/404', hidden: true}
 ]
-const routeList = constantRouterMap.concat(asyncRouterMap)
+export const routeList = constantRouterMap.concat(asyncRouterMap)
+
+// store.commit('SET_ROUTERS', asyncRouterMap);
+store.commit('ROUTER', routeList);
+// store.state.routers = routeList
 console.log('routeList',routeList)
 export default new Router({
   // mode: 'history', //后端支持可开

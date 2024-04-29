@@ -18,19 +18,20 @@ router.beforeEach((to, from, next) => {
       const username = "admin"
       console.log('admin.length',username.length)
       console.log('store.getters.roles.length',store.getters.roles)
+      console.log('router', router)
+      // router.addRoutes(store.getters.addRouters); // 动态添加可访问路由表
+      // console.log('router', router)
       if (store.getters.roles) {
-        console.log('router', router)
         // @ts-ignore
         let menus = []
         // @ts-ignore
-        store.dispatch('GenerateRoutes', {menus,username }).then(() => { // 生成可访问的路由表
+   /*     store.dispatch('GenerateRoutes', {menus,username }).then(() => { // 生成可访问的路由表
           console.log('store.getters.addRouters',store.getters.addRouters)
-          router.addRoutes(store.getters.addRouters); // 动态添加可访问路由表
-          // next({ ...to, replace: true })
-        })
+          console.log('router23', router)
+        })*/
         next()
       } else {
-        store.dispatch('GetInfo').then(res => { // 拉取用户信息
+ /*       store.dispatch('GetInfo').then(res => { // 拉取用户信息
           let menus=res.data.result.menus || [];
           let username=res.data.result.username;
           store.dispatch('GenerateRoutes', { menus,username }).then(() => { // 生成可访问的路由表
@@ -42,7 +43,7 @@ router.beforeEach((to, from, next) => {
             Message.error(err || 'Verification failed, please login again')
             next({ path: '/' })
           })
-        })
+        })*/
       }
     }
   } else {

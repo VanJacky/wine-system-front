@@ -1,4 +1,4 @@
-import { asyncRouterMap, constantRouterMap } from '@/router';
+import {asyncRouterMap, constantRouterMap, routeList} from '@/router';
 let username = ''
 
 //判断是否有权限访问该菜单
@@ -67,13 +67,16 @@ function compare(p){
 
 const permission = {
   state: {
-    routers: constantRouterMap,
+    routers: routeList,
     addRouters: []
   },
   mutations: {
     SET_ROUTERS: (state, routers) => {
       state.addRouters = routers;
       state.routers = constantRouterMap.concat(routers);
+    },
+    ROUTER: (state, routers) => {
+      state.routers = routers
     }
   },
   actions: {

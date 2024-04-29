@@ -17,7 +17,9 @@ master:
         - name: docker login
           script: ${DOCKER_LOGIN}
           #docker制品构建创建对应镜像
-#
+        - name: docker build
+          script:
+            - docker build -t wteam-khai-docker.pkg.coding.net/zaolunzi/frontend/${APP_MANAGER_NAME}:latest .
           #将docker制品推送到制品库
         - name: docker push
           script:

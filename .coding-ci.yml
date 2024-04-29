@@ -17,9 +17,7 @@ master:
         - name: docker login
           script: ${DOCKER_LOGIN}
           #docker制品构建创建对应镜像
-        - name: docker build
-          script:
-            - docker build -t wteam-khai-docker.pkg.coding.net/zaolunzi/frontend/${APP_MANAGER_NAME}:latest .
+#
           #将docker制品推送到制品库
         - name: docker push
           script:
@@ -34,8 +32,8 @@ master:
             command_timeout: 5m # 远程执行命令超时时间
             script:
               - docker stop ${APP_MANAGER_NAME}   #部署客户端
-              - docker rm ${APP_MANAGER_NAME}:latest
-              - docker image rm ${APP_MANAGER_NAME}:latest
+              - docker rm ${APP_MANAGER_NAME}
+              - docker image rm ${APP_MANAGER_NAME}
               - docker login -u frontend-1695547599036 -p 12c728f79805a84f382f353850a97e730a4997d5 wteam-khai-docker.pkg.coding.net
               - docker pull wteam-khai-docker.pkg.coding.net/zaolunzi/frontend/${APP_MANAGER_NAME}:latest
 #       #  -p: 指定端口映射; -e : 设置环境变量； -v: 绑定一个卷;  -d: 后台运行容器，并返回容器ID；

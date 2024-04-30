@@ -49,11 +49,11 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="店铺名称" minWidth="100">
-          <template slot-scope="scope">
-            <span v-tooltip="scope.row.storeName">{{scope.row.storeName}}</span>
-          </template>
-        </el-table-column>
+<!--        <el-table-column label="店铺名称" minWidth="100">-->
+<!--          <template slot-scope="scope">-->
+<!--            <span v-tooltip="scope.row.storeName">{{scope.row.storeName}}</span>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
         <el-table-column label="操作" align="center" fixed="right" width="300">
           <template slot-scope="scope">
             <el-button type="primary" size="mini" @click="examine(scope.row, 1)">通过</el-button>

@@ -127,9 +127,9 @@
         <el-table-column label="是否推荐" width="100" align="center">
           <template slot-scope="scope">{{scope.row.recommend ? '是' : '否'}}</template>
         </el-table-column>
-        <el-table-column label="商家名称" width="100" align="center">
-          <template slot-scope="scope">{{scope.row.storeName}}</template>
-        </el-table-column>
+<!--        <el-table-column label="商家名称" width="100" align="center">-->
+<!--          <template slot-scope="scope">{{scope.row.storeName}}</template>-->
+<!--        </el-table-column>-->
         <el-table-column label="审核状态" width="100" align="center">
           <template slot-scope="scope">
             <div v-if="scope.row.authFlag === 'TOBEAUDITED'">

@@ -24,9 +24,9 @@
         <el-table-column label="分类名称" align="center">
           <template slot-scope="scope">{{scope.row.name}}</template>
         </el-table-column>
-        <el-table-column label="级别" width="100" align="center">
-          <template slot-scope="scope">{{scope.row.level | levelFilter}}</template>
-        </el-table-column>
+<!--        <el-table-column label="级别" width="100" align="center">-->
+<!--          <template slot-scope="scope">{{scope.row.level | levelFilter}}</template>-->
+<!--        </el-table-column>-->
         <el-table-column label="排序" width="100" align="center">
           <template slot-scope="scope">{{scope.row.sortOrder }}</template>
         </el-table-column>
@@ -48,12 +48,12 @@
         </el-table-column>-->
         <el-table-column label="操作" width="320" align="center">
           <template slot-scope="scope">
-            <el-button
-              v-if="scope.row.level === 1"
-              type="primary"
-              size="mini"
-              @click="addChildren(scope.row)">添加子分类
-            </el-button>
+<!--            <el-button-->
+<!--              v-if="scope.row.level === 1"-->
+<!--              type="primary"-->
+<!--              size="mini"-->
+<!--              @click="addChildren(scope.row)">添加子分类-->
+<!--            </el-button>-->
             <el-button
               size="mini"
               @click="edit( scope.row)">编辑

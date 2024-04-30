@@ -251,7 +251,7 @@ export default {
     },
     //查看店铺详细
     detail(row){
-      this.$router.push({ name: "shop-detail", query: { id: row.id } });
+      this.$router.push({ path: '/seller/shopDetail', query: { id: row.id } });
     },
     // 审核店铺
     audit(v) {

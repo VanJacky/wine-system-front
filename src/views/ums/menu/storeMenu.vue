@@ -133,7 +133,7 @@
     <el-dialog
       draggable
       :title="modalTitle"
-      v-model="menuModalVisible"
+      :visible.sync="menuModalVisible"
       :mask-closable="false"
       width="500"
       :styles="{ top: '30px' }"

@@ -15,8 +15,7 @@ router.beforeEach((to, from, next) => {
       next({ path: '/' })
       NProgress.done() // if current page is dashboard will not trigger	afterEach hook, so manually handle it
     } else {
-      const username = "admin"
-      console.log('admin.length',username.length)
+      // const username = "admin"
       console.log('store.getters.roles.length',store.getters.roles)
       console.log('router', router)
       // router.addRoutes(store.getters.addRouters); // 动态添加可访问路由表
@@ -25,9 +24,18 @@ router.beforeEach((to, from, next) => {
         // @ts-ignore
         let menus = []
         // @ts-ignore
-   /*     store.dispatch('GenerateRoutes', {menus,username }).then(() => { // 生成可访问的路由表
-          console.log('store.getters.addRouters',store.getters.addRouters)
-          console.log('router23', router)
+
+/*        store.dispatch('GetInfo').then(res => { // 拉取用户信息
+          let menus= res.data.result || [];
+          store.dispatch('GenerateRoutes', { menus, username: 'admin' }).then(() => { // 生成可访问的路由表
+            router.addRoutes(store.getters.addRouters); // 动态添加可访问路由表
+            // next({ ...to, replace: true })
+          })
+        }).catch((err) => {
+          store.dispatch('FedLogOut').then(() => {
+            Message.error(err || 'Verification failed, please login again')
+            next({ path: '/' })
+          })
         })*/
         next()
       } else {

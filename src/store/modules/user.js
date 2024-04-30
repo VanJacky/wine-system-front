@@ -3,6 +3,7 @@ import { getToken, setToken, removeToken } from '@/utils/auth'
 // import {login} from "@/apis/manager/guanliyuan.ts";
 import {postManagerPassportUserLogin} from "@/apis/controller/GuanLiYuan/postManagerPassportUserLogin";
 import {getManagerPassportUserInfo} from "@/apis/controller/GuanLiYuan/getManagerPassportUserInfo";
+import {getManagerPermissionMenuMemberMenu} from "@/apis/controller";
 
 const user = {
   state: {
@@ -47,19 +48,16 @@ const user = {
     // 获取用户信息
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
-        getManagerPassportUserInfo().then(response => {
-          console.log(response)
+        getManagerPermissionMenuMemberMenu().then(response => {
           const data = response.data.result
           // if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
-          if (data.username) { // 验证返回的roles是否是一个非空数组
-            console.log(data.username)
-            console.log()
-            commit('SET_ROLES', data.username)
+          if (true) { // 验证返回的roles是否是一个非空数组
+            commit('SET_ROLES', 'admin')
           } else {
             reject('getInfo: roles must be a non-null array !')
           }
-          commit('SET_NAME', data.username)
-          commit('SET_AVATAR', data.avatar)
+          commit('SET_NAME', 'admin')
+          commit('SET_AVATAR', 'admin')
           resolve(response)
         }).catch(error => {
           reject(error)

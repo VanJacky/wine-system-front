@@ -5,5 +5,5 @@ import { type AxiosRequestConfig } from "axios";
 export declare function getManagerGoodsBrandAll(config?: AxiosRequestConfig): import("axios").AxiosPromise<{
     name: string;
     logo: string;
-    sort: number;
+    rank: number;
 }[]>;

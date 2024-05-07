@@ -1,6 +1,8 @@
 import { type Order, type OrderItem, type Receipt, type OrderLog, type AllowOperation } from "../../interface";
 export interface OrderDetailVo {
     order?: Order;
+    unit?: string;
+    num?: string;
     orderItems?: OrderItem[];
     orderStatusValue?: string;
     payStatusValue?: string;

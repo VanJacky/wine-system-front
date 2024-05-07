@@ -15,7 +15,7 @@ export declare function postManagerGoodsProducingarea(params: PostManagerGoodsPr
         city: string;
         level: number;
         parentId: string;
-        sort: number;
+        rank: number;
     };
 }>;
 export interface PostManagerGoodsProducingareaParams {

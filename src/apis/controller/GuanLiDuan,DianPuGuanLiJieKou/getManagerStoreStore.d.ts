@@ -12,6 +12,8 @@ export declare function getManagerStoreStore(params: GetManagerStoreStoreParams,
         total: number;
         records: {
             memberId: string;
+            tradeId: string;
+            guaranteesPrice: string;
             memberName: string;
             storeName: string;
             storeJson: string;

@@ -1,8 +1,14 @@
 export interface StoreEditDto {
+    /** tradeId */
+    tradeId?: string;
+    /** guarantees_price */
+    guaranteesPrice?: string;
     /** 店铺id */
     storeId: string;
     /** storeJson */
     storeJson?: string;
+    /** type */
+    type?: string;
     /** 店铺名称 */
     storeName: string;
     /** 公司名称 */

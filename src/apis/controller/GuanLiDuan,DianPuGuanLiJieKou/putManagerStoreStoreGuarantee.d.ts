@@ -1,9 +1,8 @@
 import { type AxiosRequestConfig } from "axios";
-import { type AdminStoreApplyDto } from "../../interface";
 /**
- * /manager/store/store/add
+ * /manager/store/store/guarantee
  */
-export declare function postManagerStoreStoreAdd(input?: AdminStoreApplyDto, config?: AxiosRequestConfig): import("axios").AxiosPromise<{
+export declare function putManagerStoreStoreGuarantee(params: PutManagerStoreStoreGuaranteeParams, config?: AxiosRequestConfig): import("axios").AxiosPromise<{
     success: boolean;
     message: string;
     code: number;
@@ -40,3 +39,7 @@ export declare function postManagerStoreStoreAdd(input?: AdminStoreApplyDto, con
         selfPickFlag: boolean;
     };
 }>;
+export interface PutManagerStoreStoreGuaranteeParams {
+    id: string;
+    guarantees: string;
+}

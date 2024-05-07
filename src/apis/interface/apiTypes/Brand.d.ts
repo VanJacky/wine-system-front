@@ -4,5 +4,5 @@ export interface Brand {
     /** 品牌图标 */
     logo: string;
     /** 排序值 */
-    sort: number;
+    rank: number;
 }

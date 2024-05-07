@@ -98,5 +98,7 @@ export interface Order {
     storeAddressMobile?: string;
     /** 自提点地址经纬度 */
     storeAddressCenter?: string;
+    /** 询价单id */
+    purchaseOrderId?: string;
     priceDetailDTO?: PriceDetailDto;
 }

@@ -10,6 +10,8 @@ export declare function putManagerStoreStoreEditById(params: PutManagerStoreStor
     timestamp: number;
     result: {
         memberId: string;
+        tradeId: string;
+        guaranteesPrice: string;
         memberName: string;
         storeName: string;
         storeJson: string;

@@ -1,6 +1,10 @@
 export interface Store {
     /** 会员Id */
     memberId?: string;
+    /** tradeId */
+    tradeId?: string;
+    /** guarantees_price */
+    guaranteesPrice?: string;
     /** 会员名称 */
     memberName?: string;
     /** 店铺名称 */

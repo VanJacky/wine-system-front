@@ -58,6 +58,7 @@ export declare function postManagerOrderOrderUpdateByOrderSnConsignee(params: Po
         storeAddressPath: string;
         storeAddressMobile: string;
         storeAddressCenter: string;
+        purchaseOrderId: string;
         priceDetailDTO: {
             originalPrice: number;
             goodsPrice: number;

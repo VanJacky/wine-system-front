@@ -12,7 +12,7 @@ export declare function postManagerGoodsCategory(input?: Category, config?: Axio
         name: string;
         parentId: string;
         level: number;
-        sortOrder: number;
+        rank: number;
         commissionRate: number;
         image: string;
         supportChannel: boolean;

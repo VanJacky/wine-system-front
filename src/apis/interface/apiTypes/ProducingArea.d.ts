@@ -10,5 +10,5 @@ export interface ProducingArea {
     /** 父id */
     parentId?: string;
     /** 排序值 */
-    sort?: number;
+    rank?: number;
 }

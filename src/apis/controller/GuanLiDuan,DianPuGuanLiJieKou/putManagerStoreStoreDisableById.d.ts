@@ -9,6 +9,8 @@ export declare function putManagerStoreStoreDisableById(params: PutManagerStoreS
     timestamp: number;
     result: {
         memberId: string;
+        tradeId: string;
+        guaranteesPrice: string;
         memberName: string;
         storeName: string;
         storeJson: string;

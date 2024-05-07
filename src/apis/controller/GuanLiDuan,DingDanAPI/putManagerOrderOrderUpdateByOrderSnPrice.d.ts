@@ -57,6 +57,7 @@ export declare function putManagerOrderOrderUpdateByOrderSnPrice(params: PutMana
         storeAddressPath: string;
         storeAddressMobile: string;
         storeAddressCenter: string;
+        purchaseOrderId: string;
         priceDetailDTO: {
             originalPrice: number;
             goodsPrice: number;

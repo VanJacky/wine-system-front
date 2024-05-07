@@ -6,7 +6,7 @@ export interface Category {
     /** 层级, 从0开始 */
     level: number;
     /** 排序值 */
-    sortOrder: number;
+    rank: number;
     /** 佣金比例 */
     commissionRate?: number;
     /** 分类图标 */

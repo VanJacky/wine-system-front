@@ -58,6 +58,7 @@ export declare function getManagerOrderOrderByOrderSn(params: GetManagerOrderOrd
             storeAddressPath: string;
             storeAddressMobile: string;
             storeAddressCenter: string;
+            purchaseOrderId: string;
             priceDetailDTO: {
                 originalPrice: number;
                 goodsPrice: number;
@@ -97,6 +98,8 @@ export declare function getManagerOrderOrderByOrderSn(params: GetManagerOrderOrd
                 };
             };
         };
+        unit: string;
+        num: string;
         orderItems: {
             column: string;
             asc: boolean;

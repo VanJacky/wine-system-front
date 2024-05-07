@@ -17,7 +17,7 @@ export declare function getManagerGoodsProducingareaPage(params: GetManagerGoods
             city: string;
             level: number;
             parentId: string;
-            sort: number;
+            rank: number;
         }[];
         current: number;
         pages: number;

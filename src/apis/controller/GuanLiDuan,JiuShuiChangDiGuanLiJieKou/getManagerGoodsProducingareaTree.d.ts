@@ -14,7 +14,7 @@ export declare function getManagerGoodsProducingareaTree(config?: AxiosRequestCo
         city: string;
         level: number;
         parentId: string;
-        sort: number;
+        rank: number;
         children: any[];
     }[];
 }>;

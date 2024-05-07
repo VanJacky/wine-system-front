@@ -15,7 +15,7 @@ export declare function getManagerGoodsProducingarea(params: GetManagerGoodsProd
         city: string;
         level: number;
         parentId: string;
-        sort: number;
+        rank: number;
     }[];
 }>;
 export interface GetManagerGoodsProducingareaParams {

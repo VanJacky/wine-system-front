@@ -2,6 +2,8 @@ import { type PurchaseQuoted, type PurchaseOrderItem, type PurchaseQuotedVo } fr
 export interface PurchaseOrderVo {
     /** 标题 */
     title?: string;
+    /** tradeSn */
+    tradeSn?: string;
     /** 截止时间 */
     deadline?: string;
     /** 收货时间 */

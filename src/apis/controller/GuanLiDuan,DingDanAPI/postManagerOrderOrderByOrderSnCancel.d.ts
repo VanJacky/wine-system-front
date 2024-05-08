@@ -57,6 +57,7 @@ export declare function postManagerOrderOrderByOrderSnCancel(params: PostManager
         storeAddressPath: string;
         storeAddressMobile: string;
         storeAddressCenter: string;
+        purchaseOrderId: string;
         priceDetailDTO: {
             originalPrice: number;
             goodsPrice: number;

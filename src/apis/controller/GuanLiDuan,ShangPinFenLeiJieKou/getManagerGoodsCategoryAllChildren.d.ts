@@ -11,7 +11,7 @@ export declare function getManagerGoodsCategoryAllChildren(config?: AxiosRequest
         name: string;
         parentId: string;
         level: number;
-        sortOrder: number;
+        rank: number;
         commissionRate: number;
         image: string;
         supportChannel: boolean;

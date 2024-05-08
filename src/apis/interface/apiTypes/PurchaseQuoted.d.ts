@@ -15,4 +15,6 @@ export interface PurchaseQuoted {
     contactNumber?: string;
     /** 报价人 */
     memberId?: string;
+    /** 排位 */
+    rank?: string;
 }

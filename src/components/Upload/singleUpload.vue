@@ -77,7 +77,7 @@ export default {
         accessToken: localStorage.getItem("accessToken"),
       },
       ossUploadUrl: "https://ydwl.cloud/manager/common/common/upload/file",
-      minioUploadUrl: "http://119.91.37.36:10001/common/common/upload/file",
+      minioUploadUrl: "https://ydwl.cloud/manager/common/common/upload/file",
     };
   },
   methods: {

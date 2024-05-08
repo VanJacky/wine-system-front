@@ -11,6 +11,6 @@ export declare function postManagerGoodsBrand(input?: BrandVo, config?: AxiosReq
     result: {
         name: string;
         logo: string;
-        sort: number;
+        rank: number;
     };
 }>;

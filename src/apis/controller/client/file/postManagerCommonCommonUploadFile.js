@@ -1,14 +1,14 @@
 import request from "@/utils/require";
 /**
  * 文件上传
- * /common/common/upload/file
+ * /manager/common/common/upload/file
  */
-export function postCommonCommonUploadFile(params, config) {
+export function postManagerCommonCommonUploadFile(params, config) {
     const paramsInput = {
         file: params.file,
         base64: params.base64,
     };
-    return request.post(`/common/common/upload/file`, null, {
+    return request.post(`/manager/common/common/upload/file`, null, {
         params: paramsInput,
         ...config,
     });

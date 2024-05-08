@@ -8,8 +8,11 @@ export declare function getManagerStoreStoreGetDetailByStoreId(params: GetManage
     code: number;
     timestamp: number;
     result: {
+        tradeId: string;
+        guaranteesPrice: string;
         storeId: string;
         storeJson: string;
+        type: string;
         storeName: string;
         companyName: string;
         companyAddress: string;

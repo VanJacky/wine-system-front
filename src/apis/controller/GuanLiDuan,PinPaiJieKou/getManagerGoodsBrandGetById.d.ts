@@ -10,7 +10,7 @@ export declare function getManagerGoodsBrandGetById(params: GetManagerGoodsBrand
     result: {
         name: string;
         logo: string;
-        sort: number;
+        rank: number;
     };
 }>;
 export interface GetManagerGoodsBrandGetByIdParams {

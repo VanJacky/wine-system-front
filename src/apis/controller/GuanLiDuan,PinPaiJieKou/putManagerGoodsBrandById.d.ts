@@ -11,7 +11,7 @@ export declare function putManagerGoodsBrandById(params: PutManagerGoodsBrandByI
     result: {
         name: string;
         logo: string;
-        sort: number;
+        rank: number;
     };
 }>;
 export interface PutManagerGoodsBrandByIdParams {

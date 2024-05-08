@@ -16,5 +16,13 @@ export interface PurchaseQuotedVo {
     contactNumber?: string;
     /** 报价人 */
     memberId?: string;
+    /** 排位 */
+    rank?: string;
+    /** 地址名称， '，'分割 */
+    consigneeAddressPath?: string;
+    /** 地址id，'，'分割 */
+    consigneeAddressIdPath?: string;
+    /** 单位 */
+    unit?: string;
     purchaseQuotedItems?: PurchaseQuotedItem[];
 }

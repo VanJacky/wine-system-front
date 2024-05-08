@@ -12,7 +12,7 @@ export declare function putManagerGoodsCategory(input?: CategoryVo, config?: Axi
         name: string;
         parentId: string;
         level: number;
-        sortOrder: number;
+        rank: number;
         commissionRate: number;
         image: string;
         supportChannel: boolean;

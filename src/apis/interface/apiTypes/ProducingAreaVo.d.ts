@@ -10,6 +10,6 @@ export interface ProducingAreaVo {
     /** 父id */
     parentId?: string;
     /** 排序值 */
-    sort?: number;
+    rank?: number;
     children?: ProducingAreaVo[];
 }

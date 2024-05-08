@@ -13,7 +13,7 @@ export declare function getManagerGoodsBrandGetByPage(params: GetManagerGoodsBra
         records: {
             name: string;
             logo: string;
-            sort: number;
+            rank: number;
         }[];
         current: number;
         pages: number;

@@ -1,34 +1,43 @@
 <template>
   <div style="margin-left: 20%">
     <el-form label-width="120px">
-        <div class="base-info-item">
-          <h4>基本信息</h4>
-          <div class="form-item-view">
-            <el-form-item label="商品分类">
-              <span v-for="(item, index) in goods.categoryName" :key="index">
-                {{ item }}
-                <i v-if="index !== goods.categoryName.length - 1">&gt;</i>
-              </span>
-            </el-form-item>
-            <el-form-item label="商品名称">
-              {{ goods.goodsName }}
-            </el-form-item>
-            <el-form-item label="商品参数">
-              <div v-if="goods.goodsParamsDTOList && goods.goodsParamsDTOList.length" v-for="(item,index) in goods.goodsParamsDTOList" :key="index">
-                <div style="margin-bottom: 10px;  align-items: center;" >
-                  {{ item.groupName }} :
-                  <div>
-                    <el-tag v-for="(child,i) in item.goodsParamsItemDTOList" :key="i">
+      <div class="base-info-item">
+        <h4>基本信息</h4>
+        <div class="form-item-view">
+          <el-form-item label="商品分类">
+            <span v-for="(item, index) in goods.categoryName" :key="index">
+              {{ item }}
+              <i v-if="index !== goods.categoryName.length - 1">&gt;</i>
+            </span>
+          </el-form-item>
+          <el-form-item label="商品名称">
+            {{ goods.goodsName }}
+          </el-form-item>
+          <el-form-item label="商品参数">
+            <div
+              v-if="goods.goodsParamsDTOList && goods.goodsParamsDTOList.length"
+              v-for="(item, index) in goods.goodsParamsDTOList"
+              :key="index"
+            >
+              <div style="margin-bottom: 10px; align-items: center">
+                {{ item.groupName }} :
+                <div>
+                  <el-tag
+                    v-for="(child, i) in item.goodsParamsItemDTOList"
+                    :key="i"
+                  >
                     {{ child.paramName }} - {{ child.paramValue }}
-                    </el-tag>
-                  </div>
+                  </el-tag>
                 </div>
               </div>
-            </el-form-item>
-          </div>
-          <div class="form-item-view">
-            <el-form-item label="箱规"> {{ goods.goodsUnit }}</el-form-item>
-<!--            <el-form-item label="销售模式">
+            </div>
+          </el-form-item>
+        </div>
+        <div class="form-item-view">
+          <el-form-item label="箱规">
+            {{ goods.goodsUnit + " 瓶/箱" }}</el-form-item
+          >
+          <!--            <el-form-item label="销售模式">
               {{ goods.salesModel === "RETAIL" ? "零售型" : "批发型" }}
             </el-form-item
             <el-form-item label="销售规则" v-if="goods.salesModel !== 'RETAIL'">
@@ -42,34 +51,37 @@
                 </el-table-column>
               </el-table>
             </el-form-item>>-->
-          </div>
-          <div class="form-item-view">
-            <el-form-item label="商品编号"> {{ goods.id }}</el-form-item>
-            <el-form-item label="商品图片">
-              <div
-                class="demo-upload-list"
-                v-for="(item, __index) in goods.goodsGalleryList"
-                :key="__index"
-              >
-                <img :src="item"  alt="" />
-                <div class="demo-upload-list-cover">
-                  <el-icon
-                    type="ios-eye-outline"
-                    @click.native="handleViewGoodsPicture(item)"
-                  ></el-icon>
-                </div>
-                <el-dialog title="View Image" :visible.sync="goodsPictureVisible">
-                  <img
-                    :src="previewGoodsPicture"
-                    v-if="goodsPictureVisible"
-                    style="width: 100%"
-                  />
-                </el-dialog>
-              </div>
-            </el-form-item>
-            <el-form-item label="上传商家"> {{ goods.storeName }}</el-form-item>
+        </div>
+        <div class="form-item-view">
+          <el-form-item label="商品编号"> {{ goods.id }}</el-form-item>
+          <el-form-item label="产地"> {{ goods.brandId }}</el-form-item>
+          <el-form-item label="品牌"> {{ goods.producerName }}</el-form-item>
 
-<!--            <el-form-item label="商品视频">
+          <el-form-item label="商品图片">
+            <div
+              class="demo-upload-list"
+              v-for="(item, __index) in goods.goodsGalleryList"
+              :key="__index"
+            >
+              <img :src="item" alt="" />
+              <div class="demo-upload-list-cover">
+                <el-icon
+                  type="ios-eye-outline"
+                  @click.native="handleViewGoodsPicture(item)"
+                ></el-icon>
+              </div>
+              <el-dialog title="View Image" :visible.sync="goodsPictureVisible">
+                <img
+                  :src="previewGoodsPicture"
+                  v-if="goodsPictureVisible"
+                  style="width: 100%"
+                />
+              </el-dialog>
+            </div>
+          </el-form-item>
+          <el-form-item label="上传商家"> {{ goods.storeName }}</el-form-item>
+
+          <!--            <el-form-item label="商品视频">
               <video
                 v-if="goods.goodsVideo"
                 controls
@@ -77,8 +89,8 @@
                 :src="goods.goodsVideo"
               />
             </el-form-item>-->
-          </div>
-<!--          <h4>商品详情描述</h4>
+        </div>
+        <!--          <h4>商品详情描述</h4>
           <div class="form-item-view">
             <el-form-item label="商品描述">
               <div v-html="goods.intro"></div>
@@ -87,12 +99,12 @@
               <div v-html="goods.mobileIntro"></div>
             </el-form-item>
           </div>-->
-        </div>
+      </div>
     </el-form>
   </div>
 </template>
 <script>
-import {getManagerGoodsGoodsGetById} from "@/apis/controller";
+import { getManagerGoodsGoodsGetById } from "@/apis/controller";
 
 export default {
   name: "goodsDetail",
@@ -126,9 +138,9 @@ export default {
   methods: {
     // 初始化数据，获取商品详情
     initGoods(id) {
-      getManagerGoodsGoodsGetById({id}).then((res) => {
+      getManagerGoodsGoodsGetById({ id }).then((res) => {
         this.goods = res.data.result;
-/*        let that = this;
+        /*        let that = this;
         res.data.result.skuList.forEach(function (sku, index, array) {
           that.skuData.push({
             specs: sku.goodsName,
@@ -140,7 +152,10 @@ export default {
             quantity:sku.quantity
           });
         });*/
-        if (res.data.result.salesModel === "WHOLESALE" && res.data.result.wholesaleList) {
+        if (
+          res.data.result.salesModel === "WHOLESALE" &&
+          res.data.result.wholesaleList
+        ) {
           res.data.result.wholesaleList.forEach((item, index) => {
             this.skuColumn.push({
               title: "购买量 ≥ " + item.num,
@@ -161,9 +176,12 @@ export default {
               title: "价格",
               key: "price",
               render: (h, params) => {
-                return h("priceColorScheme", {props:{value:params.row.price,color:this.$mainColor}} );
+                return h("priceColorScheme", {
+                  props: { value: params.row.price, color: this.$mainColor },
+                });
               },
-            },{
+            },
+            {
               title: "库存",
               key: "quantity",
             }
@@ -189,72 +207,72 @@ export default {
 /*平铺*/
 div.base-info-item {
   h4 {
+    width: 80%;
     margin-bottom: 10px;
     padding: 0 10px;
-    border: 1px solid #ddd;
-    background-color: #f8f8f8;
-    font-weight: bold;
     color: #333;
+    font-weight: bold;
     font-size: 14px;
     line-height: 40px;
     text-align: left;
-    width: 80%;
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
   }
 
   .form-item-view {
     padding-left: 80px;
     .demo-upload-list {
+      position: relative;
       display: inline-block;
       width: 60px;
       height: 60px;
-      text-align: center;
+      margin-right: 4px;
+      overflow: hidden;
       line-height: 60px;
+      text-align: center;
+      background: #fff;
       border: 1px solid transparent;
       border-radius: 4px;
-      overflow: hidden;
-      background: #fff;
-      position: relative;
       box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-      margin-right: 4px;
     }
   }
 }
 
 .demo-upload-list {
+  position: relative;
   display: inline-block;
   width: 60px;
   height: 60px;
-  text-align: center;
+  margin-right: 4px;
+  overflow: hidden;
   line-height: 60px;
+  text-align: center;
+  background: #fff;
   border: 1px solid transparent;
   border-radius: 4px;
-  overflow: hidden;
-  background: #fff;
-  position: relative;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-  margin-right: 4px;
 }
 .demo-upload-list img {
   width: 100%;
   height: 100%;
 }
 .demo-upload-list-cover {
-  display: none;
   position: absolute;
   top: 0;
+  right: 0;
   bottom: 0;
   left: 0;
-  right: 0;
+  display: none;
   background: rgba(0, 0, 0, 0.6);
 }
 .demo-upload-list:hover .demo-upload-list-cover {
   display: block;
 }
 .demo-upload-list-cover i {
+  margin: 0 2px;
   color: #fff;
   font-size: 20px;
   cursor: pointer;
-  margin: 0 2px;
 }
 .ivu-table table {
   width: 100% !important;

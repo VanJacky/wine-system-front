@@ -1,1 +1,1 @@
-export * from "./postCommonCommonUploadFile";
+export * from "./postManagerCommonCommonUploadFile";
